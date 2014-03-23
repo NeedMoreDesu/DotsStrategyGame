@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		292827F518DF65830066B48B /* DGrid+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 292827F418DF65830066B48B /* DGrid+custom.m */; };
+		292827F818DF65900066B48B /* DPoint+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 292827F718DF65900066B48B /* DPoint+custom.m */; };
+		292827FB18DF65A00066B48B /* DDot+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 292827FA18DF65A00066B48B /* DDot+custom.m */; };
+		2928280D18DF80A90066B48B /* DPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 2928280C18DF80A90066B48B /* DPoint.m */; };
+		2928281318DF81DB0066B48B /* DDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 2928281218DF81DB0066B48B /* DDot.m */; };
+		2928281618DF81DB0066B48B /* DGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 2928281518DF81DB0066B48B /* DGrid.m */; };
+		2982505D18DF5BE200C3F034 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2982505B18DF5BE200C3F034 /* Model.xcdatamodeld */; };
 		29C6983E18DEFDB0001F1F1E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C6983D18DEFDB0001F1F1E /* Foundation.framework */; };
 		29C6984018DEFDB0001F1F1E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C6983F18DEFDB0001F1F1E /* CoreGraphics.framework */; };
 		29C6984218DEFDB0001F1F1E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C6984118DEFDB0001F1F1E /* UIKit.framework */; };
@@ -38,6 +45,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		292827F318DF65830066B48B /* DGrid+custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DGrid+custom.h"; sourceTree = "<group>"; };
+		292827F418DF65830066B48B /* DGrid+custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DGrid+custom.m"; sourceTree = "<group>"; };
+		292827F618DF65900066B48B /* DPoint+custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DPoint+custom.h"; sourceTree = "<group>"; };
+		292827F718DF65900066B48B /* DPoint+custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DPoint+custom.m"; sourceTree = "<group>"; };
+		292827F918DF65A00066B48B /* DDot+custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DDot+custom.h"; sourceTree = "<group>"; };
+		292827FA18DF65A00066B48B /* DDot+custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DDot+custom.m"; sourceTree = "<group>"; };
+		2928280B18DF80A90066B48B /* DPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPoint.h; sourceTree = "<group>"; };
+		2928280C18DF80A90066B48B /* DPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPoint.m; sourceTree = "<group>"; };
+		2928281118DF81DB0066B48B /* DDot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDot.h; sourceTree = "<group>"; };
+		2928281218DF81DB0066B48B /* DDot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDot.m; sourceTree = "<group>"; };
+		2928281418DF81DB0066B48B /* DGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGrid.h; sourceTree = "<group>"; };
+		2928281518DF81DB0066B48B /* DGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGrid.m; sourceTree = "<group>"; };
+		2982505C18DF5BE200C3F034 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		29C6983A18DEFDB0001F1F1E /* DotsVsDots.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DotsVsDots.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29C6983D18DEFDB0001F1F1E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		29C6983F18DEFDB0001F1F1E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -89,6 +109,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		292827F218DF65680066B48B /* customs */ = {
+			isa = PBXGroup;
+			children = (
+				292827F618DF65900066B48B /* DPoint+custom.h */,
+				292827F718DF65900066B48B /* DPoint+custom.m */,
+				292827F918DF65A00066B48B /* DDot+custom.h */,
+				292827FA18DF65A00066B48B /* DDot+custom.m */,
+				292827F318DF65830066B48B /* DGrid+custom.h */,
+				292827F418DF65830066B48B /* DGrid+custom.m */,
+			);
+			name = customs;
+			sourceTree = "<group>";
+		};
+		2982505A18DF5BCC00C3F034 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				292827F218DF65680066B48B /* customs */,
+				2928280B18DF80A90066B48B /* DPoint.h */,
+				2928280C18DF80A90066B48B /* DPoint.m */,
+				2928281418DF81DB0066B48B /* DGrid.h */,
+				2928281518DF81DB0066B48B /* DGrid.m */,
+				2928281118DF81DB0066B48B /* DDot.h */,
+				2928281218DF81DB0066B48B /* DDot.m */,
+				2982505B18DF5BE200C3F034 /* Model.xcdatamodeld */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		29C6983118DEFDB0001F1F1E = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +171,7 @@
 		29C6984518DEFDB0001F1F1E /* DotsVsDots */ = {
 			isa = PBXGroup;
 			children = (
+				2982505A18DF5BCC00C3F034 /* Model */,
 				29C6984E18DEFDB0001F1F1E /* AppDelegate.h */,
 				29C6984F18DEFDB0001F1F1E /* AppDelegate.m */,
 				29C6985118DEFDB0001F1F1E /* Main_iPhone.storyboard */,
@@ -266,10 +315,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				292827F518DF65830066B48B /* DGrid+custom.m in Sources */,
 				29C6985C18DEFDB0001F1F1E /* MyScene.m in Sources */,
 				29C6985918DEFDB0001F1F1E /* ViewController.m in Sources */,
+				2982505D18DF5BE200C3F034 /* Model.xcdatamodeld in Sources */,
+				2928281618DF81DB0066B48B /* DGrid.m in Sources */,
+				292827FB18DF65A00066B48B /* DDot+custom.m in Sources */,
+				2928280D18DF80A90066B48B /* DPoint.m in Sources */,
 				29C6985018DEFDB0001F1F1E /* AppDelegate.m in Sources */,
 				29C6984C18DEFDB0001F1F1E /* main.m in Sources */,
+				2928281318DF81DB0066B48B /* DDot.m in Sources */,
+				292827F818DF65900066B48B /* DPoint+custom.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,6 +542,7 @@
 				29C6987818DEFDB0001F1F1E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		29C6987918DEFDB0001F1F1E /* Build configuration list for PBXNativeTarget "DotsVsDotsTests" */ = {
 			isa = XCConfigurationList;
@@ -494,8 +551,22 @@
 				29C6987B18DEFDB0001F1F1E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		2982505B18DF5BE200C3F034 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				2982505C18DF5BE200C3F034 /* Model.xcdatamodel */,
+			);
+			currentVersion = 2982505C18DF5BE200C3F034 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 29C6983218DEFDB0001F1F1E /* Project object */;
 }

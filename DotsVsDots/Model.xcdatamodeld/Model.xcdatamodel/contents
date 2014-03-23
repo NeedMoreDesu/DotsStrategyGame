@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5063" systemVersion="13C64" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="DDot" representedClassName="DDot" syncable="YES">
+        <attribute name="belongsTo" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="move" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="grid" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DGrid" inverseName="dot" inverseEntity="DGrid" syncable="YES"/>
+        <relationship name="position" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DPoint" inverseName="dot" inverseEntity="DPoint" syncable="YES"/>
+    </entity>
+    <entity name="DGrid" representedClassName="DGrid" syncable="YES">
+        <attribute name="level" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="center" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DPoint" inverseName="grid" inverseEntity="DPoint" syncable="YES"/>
+        <relationship name="children" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DGrid" inverseName="root" inverseEntity="DGrid" syncable="YES"/>
+        <relationship name="dot" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DDot" inverseName="grid" inverseEntity="DDot" syncable="YES"/>
+        <relationship name="root" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DGrid" inverseName="children" inverseEntity="DGrid" syncable="YES"/>
+    </entity>
+    <entity name="DPoint" representedClassName="Point" syncable="YES">
+        <attribute name="x" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="y" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="dot" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DDot" inverseName="position" inverseEntity="DDot" syncable="YES"/>
+        <relationship name="grid" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DGrid" inverseName="center" inverseEntity="DGrid" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="DDot" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="DGrid" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="DPoint" positionX="0" positionY="0" width="0" height="0"/>
+    </elements>
+</model>
