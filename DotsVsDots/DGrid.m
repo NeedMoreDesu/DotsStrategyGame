@@ -2,12 +2,13 @@
 //  DGrid.m
 //  DotsVsDots
 //
-//  Created by baka on 3/23/14.
+//  Created by baka on 3/30/14.
 //  Copyright (c) 2014 baka. All rights reserved.
 //
 
 #import "DGrid.h"
 #import "DDot.h"
+#import "DGame.h"
 #import "DGrid.h"
 #import "DPoint.h"
 
@@ -18,6 +19,7 @@
 @dynamic center;
 @dynamic children;
 @dynamic dot;
+@dynamic game;
 @dynamic root;
 
 @end

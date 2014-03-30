@@ -2,14 +2,14 @@
 //  DGrid.h
 //  DotsVsDots
 //
-//  Created by baka on 3/23/14.
+//  Created by baka on 3/30/14.
 //  Copyright (c) 2014 baka. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class DDot, DGrid, DPoint;
+@class DDot, DGame, DGrid, DPoint;
 
 @interface DGrid : NSManagedObject
 
@@ -17,6 +17,7 @@
 @property (nonatomic, retain) DPoint *center;
 @property (nonatomic, retain) NSOrderedSet *children;
 @property (nonatomic, retain) DDot *dot;
+@property (nonatomic, retain) DGame *game;
 @property (nonatomic, retain) DGrid *root;
 @end
 

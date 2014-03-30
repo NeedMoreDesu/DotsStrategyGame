@@ -3,26 +3,34 @@
     <entity name="DDot" representedClassName="DDot" syncable="YES">
         <attribute name="belongsTo" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="move" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="turn" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="grid" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DGrid" inverseName="dot" inverseEntity="DGrid" syncable="YES"/>
         <relationship name="position" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DPoint" inverseName="dot" inverseEntity="DPoint" syncable="YES"/>
+    </entity>
+    <entity name="DGame" representedClassName="DGame" syncable="YES">
+        <attribute name="isPlaying" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="turn" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="whoseTurn" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="grid" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DGrid" inverseName="game" inverseEntity="DGrid" syncable="YES"/>
     </entity>
     <entity name="DGrid" representedClassName="DGrid" syncable="YES">
         <attribute name="level" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="center" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DPoint" inverseName="grid" inverseEntity="DPoint" syncable="YES"/>
         <relationship name="children" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DGrid" inverseName="root" inverseEntity="DGrid" syncable="YES"/>
         <relationship name="dot" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DDot" inverseName="grid" inverseEntity="DDot" syncable="YES"/>
+        <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DGame" inverseName="grid" inverseEntity="DGame" syncable="YES"/>
         <relationship name="root" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DGrid" inverseName="children" inverseEntity="DGrid" syncable="YES"/>
     </entity>
-    <entity name="DPoint" representedClassName="Point" syncable="YES">
+    <entity name="DPoint" representedClassName="DPoint" syncable="YES">
         <attribute name="x" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="y" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="dot" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DDot" inverseName="position" inverseEntity="DDot" syncable="YES"/>
         <relationship name="grid" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DGrid" inverseName="center" inverseEntity="DGrid" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DDot" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="DGrid" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="DPoint" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="DDot" positionX="-173" positionY="-136" width="128" height="118"/>
+        <element name="DGame" positionX="36" positionY="144" width="128" height="103"/>
+        <element name="DGrid" positionX="70" positionY="-63" width="128" height="133"/>
+        <element name="DPoint" positionX="-279" positionY="50" width="128" height="103"/>
     </elements>
 </model>

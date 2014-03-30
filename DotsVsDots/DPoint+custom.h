@@ -1,5 +1,5 @@
 //
-//  Point+custom.h
+//  DPoint+custom.h
 //  DotsVsDots
 //
 //  Created by baka on 3/23/14.
@@ -11,5 +11,6 @@
 @interface DPoint (custom)
 
 - (BOOL)equal:(DPoint*)point;
+- (DPoint*)setX:(NSNumber*)x Y:(NSNumber*)y;
 
 @end

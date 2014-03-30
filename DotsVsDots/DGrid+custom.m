@@ -147,4 +147,11 @@
     }
 }
 
+- (void)awakeFromInsert
+{
+    self.center = [[DPoint newObjectWithContext:self.managedObjectContext entity:nil] setX:@0 Y:@0];
+    self.level = @0;
+}
+
+
 @end

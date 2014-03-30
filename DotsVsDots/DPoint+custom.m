@@ -1,5 +1,5 @@
 //
-//  Point+custom.m
+//  DPoint+custom.m
 //  DotsVsDots
 //
 //  Created by baka on 3/23/14.
@@ -14,6 +14,13 @@
 {
     return ((self.x.longLongValue == point.x.longLongValue) &&
             (self.y.longLongValue == point.y.longLongValue));
+}
+
+- (DPoint*)setX:(NSNumber*)x Y:(NSNumber*)y
+{
+    self.x = x;
+    self.y = y;
+    return self;
 }
 
 @end

@@ -1,5 +1,5 @@
 //
-//  DDot.h
+//  DGame.h
 //  DotsVsDots
 //
 //  Created by baka on 3/30/14.
@@ -9,14 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class DGrid, DPoint;
+@class DGrid;
 
-@interface DDot : NSManagedObject
+@interface DGame : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * belongsTo;
-@property (nonatomic, retain) NSDate * date;
 @property (nonatomic, retain) NSNumber * turn;
+@property (nonatomic, retain) NSNumber * whoseTurn;
+@property (nonatomic, retain) NSNumber * isPlaying;
 @property (nonatomic, retain) DGrid *grid;
-@property (nonatomic, retain) DPoint *position;
 
 @end

@@ -7,13 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2916C60218E8AE9200D8B3C8 /* DGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 2916C60118E8AE9200D8B3C8 /* DGrid.m */; };
+		2916C60518E8AE9200D8B3C8 /* DPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 2916C60418E8AE9200D8B3C8 /* DPoint.m */; };
+		2916C60818E8AE9200D8B3C8 /* DGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 2916C60718E8AE9200D8B3C8 /* DGame.m */; };
+		2916C60B18E8AE9200D8B3C8 /* DDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 2916C60A18E8AE9200D8B3C8 /* DDot.m */; };
+		2916C61218E8B16C00D8B3C8 /* NSArray+Func.m in Sources */ = {isa = PBXBuildFile; fileRef = 2916C60D18E8B16C00D8B3C8 /* NSArray+Func.m */; };
+		2916C61318E8B16C00D8B3C8 /* NSManagedObject+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2916C60F18E8B16C00D8B3C8 /* NSManagedObject+Helpers.m */; };
+		2916C61418E8B16C00D8B3C8 /* NSManagedObjectContext+Helpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 2916C61118E8B16C00D8B3C8 /* NSManagedObjectContext+Helpers.m */; };
 		292827F518DF65830066B48B /* DGrid+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 292827F418DF65830066B48B /* DGrid+custom.m */; };
 		292827F818DF65900066B48B /* DPoint+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 292827F718DF65900066B48B /* DPoint+custom.m */; };
 		292827FB18DF65A00066B48B /* DDot+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 292827FA18DF65A00066B48B /* DDot+custom.m */; };
-		2928280D18DF80A90066B48B /* DPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 2928280C18DF80A90066B48B /* DPoint.m */; };
-		2928281318DF81DB0066B48B /* DDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 2928281218DF81DB0066B48B /* DDot.m */; };
-		2928281618DF81DB0066B48B /* DGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 2928281518DF81DB0066B48B /* DGrid.m */; };
 		2982505D18DF5BE200C3F034 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2982505B18DF5BE200C3F034 /* Model.xcdatamodeld */; };
+		29BAFFAD18E8A3F900CACC7C /* DGame+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BAFFAC18E8A3F900CACC7C /* DGame+custom.m */; };
 		29C6983E18DEFDB0001F1F1E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C6983D18DEFDB0001F1F1E /* Foundation.framework */; };
 		29C6984018DEFDB0001F1F1E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C6983F18DEFDB0001F1F1E /* CoreGraphics.framework */; };
 		29C6984218DEFDB0001F1F1E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C6984118DEFDB0001F1F1E /* UIKit.framework */; };
@@ -45,19 +50,29 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2916C60018E8AE9200D8B3C8 /* DGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGrid.h; sourceTree = "<group>"; };
+		2916C60118E8AE9200D8B3C8 /* DGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGrid.m; sourceTree = "<group>"; };
+		2916C60318E8AE9200D8B3C8 /* DPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPoint.h; sourceTree = "<group>"; };
+		2916C60418E8AE9200D8B3C8 /* DPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPoint.m; sourceTree = "<group>"; };
+		2916C60618E8AE9200D8B3C8 /* DGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGame.h; sourceTree = "<group>"; };
+		2916C60718E8AE9200D8B3C8 /* DGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGame.m; sourceTree = "<group>"; };
+		2916C60918E8AE9200D8B3C8 /* DDot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDot.h; sourceTree = "<group>"; };
+		2916C60A18E8AE9200D8B3C8 /* DDot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDot.m; sourceTree = "<group>"; };
+		2916C60C18E8B16C00D8B3C8 /* NSArray+Func.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Func.h"; sourceTree = "<group>"; };
+		2916C60D18E8B16C00D8B3C8 /* NSArray+Func.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Func.m"; sourceTree = "<group>"; };
+		2916C60E18E8B16C00D8B3C8 /* NSManagedObject+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+Helpers.h"; sourceTree = "<group>"; };
+		2916C60F18E8B16C00D8B3C8 /* NSManagedObject+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+Helpers.m"; sourceTree = "<group>"; };
+		2916C61018E8B16C00D8B3C8 /* NSManagedObjectContext+Helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+Helpers.h"; sourceTree = "<group>"; };
+		2916C61118E8B16C00D8B3C8 /* NSManagedObjectContext+Helpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+Helpers.m"; sourceTree = "<group>"; };
 		292827F318DF65830066B48B /* DGrid+custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DGrid+custom.h"; sourceTree = "<group>"; };
 		292827F418DF65830066B48B /* DGrid+custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DGrid+custom.m"; sourceTree = "<group>"; };
 		292827F618DF65900066B48B /* DPoint+custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DPoint+custom.h"; sourceTree = "<group>"; };
 		292827F718DF65900066B48B /* DPoint+custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DPoint+custom.m"; sourceTree = "<group>"; };
 		292827F918DF65A00066B48B /* DDot+custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DDot+custom.h"; sourceTree = "<group>"; };
 		292827FA18DF65A00066B48B /* DDot+custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DDot+custom.m"; sourceTree = "<group>"; };
-		2928280B18DF80A90066B48B /* DPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPoint.h; sourceTree = "<group>"; };
-		2928280C18DF80A90066B48B /* DPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPoint.m; sourceTree = "<group>"; };
-		2928281118DF81DB0066B48B /* DDot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDot.h; sourceTree = "<group>"; };
-		2928281218DF81DB0066B48B /* DDot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDot.m; sourceTree = "<group>"; };
-		2928281418DF81DB0066B48B /* DGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGrid.h; sourceTree = "<group>"; };
-		2928281518DF81DB0066B48B /* DGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGrid.m; sourceTree = "<group>"; };
 		2982505C18DF5BE200C3F034 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		29BAFFAB18E8A3F900CACC7C /* DGame+custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DGame+custom.h"; sourceTree = "<group>"; };
+		29BAFFAC18E8A3F900CACC7C /* DGame+custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DGame+custom.m"; sourceTree = "<group>"; };
 		29C6983A18DEFDB0001F1F1E /* DotsVsDots.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DotsVsDots.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29C6983D18DEFDB0001F1F1E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		29C6983F18DEFDB0001F1F1E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -109,6 +124,50 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2916C5FD18E8ACA800D8B3C8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				29C6985118DEFDB0001F1F1E /* Main_iPhone.storyboard */,
+				29C6985418DEFDB0001F1F1E /* Main_iPad.storyboard */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		2916C5FE18E8ACD800D8B3C8 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2916C5FF18E8ACE900D8B3C8 /* SpriteKit */,
+				29C6984E18DEFDB0001F1F1E /* AppDelegate.h */,
+				29C6984F18DEFDB0001F1F1E /* AppDelegate.m */,
+				29C6985718DEFDB0001F1F1E /* ViewController.h */,
+				29C6985818DEFDB0001F1F1E /* ViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		2916C5FF18E8ACE900D8B3C8 /* SpriteKit */ = {
+			isa = PBXGroup;
+			children = (
+				29C6985A18DEFDB0001F1F1E /* MyScene.h */,
+				29C6985B18DEFDB0001F1F1E /* MyScene.m */,
+			);
+			name = SpriteKit;
+			sourceTree = "<group>";
+		};
+		2916C61518E8B16F00D8B3C8 /* additional */ = {
+			isa = PBXGroup;
+			children = (
+				2916C60C18E8B16C00D8B3C8 /* NSArray+Func.h */,
+				2916C60D18E8B16C00D8B3C8 /* NSArray+Func.m */,
+				2916C60E18E8B16C00D8B3C8 /* NSManagedObject+Helpers.h */,
+				2916C60F18E8B16C00D8B3C8 /* NSManagedObject+Helpers.m */,
+				2916C61018E8B16C00D8B3C8 /* NSManagedObjectContext+Helpers.h */,
+				2916C61118E8B16C00D8B3C8 /* NSManagedObjectContext+Helpers.m */,
+			);
+			name = additional;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		292827F218DF65680066B48B /* customs */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +177,8 @@
 				292827FA18DF65A00066B48B /* DDot+custom.m */,
 				292827F318DF65830066B48B /* DGrid+custom.h */,
 				292827F418DF65830066B48B /* DGrid+custom.m */,
+				29BAFFAB18E8A3F900CACC7C /* DGame+custom.h */,
+				29BAFFAC18E8A3F900CACC7C /* DGame+custom.m */,
 			);
 			name = customs;
 			sourceTree = "<group>";
@@ -126,13 +187,15 @@
 			isa = PBXGroup;
 			children = (
 				292827F218DF65680066B48B /* customs */,
-				2928280B18DF80A90066B48B /* DPoint.h */,
-				2928280C18DF80A90066B48B /* DPoint.m */,
-				2928281418DF81DB0066B48B /* DGrid.h */,
-				2928281518DF81DB0066B48B /* DGrid.m */,
-				2928281118DF81DB0066B48B /* DDot.h */,
-				2928281218DF81DB0066B48B /* DDot.m */,
 				2982505B18DF5BE200C3F034 /* Model.xcdatamodeld */,
+				2916C60918E8AE9200D8B3C8 /* DDot.h */,
+				2916C60A18E8AE9200D8B3C8 /* DDot.m */,
+				2916C60618E8AE9200D8B3C8 /* DGame.h */,
+				2916C60718E8AE9200D8B3C8 /* DGame.m */,
+				2916C60318E8AE9200D8B3C8 /* DPoint.h */,
+				2916C60418E8AE9200D8B3C8 /* DPoint.m */,
+				2916C60018E8AE9200D8B3C8 /* DGrid.h */,
+				2916C60118E8AE9200D8B3C8 /* DGrid.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -171,15 +234,10 @@
 		29C6984518DEFDB0001F1F1E /* DotsVsDots */ = {
 			isa = PBXGroup;
 			children = (
+				2916C61518E8B16F00D8B3C8 /* additional */,
 				2982505A18DF5BCC00C3F034 /* Model */,
-				29C6984E18DEFDB0001F1F1E /* AppDelegate.h */,
-				29C6984F18DEFDB0001F1F1E /* AppDelegate.m */,
-				29C6985118DEFDB0001F1F1E /* Main_iPhone.storyboard */,
-				29C6985418DEFDB0001F1F1E /* Main_iPad.storyboard */,
-				29C6985718DEFDB0001F1F1E /* ViewController.h */,
-				29C6985818DEFDB0001F1F1E /* ViewController.m */,
-				29C6985A18DEFDB0001F1F1E /* MyScene.h */,
-				29C6985B18DEFDB0001F1F1E /* MyScene.m */,
+				2916C5FD18E8ACA800D8B3C8 /* View */,
+				2916C5FE18E8ACD800D8B3C8 /* Controller */,
 				29C6985D18DEFDB0001F1F1E /* Spaceship.png */,
 				29C6985F18DEFDB0001F1F1E /* Images.xcassets */,
 				29C6984618DEFDB0001F1F1E /* Supporting Files */,
@@ -315,16 +373,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2916C60B18E8AE9200D8B3C8 /* DDot.m in Sources */,
+				2916C60818E8AE9200D8B3C8 /* DGame.m in Sources */,
 				292827F518DF65830066B48B /* DGrid+custom.m in Sources */,
 				29C6985C18DEFDB0001F1F1E /* MyScene.m in Sources */,
 				29C6985918DEFDB0001F1F1E /* ViewController.m in Sources */,
+				2916C60218E8AE9200D8B3C8 /* DGrid.m in Sources */,
+				2916C61418E8B16C00D8B3C8 /* NSManagedObjectContext+Helpers.m in Sources */,
+				29BAFFAD18E8A3F900CACC7C /* DGame+custom.m in Sources */,
+				2916C60518E8AE9200D8B3C8 /* DPoint.m in Sources */,
 				2982505D18DF5BE200C3F034 /* Model.xcdatamodeld in Sources */,
-				2928281618DF81DB0066B48B /* DGrid.m in Sources */,
 				292827FB18DF65A00066B48B /* DDot+custom.m in Sources */,
-				2928280D18DF80A90066B48B /* DPoint.m in Sources */,
+				2916C61318E8B16C00D8B3C8 /* NSManagedObject+Helpers.m in Sources */,
+				2916C61218E8B16C00D8B3C8 /* NSArray+Func.m in Sources */,
 				29C6985018DEFDB0001F1F1E /* AppDelegate.m in Sources */,
 				29C6984C18DEFDB0001F1F1E /* main.m in Sources */,
-				2928281318DF81DB0066B48B /* DDot.m in Sources */,
 				292827F818DF65900066B48B /* DPoint+custom.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

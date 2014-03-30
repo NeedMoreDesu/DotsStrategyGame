@@ -14,3 +14,7 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+#import "NSArray+Func.h"
+#import "NSManagedObjectContext+Helpers.h"
+#import "NSManagedObject+Helpers.h"

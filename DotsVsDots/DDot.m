@@ -2,7 +2,7 @@
 //  DDot.m
 //  DotsVsDots
 //
-//  Created by baka on 3/23/14.
+//  Created by baka on 3/30/14.
 //  Copyright (c) 2014 baka. All rights reserved.
 //
 
@@ -15,7 +15,7 @@
 
 @dynamic belongsTo;
 @dynamic date;
-@dynamic move;
+@dynamic turn;
 @dynamic grid;
 @dynamic position;
 
