@@ -36,8 +36,11 @@
     DGrid *lastGrid = self.grid;
     DDot *dot = [self.grid getOrCreateDotAtPoint:point lastGrid:&lastGrid];
     self.grid = lastGrid;
+    
     dot.belongsTo = self.whoseTurn;
     dot.turn = self.turn;
+    dot.date = [NSDate date];
+    
     [self nextTurn];
     
     return dot;

@@ -81,10 +81,10 @@
             DDot *result;
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 5; j++) {
-                    DGrid *child = [DGrid new];
+                    DGrid *child = [DGrid newObjectWithContext:self.managedObjectContext entity:nil];
                     child.level = [NSNumber numberWithLong:self.level.longValue-1];
                     long long diameter = pow(5, child.level.longValue);
-                    DPoint *center = [DPoint new];
+                    DPoint *center = [DPoint newObjectWithContext:self.managedObjectContext entity:nil];
                     center.x = [NSNumber numberWithLongLong:self.center.x.longLongValue + diameter*(i-2)];
                     center.y = [NSNumber numberWithLongLong:self.center.y.longLongValue + diameter*(j-2)];
                     child.center = center;
@@ -99,7 +99,7 @@
         }
         else
         {
-            self.dot = [DDot new];
+            self.dot = [DDot newObjectWithContext:self.managedObjectContext entity:nil];
             return self.dot;
         }
     }
@@ -107,7 +107,7 @@
     {
         if(!self.root)
         {
-            DGrid *root = [DGrid new];
+            DGrid *root = [DGrid newObjectWithContext:self.managedObjectContext entity:nil];
             root.level = [NSNumber numberWithLong:self.level.longValue+1];
             root.center = self.center;
             for (int i = 0; i < 5; i++) {
@@ -118,10 +118,10 @@
                     }
                     else
                     {
-                        DGrid *child = [DGrid new];
+                        DGrid *child = [DGrid newObjectWithContext:self.managedObjectContext entity:nil];
                         child.level = self.level;
                         long long diameter = pow(5, child.level.longValue);
-                        DPoint *center = [DPoint new];
+                        DPoint *center = [DPoint newObjectWithContext:self.managedObjectContext entity:nil];
                         center.x = [NSNumber numberWithLongLong:root.center.x.longLongValue + diameter*(i-2)];
                         center.y = [NSNumber numberWithLongLong:root.center.y.longLongValue + diameter*(j-2)];
                         child.center = center;
