@@ -23,4 +23,11 @@
     return self;
 }
 
+-(DPoint*)setWithPoint:(DPoint*)point
+{
+    self.x = point.x;
+    self.y = point.y;
+    return self;
+}
+
 @end

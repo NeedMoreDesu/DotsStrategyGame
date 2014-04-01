@@ -7,7 +7,10 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "DGame+custom.h"
 
 @interface MyScene : SKScene
+
+@property DGame *game;
 
 @end

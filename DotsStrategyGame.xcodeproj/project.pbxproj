@@ -19,6 +19,7 @@
 		292827FB18DF65A00066B48B /* DDot+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 292827FA18DF65A00066B48B /* DDot+custom.m */; };
 		2982505D18DF5BE200C3F034 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2982505B18DF5BE200C3F034 /* Model.xcdatamodeld */; };
 		29B2D5CF18EA5843002DADEE /* SKDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B2D5CE18EA5843002DADEE /* SKDot.m */; };
+		29B4841918EA7990009AA1A2 /* CoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B4841818EA7990009AA1A2 /* CoreData.m */; };
 		29BAFFAD18E8A3F900CACC7C /* DGame+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BAFFAC18E8A3F900CACC7C /* DGame+custom.m */; };
 		29C6983E18DEFDB0001F1F1E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C6983D18DEFDB0001F1F1E /* Foundation.framework */; };
 		29C6984018DEFDB0001F1F1E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C6983F18DEFDB0001F1F1E /* CoreGraphics.framework */; };
@@ -74,6 +75,8 @@
 		2982505C18DF5BE200C3F034 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		29B2D5CD18EA5843002DADEE /* SKDot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKDot.h; sourceTree = "<group>"; };
 		29B2D5CE18EA5843002DADEE /* SKDot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKDot.m; sourceTree = "<group>"; };
+		29B4841718EA7990009AA1A2 /* CoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreData.h; sourceTree = "<group>"; };
+		29B4841818EA7990009AA1A2 /* CoreData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreData.m; sourceTree = "<group>"; };
 		29BAFFAB18E8A3F900CACC7C /* DGame+custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DGame+custom.h"; sourceTree = "<group>"; };
 		29BAFFAC18E8A3F900CACC7C /* DGame+custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DGame+custom.m"; sourceTree = "<group>"; };
 		29C6983A18DEFDB0001F1F1E /* DotsStrategyGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DotsStrategyGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,8 +194,18 @@
 		2982505A18DF5BCC00C3F034 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				29B4841A18EA799C009AA1A2 /* gen */,
 				292827F218DF65680066B48B /* customs */,
 				2982505B18DF5BE200C3F034 /* Model.xcdatamodeld */,
+				29B4841718EA7990009AA1A2 /* CoreData.h */,
+				29B4841818EA7990009AA1A2 /* CoreData.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		29B4841A18EA799C009AA1A2 /* gen */ = {
+			isa = PBXGroup;
+			children = (
 				2916C60918E8AE9200D8B3C8 /* DDot.h */,
 				2916C60A18E8AE9200D8B3C8 /* DDot.m */,
 				2916C60618E8AE9200D8B3C8 /* DGame.h */,
@@ -202,7 +215,7 @@
 				2916C60018E8AE9200D8B3C8 /* DGrid.h */,
 				2916C60118E8AE9200D8B3C8 /* DGrid.m */,
 			);
-			name = Model;
+			name = gen;
 			sourceTree = "<group>";
 		};
 		29C6983118DEFDB0001F1F1E = {
@@ -386,6 +399,7 @@
 				29C6985918DEFDB0001F1F1E /* ViewController.m in Sources */,
 				2916C60218E8AE9200D8B3C8 /* DGrid.m in Sources */,
 				2916C61418E8B16C00D8B3C8 /* NSManagedObjectContext+Helpers.m in Sources */,
+				29B4841918EA7990009AA1A2 /* CoreData.m in Sources */,
 				29BAFFAD18E8A3F900CACC7C /* DGame+custom.m in Sources */,
 				2916C60518E8AE9200D8B3C8 /* DPoint.m in Sources */,
 				2982505D18DF5BE200C3F034 /* Model.xcdatamodeld in Sources */,

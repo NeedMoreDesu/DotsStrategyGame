@@ -7,11 +7,15 @@
 //
 
 #import "MyScene.h"
+#import "CoreData.h"
+#import "SKDot.h"
 
 @interface MyScene()
 
 @property SKNode *camera;
 @property CGPoint lastTouchPosition;
+@property SKNode *nodeAtPointOnKeyDown;
+@property SKNode *world;
 
 @end
 
@@ -22,55 +26,47 @@
         /* Setup your scene here */
         
         self.anchorPoint = CGPointMake(0.5, 0.5);
-        SKNode *myWorld = [SKNode node];
-        [self addChild:myWorld];
+        self.world = [SKNode node];
+        [self addChild:self.world];
         
         self.camera = [SKNode node];
         self.camera.name = @"camera";
-        [myWorld addChild:self.camera];
-        
+        [self.world addChild:self.camera];
         
         self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
         
+        self.game = [DGame newObjectWithContext:[CoreData sharedInstance].mainMOC entity:nil];
         
-        
-        
-        SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-        
-        myLabel.text = @"Hello, World!";
-        myLabel.fontSize = 30;
-        myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
-                                       CGRectGetMidY(self.frame));
-        
-        [myWorld addChild:myLabel];
+        for (int i = 0; i<10; i++) {
+            for (int j = 0; j<10; j++) {
+                SKDot *dotNode = [[SKDot alloc] init];
+                dotNode.game = self.game;
+                [dotNode setPointX:[NSNumber numberWithLongLong:i]
+                                 Y:[NSNumber numberWithLongLong:j]];
+                [self.world addChild:dotNode];
+            }
+        }
 
-        self.camera.position = myLabel.position;
-        
     }
     return self;
 }
 
 - (void)didSimulatePhysics
-
 {
     [self centerOnNode: [self childNodeWithName: @"//camera"]];
 }
 
-
-
 - (void) centerOnNode: (SKNode *) node
-
 {
     CGPoint cameraPositionInScene = [node.scene convertPoint:node.position fromNode:node.parent];
-    
     node.parent.position = CGPointMake(node.parent.position.x - cameraPositionInScene.x,                                       node.parent.position.y - cameraPositionInScene.y);
-    
 }
 
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     self.lastTouchPosition = [touch locationInNode:self];
+    self.nodeAtPointOnKeyDown = [self nodeAtPoint:self.lastTouchPosition];
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -82,6 +78,21 @@
     self.camera.position = CGPointMake(self.camera.position.x - newPosition.x + oldPosition.x,
                                        self.camera.position.y - newPosition.y + oldPosition.y);
     self.lastTouchPosition = newPosition;
+}
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    self.lastTouchPosition = [touch locationInNode:self];
+    SKNode *node = [self nodeAtPoint:self.lastTouchPosition];
+    
+    if(node == self.nodeAtPointOnKeyDown)
+    {
+        if ([node isKindOfClass:[SKDot class]]) {
+            SKDot *dotNode = (SKDot*)node;
+            [dotNode makeTurn];
+        }
+    }
 }
 
 -(void)update:(CFTimeInterval)currentTime {

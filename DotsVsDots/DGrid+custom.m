@@ -33,6 +33,7 @@
     {
         if(self.dot)
         {
+            DDot *dot = self.dot;
             if([self.dot.position equal:point])
             {
                 return self.dot;
@@ -95,11 +96,16 @@
                     }
                 }
             }
+            DPoint *dotPoint = self.dot.position;
+            self.dot = nil;
+            [self createNewDotAtPoint:self.dot.position lastGrid:grid];
             return result;
         }
         else
         {
             self.dot = [DDot newObjectWithContext:self.managedObjectContext entity:nil];
+            self.dot.position = [[DPoint newObjectWithContext:self.managedObjectContext entity:nil]
+                                 setWithPoint:point];
             return self.dot;
         }
     }

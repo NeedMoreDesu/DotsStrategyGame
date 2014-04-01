@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "29C6983918DEFDB0001F1F1E"
-               BuildableName = "DotsVsDots.app"
+               BuildableName = "DotsStrategyGame.app"
                BlueprintName = "DotsStrategyGame"
                ReferencedContainer = "container:DotsStrategyGame.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "29C6986418DEFDB0001F1F1E"
-               BuildableName = "DotsVsDotsTests.xctest"
+               BuildableName = "DotsStrategyGameTests.xctest"
                BlueprintName = "DotsStrategyGameTests"
                ReferencedContainer = "container:DotsStrategyGame.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "29C6983918DEFDB0001F1F1E"
-            BuildableName = "DotsVsDots.app"
+            BuildableName = "DotsStrategyGame.app"
             BlueprintName = "DotsStrategyGame"
             ReferencedContainer = "container:DotsStrategyGame.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "29C6983918DEFDB0001F1F1E"
-            BuildableName = "DotsVsDots.app"
+            BuildableName = "DotsStrategyGame.app"
             BlueprintName = "DotsStrategyGame"
             ReferencedContainer = "container:DotsStrategyGame.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "29C6983918DEFDB0001F1F1E"
-            BuildableName = "DotsVsDots.app"
+            BuildableName = "DotsStrategyGame.app"
             BlueprintName = "DotsStrategyGame"
             ReferencedContainer = "container:DotsStrategyGame.xcodeproj">
          </BuildableReference>
