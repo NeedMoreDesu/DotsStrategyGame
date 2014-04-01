@@ -98,7 +98,8 @@
             }
             DPoint *dotPoint = self.dot.position;
             self.dot = nil;
-            [self createNewDotAtPoint:self.dot.position lastGrid:grid];
+            [self getOrCreateDotAtPoint:dotPoint lastGrid:grid];
+            dotPoint = nil;
             return result;
         }
         else
@@ -149,7 +150,7 @@
     }
     else
     {
-        return [self createNewDotAtPoint:point lastGrid:grid];
+        return [*grid createNewDotAtPoint:point lastGrid:grid];
     }
 }
 
