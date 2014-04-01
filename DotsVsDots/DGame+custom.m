@@ -15,13 +15,20 @@
     return 2;
 }
 
--(BOOL)isOccupied:(DPoint*)point
+-(DDot*)dotWithPoint:(DPoint*)point
 {
     DGrid *lastGrid = self.grid;
-    BOOL occupied = [self.grid dotAtPoint:point lastGrid:&lastGrid] != nil;
+    DDot *dot = [self.grid dotAtPoint:point lastGrid:&lastGrid];
     self.grid = lastGrid;
-    return occupied;
+    return dot;
 }
+
+-(BOOL)isOccupied:(DPoint*)point
+{
+    return ([self dotWithPoint:point] != nil);
+}
+
+
 
 -(void)nextTurn
 {

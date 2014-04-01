@@ -18,6 +18,7 @@
 		292827F818DF65900066B48B /* DPoint+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 292827F718DF65900066B48B /* DPoint+custom.m */; };
 		292827FB18DF65A00066B48B /* DDot+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 292827FA18DF65A00066B48B /* DDot+custom.m */; };
 		2982505D18DF5BE200C3F034 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2982505B18DF5BE200C3F034 /* Model.xcdatamodeld */; };
+		29B2D5CF18EA5843002DADEE /* SKDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B2D5CE18EA5843002DADEE /* SKDot.m */; };
 		29BAFFAD18E8A3F900CACC7C /* DGame+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BAFFAC18E8A3F900CACC7C /* DGame+custom.m */; };
 		29C6983E18DEFDB0001F1F1E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C6983D18DEFDB0001F1F1E /* Foundation.framework */; };
 		29C6984018DEFDB0001F1F1E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C6983F18DEFDB0001F1F1E /* CoreGraphics.framework */; };
@@ -71,17 +72,19 @@
 		292827F918DF65A00066B48B /* DDot+custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DDot+custom.h"; sourceTree = "<group>"; };
 		292827FA18DF65A00066B48B /* DDot+custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DDot+custom.m"; sourceTree = "<group>"; };
 		2982505C18DF5BE200C3F034 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		29B2D5CD18EA5843002DADEE /* SKDot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKDot.h; sourceTree = "<group>"; };
+		29B2D5CE18EA5843002DADEE /* SKDot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKDot.m; sourceTree = "<group>"; };
 		29BAFFAB18E8A3F900CACC7C /* DGame+custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DGame+custom.h"; sourceTree = "<group>"; };
 		29BAFFAC18E8A3F900CACC7C /* DGame+custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DGame+custom.m"; sourceTree = "<group>"; };
-		29C6983A18DEFDB0001F1F1E /* DotsVsDots.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DotsVsDots.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		29C6983A18DEFDB0001F1F1E /* DotsStrategyGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DotsStrategyGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29C6983D18DEFDB0001F1F1E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		29C6983F18DEFDB0001F1F1E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29C6984118DEFDB0001F1F1E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		29C6984318DEFDB0001F1F1E /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
-		29C6984718DEFDB0001F1F1E /* DotsVsDots-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DotsVsDots-Info.plist"; sourceTree = "<group>"; };
+		29C6984718DEFDB0001F1F1E /* DotsStrategyGame-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DotsStrategyGame-Info.plist"; sourceTree = "<group>"; };
 		29C6984918DEFDB0001F1F1E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		29C6984B18DEFDB0001F1F1E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		29C6984D18DEFDB0001F1F1E /* DotsVsDots-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DotsVsDots-Prefix.pch"; sourceTree = "<group>"; };
+		29C6984D18DEFDB0001F1F1E /* DotsStrategyGame-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DotsStrategyGame-Prefix.pch"; sourceTree = "<group>"; };
 		29C6984E18DEFDB0001F1F1E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		29C6984F18DEFDB0001F1F1E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		29C6985218DEFDB0001F1F1E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
@@ -92,9 +95,9 @@
 		29C6985B18DEFDB0001F1F1E /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
 		29C6985D18DEFDB0001F1F1E /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
 		29C6985F18DEFDB0001F1F1E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		29C6986518DEFDB0001F1F1E /* DotsVsDotsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DotsVsDotsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		29C6986518DEFDB0001F1F1E /* DotsStrategyGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DotsStrategyGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		29C6986618DEFDB0001F1F1E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		29C6986E18DEFDB0001F1F1E /* DotsVsDotsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DotsVsDotsTests-Info.plist"; sourceTree = "<group>"; };
+		29C6986E18DEFDB0001F1F1E /* DotsStrategyGameTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DotsStrategyGameTests-Info.plist"; sourceTree = "<group>"; };
 		29C6987018DEFDB0001F1F1E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		29C6987218DEFDB0001F1F1E /* DotsVsDotsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DotsVsDotsTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -150,6 +153,8 @@
 			children = (
 				29C6985A18DEFDB0001F1F1E /* MyScene.h */,
 				29C6985B18DEFDB0001F1F1E /* MyScene.m */,
+				29B2D5CD18EA5843002DADEE /* SKDot.h */,
+				29B2D5CE18EA5843002DADEE /* SKDot.m */,
 			);
 			name = SpriteKit;
 			sourceTree = "<group>";
@@ -213,8 +218,8 @@
 		29C6983B18DEFDB0001F1F1E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				29C6983A18DEFDB0001F1F1E /* DotsVsDots.app */,
-				29C6986518DEFDB0001F1F1E /* DotsVsDotsTests.xctest */,
+				29C6983A18DEFDB0001F1F1E /* DotsStrategyGame.app */,
+				29C6986518DEFDB0001F1F1E /* DotsStrategyGameTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -248,10 +253,10 @@
 		29C6984618DEFDB0001F1F1E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				29C6984718DEFDB0001F1F1E /* DotsVsDots-Info.plist */,
+				29C6984718DEFDB0001F1F1E /* DotsStrategyGame-Info.plist */,
 				29C6984818DEFDB0001F1F1E /* InfoPlist.strings */,
 				29C6984B18DEFDB0001F1F1E /* main.m */,
-				29C6984D18DEFDB0001F1F1E /* DotsVsDots-Prefix.pch */,
+				29C6984D18DEFDB0001F1F1E /* DotsStrategyGame-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -268,7 +273,7 @@
 		29C6986D18DEFDB0001F1F1E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				29C6986E18DEFDB0001F1F1E /* DotsVsDotsTests-Info.plist */,
+				29C6986E18DEFDB0001F1F1E /* DotsStrategyGameTests-Info.plist */,
 				29C6986F18DEFDB0001F1F1E /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -277,9 +282,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		29C6983918DEFDB0001F1F1E /* DotsVsDots */ = {
+		29C6983918DEFDB0001F1F1E /* DotsStrategyGame */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 29C6987618DEFDB0001F1F1E /* Build configuration list for PBXNativeTarget "DotsVsDots" */;
+			buildConfigurationList = 29C6987618DEFDB0001F1F1E /* Build configuration list for PBXNativeTarget "DotsStrategyGame" */;
 			buildPhases = (
 				29C6983618DEFDB0001F1F1E /* Sources */,
 				29C6983718DEFDB0001F1F1E /* Frameworks */,
@@ -289,14 +294,14 @@
 			);
 			dependencies = (
 			);
-			name = DotsVsDots;
+			name = DotsStrategyGame;
 			productName = DotsVsDots;
-			productReference = 29C6983A18DEFDB0001F1F1E /* DotsVsDots.app */;
+			productReference = 29C6983A18DEFDB0001F1F1E /* DotsStrategyGame.app */;
 			productType = "com.apple.product-type.application";
 		};
-		29C6986418DEFDB0001F1F1E /* DotsVsDotsTests */ = {
+		29C6986418DEFDB0001F1F1E /* DotsStrategyGameTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 29C6987918DEFDB0001F1F1E /* Build configuration list for PBXNativeTarget "DotsVsDotsTests" */;
+			buildConfigurationList = 29C6987918DEFDB0001F1F1E /* Build configuration list for PBXNativeTarget "DotsStrategyGameTests" */;
 			buildPhases = (
 				29C6986118DEFDB0001F1F1E /* Sources */,
 				29C6986218DEFDB0001F1F1E /* Frameworks */,
@@ -307,9 +312,9 @@
 			dependencies = (
 				29C6986B18DEFDB0001F1F1E /* PBXTargetDependency */,
 			);
-			name = DotsVsDotsTests;
+			name = DotsStrategyGameTests;
 			productName = DotsVsDotsTests;
-			productReference = 29C6986518DEFDB0001F1F1E /* DotsVsDotsTests.xctest */;
+			productReference = 29C6986518DEFDB0001F1F1E /* DotsStrategyGameTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -326,7 +331,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 29C6983518DEFDB0001F1F1E /* Build configuration list for PBXProject "DotsVsDots" */;
+			buildConfigurationList = 29C6983518DEFDB0001F1F1E /* Build configuration list for PBXProject "DotsStrategyGame" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -339,8 +344,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				29C6983918DEFDB0001F1F1E /* DotsVsDots */,
-				29C6986418DEFDB0001F1F1E /* DotsVsDotsTests */,
+				29C6983918DEFDB0001F1F1E /* DotsStrategyGame */,
+				29C6986418DEFDB0001F1F1E /* DotsStrategyGameTests */,
 			);
 		};
 /* End PBXProject section */
@@ -375,6 +380,7 @@
 			files = (
 				2916C60B18E8AE9200D8B3C8 /* DDot.m in Sources */,
 				2916C60818E8AE9200D8B3C8 /* DGame.m in Sources */,
+				29B2D5CF18EA5843002DADEE /* SKDot.m in Sources */,
 				292827F518DF65830066B48B /* DGrid+custom.m in Sources */,
 				29C6985C18DEFDB0001F1F1E /* MyScene.m in Sources */,
 				29C6985918DEFDB0001F1F1E /* ViewController.m in Sources */,
@@ -405,7 +411,7 @@
 /* Begin PBXTargetDependency section */
 		29C6986B18DEFDB0001F1F1E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 29C6983918DEFDB0001F1F1E /* DotsVsDots */;
+			target = 29C6983918DEFDB0001F1F1E /* DotsStrategyGame */;
 			targetProxy = 29C6986A18DEFDB0001F1F1E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -524,9 +530,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "DotsVsDots/DotsVsDots-Prefix.pch";
-				INFOPLIST_FILE = "DotsVsDots/DotsVsDots-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "DotsVsDots/DotsStrategyGame-Prefix.pch";
+				INFOPLIST_FILE = "DotsVsDots/DotsStrategyGame-Info.plist";
+				PRODUCT_NAME = DotsStrategyGame;
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -538,9 +544,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "DotsVsDots/DotsVsDots-Prefix.pch";
-				INFOPLIST_FILE = "DotsVsDots/DotsVsDots-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "DotsVsDots/DotsStrategyGame-Prefix.pch";
+				INFOPLIST_FILE = "DotsVsDots/DotsStrategyGame-Info.plist";
+				PRODUCT_NAME = DotsStrategyGame;
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -561,8 +567,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "DotsVsDotsTests/DotsVsDotsTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "DotsVsDotsTests/DotsStrategyGameTests-Info.plist";
+				PRODUCT_NAME = DotsStrategyGameTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -579,8 +585,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DotsVsDots/DotsVsDots-Prefix.pch";
-				INFOPLIST_FILE = "DotsVsDotsTests/DotsVsDotsTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "DotsVsDotsTests/DotsStrategyGameTests-Info.plist";
+				PRODUCT_NAME = DotsStrategyGameTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -589,7 +595,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		29C6983518DEFDB0001F1F1E /* Build configuration list for PBXProject "DotsVsDots" */ = {
+		29C6983518DEFDB0001F1F1E /* Build configuration list for PBXProject "DotsStrategyGame" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				29C6987418DEFDB0001F1F1E /* Debug */,
@@ -598,7 +604,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		29C6987618DEFDB0001F1F1E /* Build configuration list for PBXNativeTarget "DotsVsDots" */ = {
+		29C6987618DEFDB0001F1F1E /* Build configuration list for PBXNativeTarget "DotsStrategyGame" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				29C6987718DEFDB0001F1F1E /* Debug */,
@@ -607,7 +613,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		29C6987918DEFDB0001F1F1E /* Build configuration list for PBXNativeTarget "DotsVsDotsTests" */ = {
+		29C6987918DEFDB0001F1F1E /* Build configuration list for PBXNativeTarget "DotsStrategyGameTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				29C6987A18DEFDB0001F1F1E /* Debug */,

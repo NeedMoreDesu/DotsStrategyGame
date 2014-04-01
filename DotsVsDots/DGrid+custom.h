@@ -15,6 +15,4 @@
 - (DDot*)dotAtPoint:(DPoint*)point lastGrid:(DGrid**)grid;
 - (DDot*)getOrCreateDotAtPoint:(DPoint*)point lastGrid:(DGrid**)grid;
 
-- (void)setupStartingGrid;
-
 @end

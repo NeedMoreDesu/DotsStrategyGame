@@ -13,7 +13,9 @@
 
 @interface DGame (custom)
 
+-(DDot*)dotWithPoint:(DPoint*)point;
 -(BOOL)isOccupied:(DPoint*)point;
+
 -(DDot*)makeTurn:(DPoint*)point;
 
 @end

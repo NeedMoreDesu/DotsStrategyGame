@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "29C6983918DEFDB0001F1F1E"
                BuildableName = "DotsVsDots.app"
-               BlueprintName = "DotsVsDots"
-               ReferencedContainer = "container:DotsVsDots.xcodeproj">
+               BlueprintName = "DotsStrategyGame"
+               ReferencedContainer = "container:DotsStrategyGame.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "29C6986418DEFDB0001F1F1E"
                BuildableName = "DotsVsDotsTests.xctest"
-               BlueprintName = "DotsVsDotsTests"
-               ReferencedContainer = "container:DotsVsDots.xcodeproj">
+               BlueprintName = "DotsStrategyGameTests"
+               ReferencedContainer = "container:DotsStrategyGame.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,8 +44,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "29C6983918DEFDB0001F1F1E"
             BuildableName = "DotsVsDots.app"
-            BlueprintName = "DotsVsDots"
-            ReferencedContainer = "container:DotsVsDots.xcodeproj">
+            BlueprintName = "DotsStrategyGame"
+            ReferencedContainer = "container:DotsStrategyGame.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "29C6983918DEFDB0001F1F1E"
             BuildableName = "DotsVsDots.app"
-            BlueprintName = "DotsVsDots"
-            ReferencedContainer = "container:DotsVsDots.xcodeproj">
+            BlueprintName = "DotsStrategyGame"
+            ReferencedContainer = "container:DotsStrategyGame.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "29C6983918DEFDB0001F1F1E"
             BuildableName = "DotsVsDots.app"
-            BlueprintName = "DotsVsDots"
-            ReferencedContainer = "container:DotsVsDots.xcodeproj">
+            BlueprintName = "DotsStrategyGame"
+            ReferencedContainer = "container:DotsStrategyGame.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
