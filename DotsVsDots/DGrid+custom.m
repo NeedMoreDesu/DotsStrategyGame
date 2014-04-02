@@ -45,7 +45,7 @@
         }
         else
         {
-            if (!self.children) {
+            if (self.children.count == 0) {
                 return nil;
             }
             else
@@ -121,6 +121,7 @@
                 for (int j = 0; j < 5; j++) {
                     if(i==2 && j==2)
                     {
+                        [self.root addChildrenObject:self];
                         self.root = root;
                     }
                     else
@@ -137,7 +138,7 @@
                 }
             }
         }
-        return [self.root createNewDotAtPoint:point lastGrid:grid];
+        return [self.root getOrCreateDotAtPoint:point lastGrid:grid];
     }
 }
 
