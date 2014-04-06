@@ -36,10 +36,8 @@
 
 -(void)makeTurn
 {
-    if (![self.game isOccupied:self.point]) {
-        DDot *dot = [self.game makeTurn:self.point];
-        [self changeAccordingToDDot:dot];
-    }
+    DDot *dot = [self.game makeTurn:self.point];
+    [self changeAccordingToDDot:dot];
 }
 
 -(void)setPointX:(NSNumber*)x Y:(NSNumber*)y

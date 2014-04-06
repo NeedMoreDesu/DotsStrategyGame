@@ -1,8 +1,8 @@
 //
 //  DGame.h
-//  DotsVsDots
+//  DotsStrategyGame
 //
-//  Created by baka on 3/30/14.
+//  Created by baka on 4/6/14.
 //  Copyright (c) 2014 baka. All rights reserved.
 //
 
@@ -13,9 +13,9 @@
 
 @interface DGame : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * isPlaying;
 @property (nonatomic, retain) NSNumber * turn;
 @property (nonatomic, retain) NSNumber * whoseTurn;
-@property (nonatomic, retain) NSNumber * isPlaying;
 @property (nonatomic, retain) DGrid *grid;
 
 @end
