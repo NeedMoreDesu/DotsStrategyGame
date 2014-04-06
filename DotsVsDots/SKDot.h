@@ -18,5 +18,6 @@
 -(void)makeTurn;
 
 @property DGame *game;
+@property (nonatomic, strong) DPoint *point;
 
 @end

@@ -14,8 +14,6 @@
 
 @interface SKDot()
 
-@property DPoint *point;
-
 @end
 
 @implementation SKDot
@@ -57,7 +55,7 @@
     self = [super init];
     if(self)
     {
-        self.size = CGSizeMake(50, 50);
+        self.size = CGSizeMake(DOT_SIZE, DOT_SIZE);
         self.texture = [SKTexture textureWithImageNamed:@"Spaceship.png"];
         self.color = [UIColor redColor];
         self.name = @"dot";

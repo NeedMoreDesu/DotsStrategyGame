@@ -18,3 +18,5 @@
 #import "NSArray+Func.h"
 #import "NSManagedObjectContext+Helpers.h"
 #import "NSManagedObject+Helpers.h"
+
+#define DOT_SIZE 100

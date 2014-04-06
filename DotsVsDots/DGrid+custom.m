@@ -96,10 +96,12 @@
                     }
                 }
             }
-            DPoint *dotPoint = self.dot.position;
+            DDot *dot = self.dot;
             self.dot = nil;
-            [self getOrCreateDotAtPoint:dotPoint lastGrid:grid];
-            dotPoint = nil;
+            DDot *newDot = [self getOrCreateDotAtPoint:dot.position lastGrid:grid];
+            dot.grid = newDot.grid;
+            newDot = nil;  // actually we already have dot with info, just creating new dot to
+                           // get proper grid
             return result;
         }
         else
