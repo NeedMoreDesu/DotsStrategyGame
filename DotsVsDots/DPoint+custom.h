@@ -13,5 +13,8 @@
 - (BOOL)equal:(DPoint*)point;
 - (DPoint*)setX:(NSNumber*)x Y:(NSNumber*)y;
 - (DPoint*)setWithPoint:(DPoint*)point;
+- (NSArray*)XY;
+- (NSArray*)addXY:(NSArray*)XY;
+- (DPoint*)setXY:(NSArray*)XY;
 
 @end

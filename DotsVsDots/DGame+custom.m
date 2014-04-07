@@ -77,37 +77,29 @@
             return 0;
         if (dot.belongsTo.shortValue != startingDot.belongsTo.shortValue)
             return 0;
-        NSNumber *state = pointToState[@[point.x, point.y]];
+        NSNumber *state = pointToState[point.XY];
         if([state isEqual:@1])
-        {
-            if(dot == startingDot)
-            {
-                return 1;
-            }
+        { // opened point
             return 0;
         }
         if([state isEqual:@2])
-        {   // shouldn't happen
+        { // closed point
             return 0;
         }
-        if(!state) pointToState[@[point.x, point.y]] = @1;
+        if([state isEqual:@3])
+        { // target point
+            return 1;
+        }
+        if(!state || [state isEqual:@0])
+        { // not visited
+            pointToState[point.XY] = @1;
+        }
         for(int i = 0; i < 8; i++)
         {
             int resultingDirection = (i + direction - 3 + 8) % 8;
-            int restrictedDirection = (direction + 4) % 8;
-            if (restrictedDirection == resultingDirection) continue;
-            NSNumber *directionX = movementArray[resultingDirection][0];
-            NSNumber *directionY = movementArray[resultingDirection][1];
-            NSNumber *originalX  = dot.position.x;
-            NSNumber *originalY  = dot.position.y;
-            NSNumber *x = [NSNumber numberWithLongLong:
-                           originalX.longLongValue
-                           + directionX.longLongValue];
-            NSNumber *y = [NSNumber numberWithLongLong:
-                           originalY.longLongValue
-                           + directionY.longLongValue];
-            point.x = x;
-            point.y = y;
+//            int restrictedDirection = (direction + 4) % 8;
+//            if (restrictedDirection == resultingDirection) continue;
+            [point setXY: [dot.position addXY: movementArray[resultingDirection]]];
             
             int resultValue = dfs(point, resultingDirection);
             if (resultValue == 1) {
@@ -119,7 +111,61 @@
         return 0;
     };
     
-    dfs(point, 0);
+    pointToState[startingDot.position.XY] = @2;
+    
+    NSArray *alliedDotsAroundArray =
+    [movementArray map:^id(NSArray *XY) {
+        [point setWithPoint:startingDot.position];
+        [point setXY: [point addXY:XY]];
+        DDot *dot = [self dotWithPoint: point];
+        if (!dot)
+            return @NO;
+        if (dot.belongsTo.shortValue != startingDot.belongsTo.shortValue)
+            return @NO;
+        return @YES;
+    }];
+    
+    for (int i = 0; i < 8; i++) {
+        if (((NSNumber*)alliedDotsAroundArray[i]).boolValue) {
+            int leftmostInThisGroup = i;
+            for (int j = 0; j < 8; j++) {
+                int idx = (i+j)%8;
+                if (!((NSNumber*)alliedDotsAroundArray[idx]).boolValue)
+                {
+                    if (idx%2 == 0) {
+                        continue;
+                    }
+                    break;
+                }
+                pointToState[[startingDot.position addXY: movementArray[idx]]] = @0;
+            }
+            for (int j = 0; j < 8; j++) {
+                int idx = (i-j+16)%8;
+                if (!((NSNumber*)alliedDotsAroundArray[idx]).boolValue)
+                {
+                    if (idx%2 == 0) {
+                        continue;
+                    }
+                    break;
+                }
+                leftmostInThisGroup = idx;
+                pointToState[[startingDot.position addXY: movementArray[idx]]] = @0;
+            }
+            for (int j = 0; j < 8; j++) {
+                int idx = (i+j)%8;
+                if(![pointToState[[startingDot.position addXY: movementArray[idx]]] isEqual: @0] &&
+                   ((NSNumber*)alliedDotsAroundArray[idx]).boolValue)
+                {
+                    pointToState[[startingDot.position addXY: movementArray[idx]]] = @3;
+                }
+            }
+            // at this point we have our set dot as 2, starting dots as 0, targets as 3
+            [point setWithPoint:startingDot.position];
+            [point setXY: [point addXY:movementArray[leftmostInThisGroup]]];
+            dfs(point, leftmostInThisGroup);
+        }
+    }
+
     point = nil;
     
     return nil;
