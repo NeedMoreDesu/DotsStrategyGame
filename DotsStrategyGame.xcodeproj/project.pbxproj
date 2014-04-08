@@ -40,6 +40,7 @@
 		29C6986918DEFDB0001F1F1E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C6984118DEFDB0001F1F1E /* UIKit.framework */; };
 		29C6987118DEFDB0001F1F1E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 29C6986F18DEFDB0001F1F1E /* InfoPlist.strings */; };
 		29C6987318DEFDB0001F1F1E /* DotsVsDotsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 29C6987218DEFDB0001F1F1E /* DotsVsDotsTests.m */; };
+		29EBB51C18F4716100A4C8CC /* Textures.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EBB51B18F4716100A4C8CC /* Textures.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,8 @@
 		29C6986E18DEFDB0001F1F1E /* DotsStrategyGameTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DotsStrategyGameTests-Info.plist"; sourceTree = "<group>"; };
 		29C6987018DEFDB0001F1F1E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		29C6987218DEFDB0001F1F1E /* DotsVsDotsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DotsVsDotsTests.m; sourceTree = "<group>"; };
+		29EBB51A18F4716100A4C8CC /* Textures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Textures.h; sourceTree = "<group>"; };
+		29EBB51B18F4716100A4C8CC /* Textures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Textures.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +164,8 @@
 				29C6985B18DEFDB0001F1F1E /* MyScene.m */,
 				29B2D5CD18EA5843002DADEE /* SKDot.h */,
 				29B2D5CE18EA5843002DADEE /* SKDot.m */,
+				29EBB51A18F4716100A4C8CC /* Textures.h */,
+				29EBB51B18F4716100A4C8CC /* Textures.m */,
 			);
 			name = SpriteKit;
 			sourceTree = "<group>";
@@ -410,6 +415,7 @@
 				295AA87E18F1EE540021F7B6 /* DPoint.m in Sources */,
 				2916C61218E8B16C00D8B3C8 /* NSArray+Func.m in Sources */,
 				29C6985018DEFDB0001F1F1E /* AppDelegate.m in Sources */,
+				29EBB51C18F4716100A4C8CC /* Textures.m in Sources */,
 				295AA87518F1EE540021F7B6 /* DGrid.m in Sources */,
 				295AA87218F1EE530021F7B6 /* DGame.m in Sources */,
 				29C6984C18DEFDB0001F1F1E /* main.m in Sources */,

@@ -56,7 +56,7 @@
 
 -(DBase*)tryToCaptureWith:(DDot*)startingDot
 {
-    NSMutableDictionary *pointToState = [NSMutableDictionary new];
+    __block NSMutableDictionary *pointToState = [NSMutableDictionary new];
     DPoint *point = [DPoint newObjectWithContext:self.managedObjectContext entity:nil];
     [point setWithPoint:startingDot.position];
     
@@ -69,8 +69,9 @@
                                @[@1,@-1],
                                @[@0,@-1]];
     
-    NSMutableArray *pathArray = [NSMutableArray new];
+    __block NSMutableArray *pathArray = [NSMutableArray new];
     
+    __block __weak int(^weakDFS)(DPoint* point, int direction);
     __block int(^dfs)(DPoint* point, int direction) = ^(DPoint* point, int direction) {
         DDot *dot = [self dotWithPoint:point];
         if (!dot)
@@ -88,6 +89,7 @@
         }
         if([state isEqual:@3])
         { // target point
+            [pathArray addObject:dot.position.XY];
             return 1;
         }
         if(!state || [state isEqual:@0])
@@ -97,12 +99,11 @@
         for(int i = 0; i < 8; i++)
         {
             int resultingDirection = (i + direction - 3 + 8) % 8;
-//            int restrictedDirection = (direction + 4) % 8;
-//            if (restrictedDirection == resultingDirection) continue;
             [point setXY: [dot.position addXY: movementArray[resultingDirection]]];
             
-            int resultValue = dfs(point, resultingDirection);
+            int resultValue = weakDFS(point, resultingDirection);
             if (resultValue == 1) {
+                [pathArray addObject:dot.position.XY];
                 return 1;
             }
         }
@@ -110,8 +111,7 @@
         pointToState[@[point.x, point.y]] = @2;
         return 0;
     };
-    
-    pointToState[startingDot.position.XY] = @2;
+    weakDFS = dfs;
     
     NSArray *alliedDotsAroundArray =
     [movementArray map:^id(NSArray *XY) {
@@ -119,52 +119,166 @@
         [point setXY: [point addXY:XY]];
         DDot *dot = [self dotWithPoint: point];
         if (!dot)
-            return @NO;
+            return [NSNull null];
         if (dot.belongsTo.shortValue != startingDot.belongsTo.shortValue)
-            return @NO;
-        return @YES;
+            return [NSNull null];
+        return dot.position.XY;
     }];
     
+    NSMutableArray *groups = [NSMutableArray new];
+    NSMutableArray *groupInitialVectors = [NSMutableArray new];
+    NSMutableArray *group = [NSMutableArray new];
     for (int i = 0; i < 8; i++) {
-        if (((NSNumber*)alliedDotsAroundArray[i]).boolValue) {
-            int leftmostInThisGroup = i;
-            for (int j = 0; j < 8; j++) {
-                int idx = (i+j)%8;
-                if (!((NSNumber*)alliedDotsAroundArray[idx]).boolValue)
-                {
-                    if (idx%2 == 0) {
-                        continue;
-                    }
-                    break;
-                }
-                pointToState[[startingDot.position addXY: movementArray[idx]]] = @0;
-            }
-            for (int j = 0; j < 8; j++) {
-                int idx = (i-j+16)%8;
-                if (!((NSNumber*)alliedDotsAroundArray[idx]).boolValue)
-                {
-                    if (idx%2 == 0) {
-                        continue;
-                    }
-                    break;
-                }
-                leftmostInThisGroup = idx;
-                pointToState[[startingDot.position addXY: movementArray[idx]]] = @0;
-            }
-            for (int j = 0; j < 8; j++) {
-                int idx = (i+j)%8;
-                if(![pointToState[[startingDot.position addXY: movementArray[idx]]] isEqual: @0] &&
-                   ((NSNumber*)alliedDotsAroundArray[idx]).boolValue)
-                {
-                    pointToState[[startingDot.position addXY: movementArray[idx]]] = @3;
-                }
-            }
-            // at this point we have our set dot as 2, starting dots as 0, targets as 3
-            [point setWithPoint:startingDot.position];
-            [point setXY: [point addXY:movementArray[leftmostInThisGroup]]];
-            dfs(point, leftmostInThisGroup);
+        if (![alliedDotsAroundArray[i] isKindOfClass:[NSNull class]]) {
+            if(group.count == 0)
+                [groupInitialVectors addObject:[NSNumber numberWithChar:i]];
+            [group addObject:alliedDotsAroundArray[i]];
+        } else
+        {
+            if(i%2==0) continue;
+            if(group.count > 0)
+                [groups addObject:group];
+            group = [NSMutableArray new];
         }
     }
+    if(group.count > 0)
+    {
+        NSArray *firstGroup = groups.firstObject;
+        if(firstGroup &&
+           group.lastObject == alliedDotsAroundArray[7] &&
+           (firstGroup.firstObject == alliedDotsAroundArray[0] ||
+            firstGroup.firstObject == alliedDotsAroundArray[1]))
+        {
+            [group addObjectsFromArray:firstGroup];
+            groups[0] = group;
+            groupInitialVectors[0] = groupInitialVectors[groupInitialVectors.count-1];
+            [groupInitialVectors removeLastObject];
+        }
+        else
+        {
+            [groups addObject:group];
+        }
+    }
+    
+    if (groups.count < 2) {
+        // need at least two separate groups to make a connection
+        return nil;
+    }
+    
+    int(^groupDFS)(NSUInteger idx) = ^(NSUInteger idx) {
+        pointToState = [NSMutableDictionary new];
+        pointToState[startingDot.position.XY] = @2;
+        
+        NSArray *group = groups[idx];
+        [group enumerateObjectsUsingBlock:^(NSArray *XY, NSUInteger idx, BOOL *stop) {
+            pointToState[XY] = @0;
+        }];
+        [groups enumerateObjectsUsingBlock:^(NSArray *targetGroup, NSUInteger idx, BOOL *stop) {
+            if(targetGroup != group)
+            {
+                [targetGroup enumerateObjectsUsingBlock:^(NSArray *XY, NSUInteger idx, BOOL *stop) {
+                    pointToState[XY] = @0;
+                }];
+                pointToState[targetGroup.lastObject] = @3; // rightmost
+            }
+        }];
+        [point setXY:group.firstObject]; // leftmost
+        NSNumber *initialVectorNum = groupInitialVectors[idx];
+        return dfs(point, initialVectorNum.charValue);
+    };
+    
+    NSMutableArray *remainingGroups = [NSMutableArray arrayWithArray:groups];
+    NSMutableArray *basesPaths = [NSMutableArray new];
+    
+    while (true) {
+        __block BOOL wasStopped = NO;
+        [remainingGroups enumerateObjectsUsingBlock:^(NSArray *group, NSUInteger idx, BOOL *stop) {
+            if ([group isKindOfClass:[NSNull class]]) {
+                return;
+            }
+            int result = groupDFS(idx);
+            if (result != 0)
+            {
+                NSMutableArray *paths = [NSMutableArray new];
+                while (true) {
+                    [paths addObject:pathArray];
+                    NSArray *lastPoint = pathArray.firstObject;
+                    pathArray = [NSMutableArray new];
+                    __block NSUInteger groupIndex;
+                    [groups enumerateObjectsUsingBlock:^(NSArray *group, NSUInteger idx, BOOL *stop) {
+                        if([group.lastObject isEqual:lastPoint])
+                        {
+                            groupIndex = idx;
+                            *stop = YES;
+                        }
+                    }];
+                    if (groupIndex == idx) {
+                        break;
+                    }
+                    result = groupDFS(groupIndex);
+                    remainingGroups[groupIndex] = [NSNull null];
+                }
+                __block int maxPath = 0, maxPathIdx = 0;
+                [paths enumerateObjectsUsingBlock:^(NSArray *path, NSUInteger idx, BOOL *stop) {
+                    if (path.count > maxPath) {
+                        maxPath = path.count;
+                        maxPathIdx = idx;
+                    }
+                }];
+                [basesPaths addObject:paths[maxPathIdx]];
+                *stop = YES;
+                wasStopped = YES;
+            }
+            remainingGroups[idx] = [NSNull null];
+        }];
+        if (!wasStopped)
+        {
+            break;
+        }
+    }
+    
+    NSLog(@"%@", basesPaths);
+    
+//    for (int i = 0; i < 8; i++) {
+//        if (((NSNumber*)alliedDotsAroundArray[i]).boolValue) {
+//            int leftmostInThisGroup = i;
+//            for (int j = 0; j < 8; j++) {
+//                int idx = (i+j)%8;
+//                if (!((NSNumber*)alliedDotsAroundArray[idx]).boolValue)
+//                {
+//                    if (idx%2 == 0) {
+//                        continue;
+//                    }
+//                    break;
+//                }
+//                pointToState[[startingDot.position addXY: movementArray[idx]]] = @0;
+//            }
+//            for (int j = 0; j < 8; j++) {
+//                int idx = (i-j+16)%8;
+//                if (!((NSNumber*)alliedDotsAroundArray[idx]).boolValue)
+//                {
+//                    if (idx%2 == 0) {
+//                        continue;
+//                    }
+//                    break;
+//                }
+//                leftmostInThisGroup = idx;
+//                pointToState[[startingDot.position addXY: movementArray[idx]]] = @0;
+//            }
+//            for (int j = 0; j < 8; j++) {
+//                int idx = (i+j)%8;
+//                if(![pointToState[[startingDot.position addXY: movementArray[idx]]] isEqual: @0] &&
+//                   ((NSNumber*)alliedDotsAroundArray[idx]).boolValue)
+//                {
+//                    pointToState[[startingDot.position addXY: movementArray[idx]]] = @3;
+//                }
+//            }
+//            // at this point we have our set dot as 2, starting dots as 0, targets as 3
+//            [point setWithPoint:startingDot.position];
+//            [point setXY: [point addXY:movementArray[leftmostInThisGroup]]];
+//            dfs(point, leftmostInThisGroup);
+//        }
+//    }
 
     point = nil;
     

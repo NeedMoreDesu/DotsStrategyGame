@@ -11,6 +11,7 @@
 #import "DDot+custom.h"
 #import "DGame+custom.h"
 #import "MyScene.h"
+#import "Textures.h"
 
 @interface SKDot()
 
@@ -30,7 +31,7 @@
     }
     else
     {
-        self.texture = [SKTexture textureWithImageNamed:@"Spaceship.png"];
+        self.texture = [Textures sharedInstance].spaceshipTexture;
     }
 }
 
@@ -54,7 +55,7 @@
     if(self)
     {
         self.size = CGSizeMake(DOT_SIZE, DOT_SIZE);
-        self.texture = [SKTexture textureWithImageNamed:@"Spaceship.png"];
+        self.texture = [Textures sharedInstance].spaceshipTexture;
         self.color = [UIColor redColor];
         self.name = @"dot";
         self.point = [DPoint temporaryObjectWithContext:[CoreData sharedInstance].mainMOC entity:nil];

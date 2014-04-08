@@ -10,7 +10,10 @@
 #import "CoreData.h"
 #import "SKDot.h"
 
-#define FRAME_SCALE 0.7
+#define FRAME_MULTIPLIER 0.5
+#define DOTS_OFFSET 2
+#define MIN_SCALE 0.5
+#define MAX_SCALE 3
 
 @interface MyScene()
 
@@ -20,6 +23,7 @@
 @property SKNode *world;
 @property double lastLenBetweenFingers;
 @property NSMutableSet *touches;
+@property NSMutableDictionary *dots;
 
 @end
 
@@ -34,62 +38,43 @@
     double cameraY = self.camera.position.y;
     long long centralNodeX = cameraX / dotSize;
     long long centralNodeY = cameraY / dotSize;
+    
+    NSMutableArray *freedDots = [NSMutableArray new];
 
     [self.world enumerateChildNodesWithName:@"dot" usingBlock:^(SKNode *node, BOOL *stop) {
         SKDot *dot = (SKDot*)node;
         long long x = dot.point.x.longLongValue;
         long long y = dot.point.y.longLongValue;
-        if ((ABS((x-centralNodeX)*dotSize) > frameWidth*FRAME_SCALE) ||
-            (ABS((y-centralNodeY)*dotSize) > frameHeigh*FRAME_SCALE))
+        if ((ABS((x-centralNodeX)*dotSize) > frameWidth*FRAME_MULTIPLIER + dotSize*DOTS_OFFSET) ||
+            (ABS((y-centralNodeY)*dotSize) > frameHeigh*FRAME_MULTIPLIER + dotSize*DOTS_OFFSET))
         {
-            [node removeFromParent];
-            node = nil;
+            [freedDots addObject:dot];
+            [self.dots removeObjectForKey:dot.point.XY];
         }
-    }];
-    
-    __block long long smallestX, biggestX, smallestY, biggestY;
-    __block BOOL dotsExistedBefore = NO;
-    [self.world enumerateChildNodesWithName:@"dot" usingBlock:^(SKNode *node, BOOL *stop) {
-        SKDot *dot = (SKDot*)node;
-        long long x = dot.point.x.longLongValue;
-        long long y = dot.point.y.longLongValue;
-        smallestX = x;
-        biggestX = x;
-        smallestY = y;
-        biggestY = y;
-        dotsExistedBefore = YES;
-        *stop = YES;
-    }];
-        
-    [self.world enumerateChildNodesWithName:@"dot" usingBlock:^(SKNode *node, BOOL *stop) {
-        SKDot *dot = (SKDot*)node;
-        long long x = dot.point.x.longLongValue;
-        long long y = dot.point.y.longLongValue;
-        if (smallestX > x)
-            smallestX = x;
-        if (biggestX < x)
-            biggestX = x;
-        if (smallestY > y)
-            smallestY = y;
-        if (biggestY < y)
-            biggestY = y;
     }];
     
     void(^dotCreationBlock)(long long i, long long j) = ^(long long i, long long j) {
-        if (!(dotsExistedBefore &&
-              smallestX <= i && i <= biggestX &&
-              smallestY <= j && j <= biggestY))
-        {
-            SKDot *dotNode = [[SKDot alloc] init];
-            dotNode.game = self.game;
+        NSArray *key = @[[NSNumber numberWithLongLong:i], [NSNumber numberWithLongLong:j]];
+        if (!self.dots[key]) {
+            SKDot *dotNode;
+            if (freedDots.count > 0) {
+                dotNode = freedDots.lastObject;
+                [freedDots removeLastObject];
+            }
+            else
+            {
+                dotNode = [[SKDot alloc] init];
+                dotNode.game = self.game;
+                [self.world addChild:dotNode];
+            }
             [dotNode setPointX:[NSNumber numberWithLongLong:i]
                              Y:[NSNumber numberWithLongLong:j]];
-            [self.world addChild:dotNode];
+            self.dots[dotNode.point.XY] = dotNode;
         }
     };
     
-    for (long long i = 0; (i*dotSize) < frameWidth*FRAME_SCALE; i++) {
-        for (long long j = 0; (j*dotSize) < frameHeigh*FRAME_SCALE; j++) {
+    for (long long i = 0; (i*dotSize) < frameWidth*FRAME_MULTIPLIER + dotSize*DOTS_OFFSET; i++) {
+        for (long long j = 0; (j*dotSize) < frameHeigh*FRAME_MULTIPLIER + dotSize*DOTS_OFFSET; j++) {
             dotCreationBlock(i+centralNodeX,j+centralNodeY);
             if(i != 0)
             {
@@ -105,6 +90,10 @@
         }
     }
     
+    [freedDots enumerateObjectsUsingBlock:^(SKNode *node, NSUInteger idx, BOOL *stop) {
+        [node removeFromParent];
+    }];
+    [freedDots removeAllObjects];
 }
 
 -(id)initWithSize:(CGSize)size {
@@ -112,6 +101,7 @@
         /* Setup your scene here */
         
         self.touches = [NSMutableSet new];
+        self.dots = [NSMutableDictionary new];
         
         self.anchorPoint = CGPointMake(0.5, 0.5);
         self.world = [SKNode node];
@@ -177,9 +167,9 @@
         lenBetweenFingers /= touches.count;
         if(self.lastLenBetweenFingers > 0)
         {
-            double scale = self.world.xScale * self.lastLenBetweenFingers / lenBetweenFingers;
-            scale = MAX(scale, 0.15);
-            scale = MIN(scale, 1);
+            double scale = self.world.xScale * lenBetweenFingers / self.lastLenBetweenFingers;
+            scale = MAX(scale, MIN_SCALE);
+            scale = MIN(scale, MAX_SCALE);
             [self.world setScale:scale];
             [self createDots];
         }
@@ -193,17 +183,16 @@
             CGPoint oldPosition = self.lastTouchPosition;
             CGPoint newPosition = [touch locationInNode:self];
             [self.camera runAction:
-             [SKAction repeatAction:
               [SKAction sequence:@[[SKAction moveByX:
-                                    (-newPosition.x + oldPosition.x)/self.world.xScale/3
+                                    (-newPosition.x + oldPosition.x)/self.world.xScale
                                                    y:
-                                    (-newPosition.y + oldPosition.y)/self.world.yScale/3
-                                            duration:0.1],
+                                    (-newPosition.y + oldPosition.y)/self.world.yScale
+                                            duration:0],
                                    [SKAction runBlock:^{
                   [self createDots];
               }]
                                    ]]
-                              count:5]];
+            ];
             self.lastTouchPosition = newPosition;
         }
         self.lastLenBetweenFingers = -1;
