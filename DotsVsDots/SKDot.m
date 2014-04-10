@@ -21,11 +21,14 @@
 
 -(void)changeAccordingToDDot:(DDot*)dot
 {
-    if (dot) {
+    if ([self.game isOccupied:dot.position]) {
         if (dot.belongsTo.shortValue == 0) {
             self.color = [UIColor blueColor];
             if (dot.baseAsOuter.count > 0) {
                 self.color = [UIColor colorWithRed:0.5 green:0.5 blue:1.0 alpha:1.0];
+            }
+            if (dot.baseAsInner.count > 0) {
+                self.color = [UIColor colorWithRed:0.0 green:0.0 blue:0.5 alpha:1.0];
             }
             return;
         }
@@ -34,12 +37,18 @@
             if (dot.baseAsOuter.count > 0) {
                 self.color = [UIColor colorWithRed:1.0 green:0.5 blue:0.5 alpha:1.0];
             }
+            if (dot.baseAsInner.count > 0) {
+                self.color = [UIColor colorWithRed:0.5 green:0.0 blue:0.0 alpha:1.0];
+            }
             return;
         }
     }
     else
     {
         self.color = [UIColor whiteColor];
+        if (dot.baseAsInner.count > 0) {
+            self.color = [UIColor blackColor];
+        }
     }
 }
 

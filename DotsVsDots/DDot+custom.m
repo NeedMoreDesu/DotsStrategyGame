@@ -10,4 +10,9 @@
 
 @implementation DDot (custom)
 
+- (void)awakeFromInsert
+{
+    self.belongsTo = nil;
+    self.turn = nil;
+}
 @end

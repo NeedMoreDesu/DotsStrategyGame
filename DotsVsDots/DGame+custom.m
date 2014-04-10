@@ -35,7 +35,8 @@
 -(BOOL)isOccupied:(DPoint*)point
 {
     DDot *dot = [self dotWithPoint:point];
-    return (dot != nil);
+    return (dot != nil &&
+            dot.belongsTo != nil);
 }
 
 -(void)nextTurn
@@ -255,10 +256,102 @@
     
     [basesPaths mapWithBlockIndexed:^id(NSUInteger idx, NSArray *path) {
         DBase *base = [DBase newObjectWithContext:self.managedObjectContext entity:nil];
+        NSMutableSet *pathPoints = [NSMutableSet new];
+        NSArray *XY = path.firstObject;
+        NSNumber *x = XY[0], *y = XY[1];
+        __block long long
+        left = x.longLongValue, right = x.longLongValue,
+        top = y.longLongValue, bottom = y.longLongValue;
         [path enumerateObjectsUsingBlock:^(NSArray *XY, NSUInteger idx, BOOL *stop) {
             [point setXY:XY];
-            DDot *dot = [self getOrCreateDotWithPoint:point];
+            DDot *dot = [self dotWithPoint:point];
             [base addOuterDotsObject:dot];
+            NSNumber *x = XY[0], *y = XY[1];
+            long long xll = x.longLongValue, yll = y.longLongValue;
+            if (xll < left) {
+                left = xll;
+            }
+            if (right < xll) {
+                right = xll;
+            }
+            if (yll < bottom) {
+                bottom = yll;
+            }
+            if (top < yll) {
+                top = yll;
+            }
+            [pathPoints addObject:XY];
+        }];
+        
+        NSMutableSet *innerDots = [NSMutableSet new];
+        
+        __block int(^weakGetInnerDots)(NSArray *XY, int direction);
+        __block int(^getInnerDots)(NSArray *XY, int direction) = ^(NSArray *XY, int direction) {
+            if ([pathPoints containsObject:XY]) {
+                return 0;
+            }
+            if ([innerDots containsObject:XY]) {
+                return 0;
+            }
+            NSNumber *x = XY[0], *y = XY[1];
+            long long xll = x.longLongValue, yll = y.longLongValue;
+            // if it is out of range of max points, then it is clearly not inside
+            if (xll < left) {
+                return 1;
+            }
+            if (right < xll) {
+                return 1;
+            }
+            if (yll < bottom) {
+                return 1;
+            }
+            if (top < yll) {
+                return 1;
+            }
+            [innerDots addObject:XY];
+            for(int i = 0; i < 8; i++)
+            {
+                int resultingDirection = (i + direction) % 8;
+                if (resultingDirection%2 == 0) {
+                    NSArray *moveXY1 = movementArray[(resultingDirection-1+8)%8];
+                    NSArray *moveXY2 = movementArray[(resultingDirection+1+8)%8];
+                    NSArray *currXY1 = [[point setXY:XY] addXY:moveXY1];
+                    NSArray *currXY2 = [[point setXY:XY] addXY:moveXY2];
+                    if([pathPoints containsObject:currXY1] &&
+                       [pathPoints containsObject:currXY2])
+                    {  // no diagonal fall-through
+                        continue;
+                    }
+                }
+                NSArray *moveXY = movementArray[resultingDirection];
+                NSArray *currXY = [[point setXY:XY] addXY:moveXY];
+                
+                int resultValue = weakGetInnerDots(currXY, resultingDirection);
+                if (resultValue == 1) {
+                    return 1;
+                }
+            }
+            return 0;
+        };
+        weakGetInnerDots = getInnerDots;
+        for(int i = 0; i < 8; i++)
+        {
+            NSArray *moveXY = movementArray[i];
+            NSArray *currXY = [[point setXY:XY] addXY:moveXY];
+            if ([pathPoints containsObject:currXY]) {
+                continue;
+            }
+
+            int resultValue = getInnerDots(currXY, i);
+            if (resultValue == 0) {
+                break;
+            }
+            [innerDots removeAllObjects];
+        }
+        [innerDots enumerateObjectsUsingBlock:^(NSArray *XY, BOOL *stop) {
+            [point setXY:XY];
+            DDot *dot = [self getOrCreateDotWithPoint:point];
+            [base addInnerDotsObject:dot];
         }];
         return base;
     }];
