@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5063" systemVersion="13C64" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="DBase" representedClassName="DBase" syncable="YES">
-        <relationship name="innerDots" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DDot" syncable="YES"/>
-        <relationship name="outerDots" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DDot" inverseName="baseAsInner" inverseEntity="DDot" syncable="YES"/>
+        <relationship name="innerDots" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DDot" inverseName="baseAsInner" inverseEntity="DDot" syncable="YES"/>
+        <relationship name="outerDots" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DDot" inverseName="baseAsOuter" inverseEntity="DDot" syncable="YES"/>
     </entity>
     <entity name="DDot" representedClassName="DDot" syncable="YES">
         <attribute name="belongsTo" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="turn" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <relationship name="baseAsInner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBase" inverseName="outerDots" inverseEntity="DBase" syncable="YES"/>
-        <relationship name="baseAsOuter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DBase" syncable="YES"/>
+        <relationship name="baseAsInner" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DBase" inverseName="innerDots" inverseEntity="DBase" syncable="YES"/>
+        <relationship name="baseAsOuter" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DBase" inverseName="outerDots" inverseEntity="DBase" syncable="YES"/>
         <relationship name="grid" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DGrid" inverseName="dot" inverseEntity="DGrid" syncable="YES"/>
         <relationship name="position" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DPoint" inverseName="dot" inverseEntity="DPoint" syncable="YES"/>
     </entity>
@@ -34,10 +34,10 @@
         <relationship name="grid" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DGrid" inverseName="center" inverseEntity="DGrid" syncable="YES"/>
     </entity>
     <elements>
+        <element name="DBase" positionX="-90" positionY="18" width="128" height="73"/>
         <element name="DDot" positionX="-173" positionY="-136" width="128" height="148"/>
         <element name="DGame" positionX="36" positionY="144" width="128" height="103"/>
         <element name="DGrid" positionX="70" positionY="-63" width="128" height="133"/>
         <element name="DPoint" positionX="-279" positionY="50" width="128" height="103"/>
-        <element name="DBase" positionX="-90" positionY="18" width="128" height="73"/>
     </elements>
 </model>

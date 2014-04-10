@@ -1,5 +1,5 @@
 //
-//  DBase.m
+//  DBase+custom.h
 //  DotsStrategyGame
 //
 //  Created by baka on 4/10/14.
@@ -7,12 +7,7 @@
 //
 
 #import "DBase.h"
-#import "DDot.h"
 
-
-@implementation DBase
-
-@dynamic innerDots;
-@dynamic outerDots;
+@interface DBase (custom)
 
 @end

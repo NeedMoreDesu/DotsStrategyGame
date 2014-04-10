@@ -22,16 +22,24 @@
 -(void)changeAccordingToDDot:(DDot*)dot
 {
     if (dot) {
-        self.texture = nil;
         if (dot.belongsTo.shortValue == 0) {
             self.color = [UIColor blueColor];
+            if (dot.baseAsOuter.count > 0) {
+                self.color = [UIColor colorWithRed:0.5 green:0.5 blue:1.0 alpha:1.0];
+            }
             return;
         }
-        self.color = [UIColor redColor];
+        if (dot.belongsTo.shortValue == 1) {
+            self.color = [UIColor redColor];
+            if (dot.baseAsOuter.count > 0) {
+                self.color = [UIColor colorWithRed:1.0 green:0.5 blue:0.5 alpha:1.0];
+            }
+            return;
+        }
     }
     else
     {
-        self.texture = [Textures sharedInstance].spaceshipTexture;
+        self.color = [UIColor whiteColor];
     }
 }
 
@@ -44,7 +52,7 @@
 -(void)setPointX:(NSNumber*)x Y:(NSNumber*)y
 {
     [self.point setX:x Y:y];
-    self.position = CGPointMake(x.longLongValue*self.size.width, y.longLongValue*self.size.height);
+    self.position = CGPointMake(x.longLongValue*DOT_SIZE, y.longLongValue*DOT_SIZE);
     DDot *dot = [self.game dotWithPoint:self.point];
     [self changeAccordingToDDot:dot];
 }
@@ -54,9 +62,8 @@
     self = [super init];
     if(self)
     {
-        self.size = CGSizeMake(DOT_SIZE, DOT_SIZE);
-        self.texture = [Textures sharedInstance].spaceshipTexture;
-        self.color = [UIColor redColor];
+        self.size = CGSizeMake(DOT_SIZE-DOT_INSET, DOT_SIZE-DOT_INSET);
+        self.color = [UIColor whiteColor];
         self.name = @"dot";
         self.point = [DPoint temporaryObjectWithContext:[CoreData sharedInstance].mainMOC entity:nil];
     }

@@ -7,6 +7,7 @@
 //
 
 #import "DGame+custom.h"
+#import "DBase+custom.h"
 
 @implementation DGame (custom)
 
@@ -19,6 +20,14 @@
 {
     DGrid *lastGrid = self.grid;
     DDot *dot = [self.grid dotAtPoint:point lastGrid:&lastGrid];
+    self.grid = lastGrid;
+    return dot;
+}
+
+-(DDot*)getOrCreateDotWithPoint:(DPoint*)point
+{
+    DGrid *lastGrid = self.grid;
+    DDot *dot = [self.grid getOrCreateDotAtPoint:point lastGrid:&lastGrid];
     self.grid = lastGrid;
     return dot;
 }
@@ -39,9 +48,8 @@
 {
     if([self isOccupied:point])
         return [self dotWithPoint:point];
-    DGrid *lastGrid = self.grid;
-    DDot *dot = [self.grid getOrCreateDotAtPoint:point lastGrid:&lastGrid];
-    self.grid = lastGrid;
+    
+    DDot *dot = [self getOrCreateDotWithPoint:point];
     
     dot.belongsTo = self.whoseTurn;
     dot.turn = self.turn;
@@ -70,9 +78,10 @@
                                @[@0,@-1]];
     
     __block NSMutableArray *pathArray = [NSMutableArray new];
-    
-    __block __weak int(^weakDFS)(DPoint* point, int direction);
-    __block int(^dfs)(DPoint* point, int direction) = ^(DPoint* point, int direction) {
+
+    __block __weak int(^weakDFS)(DPoint* point, int direction, NSNumber *lastState);
+    __block int(^dfs)(DPoint* point, int direction, NSNumber *lastState) =
+    ^(DPoint* point, int direction, NSNumber *lastState) {
         DDot *dot = [self dotWithPoint:point];
         if (!dot)
             return 0;
@@ -87,10 +96,14 @@
         { // closed point
             return 0;
         }
-        if([state isEqual:@3])
-        { // target point
+        if([state isEqual:@4] && [lastState isEqual:@3])
+        { // central point from target point
             [pathArray addObject:dot.position.XY];
             return 1;
+        }
+        if ([state isEqual:@4])
+        { // just hit central spot
+            return 0;
         }
         if(!state || [state isEqual:@0])
         { // not visited
@@ -101,7 +114,7 @@
             int resultingDirection = (i + direction - 3 + 8) % 8;
             [point setXY: [dot.position addXY: movementArray[resultingDirection]]];
             
-            int resultValue = weakDFS(point, resultingDirection);
+            int resultValue = weakDFS(point, resultingDirection, state);
             if (resultValue == 1) {
                 [pathArray addObject:dot.position.XY];
                 return 1;
@@ -159,6 +172,7 @@
             [groups addObject:group];
         }
     }
+    // Group creation finished
     
     if (groups.count < 2) {
         // need at least two separate groups to make a connection
@@ -167,7 +181,7 @@
     
     int(^groupDFS)(NSUInteger idx) = ^(NSUInteger idx) {
         pointToState = [NSMutableDictionary new];
-        pointToState[startingDot.position.XY] = @2;
+        pointToState[startingDot.position.XY] = @4;
         
         NSArray *group = groups[idx];
         [group enumerateObjectsUsingBlock:^(NSArray *XY, NSUInteger idx, BOOL *stop) {
@@ -184,7 +198,7 @@
         }];
         [point setXY:group.firstObject]; // leftmost
         NSNumber *initialVectorNum = groupInitialVectors[idx];
-        return dfs(point, initialVectorNum.charValue);
+        return dfs(point, initialVectorNum.charValue, @0);
     };
     
     NSMutableArray *remainingGroups = [NSMutableArray arrayWithArray:groups];
@@ -202,11 +216,11 @@
                 NSMutableArray *paths = [NSMutableArray new];
                 while (true) {
                     [paths addObject:pathArray];
-                    NSArray *lastPoint = pathArray.firstObject;
+                    NSArray *lastTargetPoint = pathArray[1];
                     pathArray = [NSMutableArray new];
                     __block NSUInteger groupIndex;
                     [groups enumerateObjectsUsingBlock:^(NSArray *group, NSUInteger idx, BOOL *stop) {
-                        if([group.lastObject isEqual:lastPoint])
+                        if([group.lastObject isEqual:lastTargetPoint])
                         {
                             groupIndex = idx;
                             *stop = YES;
@@ -238,6 +252,16 @@
     }
     
     NSLog(@"%@", basesPaths);
+    
+    [basesPaths mapWithBlockIndexed:^id(NSUInteger idx, NSArray *path) {
+        DBase *base = [DBase newObjectWithContext:self.managedObjectContext entity:nil];
+        [path enumerateObjectsUsingBlock:^(NSArray *XY, NSUInteger idx, BOOL *stop) {
+            [point setXY:XY];
+            DDot *dot = [self getOrCreateDotWithPoint:point];
+            [base addOuterDotsObject:dot];
+        }];
+        return base;
+    }];
     
 //    for (int i = 0; i < 8; i++) {
 //        if (((NSNumber*)alliedDotsAroundArray[i]).boolValue) {

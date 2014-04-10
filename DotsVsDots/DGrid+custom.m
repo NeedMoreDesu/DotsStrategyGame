@@ -33,7 +33,6 @@
     {
         if(self.dot)
         {
-            DDot *dot = self.dot;
             if([self.dot.position equal:point])
             {
                 return self.dot;

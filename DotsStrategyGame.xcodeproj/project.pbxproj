@@ -13,11 +13,6 @@
 		292827F518DF65830066B48B /* DGrid+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 292827F418DF65830066B48B /* DGrid+custom.m */; };
 		292827F818DF65900066B48B /* DPoint+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 292827F718DF65900066B48B /* DPoint+custom.m */; };
 		292827FB18DF65A00066B48B /* DDot+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 292827FA18DF65A00066B48B /* DDot+custom.m */; };
-		295AA87218F1EE530021F7B6 /* DGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 295AA87118F1EE530021F7B6 /* DGame.m */; };
-		295AA87518F1EE540021F7B6 /* DGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 295AA87418F1EE540021F7B6 /* DGrid.m */; };
-		295AA87818F1EE540021F7B6 /* DBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 295AA87718F1EE540021F7B6 /* DBase.m */; };
-		295AA87B18F1EE540021F7B6 /* DDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 295AA87A18F1EE540021F7B6 /* DDot.m */; };
-		295AA87E18F1EE540021F7B6 /* DPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 295AA87D18F1EE540021F7B6 /* DPoint.m */; };
 		2982505D18DF5BE200C3F034 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2982505B18DF5BE200C3F034 /* Model.xcdatamodeld */; };
 		29B2D5CF18EA5843002DADEE /* SKDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B2D5CE18EA5843002DADEE /* SKDot.m */; };
 		29B4841918EA7990009AA1A2 /* CoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B4841818EA7990009AA1A2 /* CoreData.m */; };
@@ -41,6 +36,12 @@
 		29C6987118DEFDB0001F1F1E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 29C6986F18DEFDB0001F1F1E /* InfoPlist.strings */; };
 		29C6987318DEFDB0001F1F1E /* DotsVsDotsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 29C6987218DEFDB0001F1F1E /* DotsVsDotsTests.m */; };
 		29EBB51C18F4716100A4C8CC /* Textures.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EBB51B18F4716100A4C8CC /* Textures.m */; };
+		29FA683B18F7187200CC5A04 /* DGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FA683A18F7187200CC5A04 /* DGame.m */; };
+		29FA683E18F7187300CC5A04 /* DPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FA683D18F7187300CC5A04 /* DPoint.m */; };
+		29FA684118F7187300CC5A04 /* DBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FA684018F7187300CC5A04 /* DBase.m */; };
+		29FA684418F7187300CC5A04 /* DDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FA684318F7187300CC5A04 /* DDot.m */; };
+		29FA684718F7187300CC5A04 /* DGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FA684618F7187300CC5A04 /* DGrid.m */; };
+		29FA685918F7261700CC5A04 /* DBase+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FA685818F7261700CC5A04 /* DBase+custom.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,16 +67,6 @@
 		292827F718DF65900066B48B /* DPoint+custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DPoint+custom.m"; sourceTree = "<group>"; };
 		292827F918DF65A00066B48B /* DDot+custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DDot+custom.h"; sourceTree = "<group>"; };
 		292827FA18DF65A00066B48B /* DDot+custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DDot+custom.m"; sourceTree = "<group>"; };
-		295AA87018F1EE530021F7B6 /* DGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DGame.h; path = ../DGame.h; sourceTree = "<group>"; };
-		295AA87118F1EE530021F7B6 /* DGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DGame.m; path = ../DGame.m; sourceTree = "<group>"; };
-		295AA87318F1EE540021F7B6 /* DGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DGrid.h; path = ../DGrid.h; sourceTree = "<group>"; };
-		295AA87418F1EE540021F7B6 /* DGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DGrid.m; path = ../DGrid.m; sourceTree = "<group>"; };
-		295AA87618F1EE540021F7B6 /* DBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBase.h; path = ../DBase.h; sourceTree = "<group>"; };
-		295AA87718F1EE540021F7B6 /* DBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBase.m; path = ../DBase.m; sourceTree = "<group>"; };
-		295AA87918F1EE540021F7B6 /* DDot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DDot.h; path = ../DDot.h; sourceTree = "<group>"; };
-		295AA87A18F1EE540021F7B6 /* DDot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DDot.m; path = ../DDot.m; sourceTree = "<group>"; };
-		295AA87C18F1EE540021F7B6 /* DPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DPoint.h; path = ../DPoint.h; sourceTree = "<group>"; };
-		295AA87D18F1EE540021F7B6 /* DPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DPoint.m; path = ../DPoint.m; sourceTree = "<group>"; };
 		2982505C18DF5BE200C3F034 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		29B2D5CD18EA5843002DADEE /* SKDot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKDot.h; sourceTree = "<group>"; };
 		29B2D5CE18EA5843002DADEE /* SKDot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKDot.m; sourceTree = "<group>"; };
@@ -109,6 +100,18 @@
 		29C6987218DEFDB0001F1F1E /* DotsVsDotsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DotsVsDotsTests.m; sourceTree = "<group>"; };
 		29EBB51A18F4716100A4C8CC /* Textures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Textures.h; sourceTree = "<group>"; };
 		29EBB51B18F4716100A4C8CC /* Textures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Textures.m; sourceTree = "<group>"; };
+		29FA683918F7187200CC5A04 /* DGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGame.h; sourceTree = "<group>"; };
+		29FA683A18F7187200CC5A04 /* DGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGame.m; sourceTree = "<group>"; };
+		29FA683C18F7187300CC5A04 /* DPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPoint.h; sourceTree = "<group>"; };
+		29FA683D18F7187300CC5A04 /* DPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPoint.m; sourceTree = "<group>"; };
+		29FA683F18F7187300CC5A04 /* DBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBase.h; sourceTree = "<group>"; };
+		29FA684018F7187300CC5A04 /* DBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBase.m; sourceTree = "<group>"; };
+		29FA684218F7187300CC5A04 /* DDot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDot.h; sourceTree = "<group>"; };
+		29FA684318F7187300CC5A04 /* DDot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDot.m; sourceTree = "<group>"; };
+		29FA684518F7187300CC5A04 /* DGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGrid.h; sourceTree = "<group>"; };
+		29FA684618F7187300CC5A04 /* DGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGrid.m; sourceTree = "<group>"; };
+		29FA685718F7261700CC5A04 /* DBase+custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DBase+custom.h"; sourceTree = "<group>"; };
+		29FA685818F7261700CC5A04 /* DBase+custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DBase+custom.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +198,8 @@
 				292827F418DF65830066B48B /* DGrid+custom.m */,
 				29BAFFAB18E8A3F900CACC7C /* DGame+custom.h */,
 				29BAFFAC18E8A3F900CACC7C /* DGame+custom.m */,
+				29FA685718F7261700CC5A04 /* DBase+custom.h */,
+				29FA685818F7261700CC5A04 /* DBase+custom.m */,
 			);
 			name = customs;
 			sourceTree = "<group>";
@@ -214,16 +219,16 @@
 		29B4841A18EA799C009AA1A2 /* gen */ = {
 			isa = PBXGroup;
 			children = (
-				295AA87C18F1EE540021F7B6 /* DPoint.h */,
-				295AA87D18F1EE540021F7B6 /* DPoint.m */,
-				295AA87918F1EE540021F7B6 /* DDot.h */,
-				295AA87A18F1EE540021F7B6 /* DDot.m */,
-				295AA87618F1EE540021F7B6 /* DBase.h */,
-				295AA87718F1EE540021F7B6 /* DBase.m */,
-				295AA87318F1EE540021F7B6 /* DGrid.h */,
-				295AA87418F1EE540021F7B6 /* DGrid.m */,
-				295AA87018F1EE530021F7B6 /* DGame.h */,
-				295AA87118F1EE530021F7B6 /* DGame.m */,
+				29FA684518F7187300CC5A04 /* DGrid.h */,
+				29FA684618F7187300CC5A04 /* DGrid.m */,
+				29FA684218F7187300CC5A04 /* DDot.h */,
+				29FA684318F7187300CC5A04 /* DDot.m */,
+				29FA683F18F7187300CC5A04 /* DBase.h */,
+				29FA684018F7187300CC5A04 /* DBase.m */,
+				29FA683C18F7187300CC5A04 /* DPoint.h */,
+				29FA683D18F7187300CC5A04 /* DPoint.m */,
+				29FA683918F7187200CC5A04 /* DGame.h */,
+				29FA683A18F7187200CC5A04 /* DGame.m */,
 			);
 			name = gen;
 			sourceTree = "<group>";
@@ -402,24 +407,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				29B2D5CF18EA5843002DADEE /* SKDot.m in Sources */,
+				29FA684718F7187300CC5A04 /* DGrid.m in Sources */,
 				292827F518DF65830066B48B /* DGrid+custom.m in Sources */,
 				29C6985C18DEFDB0001F1F1E /* MyScene.m in Sources */,
+				29FA683E18F7187300CC5A04 /* DPoint.m in Sources */,
+				29FA684418F7187300CC5A04 /* DDot.m in Sources */,
 				29C6985918DEFDB0001F1F1E /* ViewController.m in Sources */,
 				2916C61418E8B16C00D8B3C8 /* NSManagedObjectContext+Helpers.m in Sources */,
+				29FA685918F7261700CC5A04 /* DBase+custom.m in Sources */,
 				29B4841918EA7990009AA1A2 /* CoreData.m in Sources */,
 				29BAFFAD18E8A3F900CACC7C /* DGame+custom.m in Sources */,
 				2982505D18DF5BE200C3F034 /* Model.xcdatamodeld in Sources */,
-				295AA87818F1EE540021F7B6 /* DBase.m in Sources */,
+				29FA683B18F7187200CC5A04 /* DGame.m in Sources */,
 				292827FB18DF65A00066B48B /* DDot+custom.m in Sources */,
 				2916C61318E8B16C00D8B3C8 /* NSManagedObject+Helpers.m in Sources */,
-				295AA87E18F1EE540021F7B6 /* DPoint.m in Sources */,
 				2916C61218E8B16C00D8B3C8 /* NSArray+Func.m in Sources */,
 				29C6985018DEFDB0001F1F1E /* AppDelegate.m in Sources */,
 				29EBB51C18F4716100A4C8CC /* Textures.m in Sources */,
-				295AA87518F1EE540021F7B6 /* DGrid.m in Sources */,
-				295AA87218F1EE530021F7B6 /* DGame.m in Sources */,
+				29FA684118F7187300CC5A04 /* DBase.m in Sources */,
 				29C6984C18DEFDB0001F1F1E /* main.m in Sources */,
-				295AA87B18F1EE540021F7B6 /* DDot.m in Sources */,
 				292827F818DF65900066B48B /* DPoint+custom.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
