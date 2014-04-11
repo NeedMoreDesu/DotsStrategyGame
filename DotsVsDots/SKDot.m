@@ -21,7 +21,7 @@
 
 -(void)changeAccordingToDDot:(DDot*)dot
 {
-    if ([self.game isOccupied:dot.position]) {
+    if ([self.game dotIsOccupied:dot]) {
         if (dot.belongsTo.shortValue == 0) {
             self.color = [UIColor blueColor];
             if (dot.baseAsOuter.count > 0) {

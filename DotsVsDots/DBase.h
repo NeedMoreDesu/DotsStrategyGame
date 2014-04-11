@@ -2,7 +2,7 @@
 //  DBase.h
 //  DotsStrategyGame
 //
-//  Created by baka on 4/10/14.
+//  Created by baka on 4/11/14.
 //  Copyright (c) 2014 baka. All rights reserved.
 //
 
@@ -13,6 +13,7 @@
 
 @interface DBase : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * isCapturing;
 @property (nonatomic, retain) NSOrderedSet *innerDots;
 @property (nonatomic, retain) NSOrderedSet *outerDots;
 @end

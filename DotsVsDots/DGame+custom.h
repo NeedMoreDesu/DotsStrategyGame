@@ -14,7 +14,11 @@
 @interface DGame (custom)
 
 -(DDot*)dotWithPoint:(DPoint*)point;
--(BOOL)isOccupied:(DPoint*)point;
+
+-(BOOL)dotIsCaptured:(DDot*)dot;
+-(BOOL)pointIsCaptured:(DPoint*)point;
+-(BOOL)dotIsOccupied:(DDot*)dot;
+-(BOOL)pointIsOccupied:(DPoint*)point;
 
 -(DDot*)makeTurn:(DPoint*)point;
 

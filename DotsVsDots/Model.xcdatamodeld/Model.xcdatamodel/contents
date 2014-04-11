@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5063" systemVersion="13C64" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="DBase" representedClassName="DBase" syncable="YES">
+        <attribute name="isCapturing" optional="YES" attributeType="Boolean" syncable="YES"/>
         <relationship name="innerDots" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DDot" inverseName="baseAsInner" inverseEntity="DDot" syncable="YES"/>
         <relationship name="outerDots" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DDot" inverseName="baseAsOuter" inverseEntity="DDot" syncable="YES"/>
     </entity>
@@ -34,7 +35,7 @@
         <relationship name="grid" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DGrid" inverseName="center" inverseEntity="DGrid" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DBase" positionX="-90" positionY="18" width="128" height="73"/>
+        <element name="DBase" positionX="-90" positionY="18" width="128" height="90"/>
         <element name="DDot" positionX="-173" positionY="-136" width="128" height="148"/>
         <element name="DGame" positionX="36" positionY="144" width="128" height="103"/>
         <element name="DGrid" positionX="70" positionY="-63" width="128" height="133"/>

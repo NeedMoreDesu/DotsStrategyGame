@@ -32,11 +32,34 @@
     return dot;
 }
 
--(BOOL)isOccupied:(DPoint*)point
+-(BOOL)dotIsCaptured:(DDot*)dot
+{
+    __block BOOL isCaptured = NO;
+    [dot.baseAsInner enumerateObjectsUsingBlock:^(DBase *base, NSUInteger idx, BOOL *stop) {
+        if([base.isCapturing isEqual:@YES])
+        {
+            isCaptured = YES;
+        }
+    }];
+    return isCaptured;
+}
+
+-(BOOL)pointIsCaptured:(DPoint*)point
 {
     DDot *dot = [self dotWithPoint:point];
+    return [self dotIsCaptured:dot];
+}
+
+-(BOOL)dotIsOccupied:(DDot*)dot
+{
     return (dot != nil &&
             dot.belongsTo != nil);
+}
+
+-(BOOL)pointIsOccupied:(DPoint*)point
+{
+    DDot *dot = [self dotWithPoint:point];
+    return [self dotIsOccupied:dot];
 }
 
 -(void)nextTurn
@@ -47,9 +70,12 @@
 
 -(DDot*)makeTurn:(DPoint*)point
 {
-    if([self isOccupied:point])
+    if([self pointIsOccupied:point])
         return [self dotWithPoint:point];
-    
+
+    if([self pointIsCaptured:point])
+        return [self dotWithPoint:point];
+
     DDot *dot = [self getOrCreateDotWithPoint:point];
     
     dot.belongsTo = self.whoseTurn;
@@ -60,10 +86,27 @@
     
     [self nextTurn];
     
+    NSArray *lastDots =
+    [self.managedObjectContext
+     fetchObjectsForEntityName:@"DDot"
+     sortDescriptors:@[@[@"turn", @NO]]
+     limit:[self numberOfPlayers]-1
+     predicate:nil];
+    
+    [lastDots enumerateObjectsUsingBlock:^(DDot *dot, NSUInteger idx, BOOL *stop) {
+        [dot.baseAsInner enumerateObjectsUsingBlock:^(DBase *base, NSUInteger idx, BOOL *stop) {
+            DDot *firstDot = base.outerDots.firstObject;
+            if (firstDot.belongsTo != self.whoseTurn) {
+                return;
+            }
+            base.isCapturing = @YES;
+        }];
+    }];
+    
     return dot;
 }
 
--(DBase*)tryToCaptureWith:(DDot*)startingDot
+-(void)tryToCaptureWith:(DDot*)startingDot
 {
     __block NSMutableDictionary *pointToState = [NSMutableDictionary new];
     DPoint *point = [DPoint newObjectWithContext:self.managedObjectContext entity:nil];
@@ -88,6 +131,9 @@
             return 0;
         if (dot.belongsTo.shortValue != startingDot.belongsTo.shortValue)
             return 0;
+        if ([self pointIsCaptured:dot.position]) {
+            return 0;
+        }
         NSNumber *state = pointToState[point.XY];
         if([state isEqual:@1])
         { // opened point
@@ -177,7 +223,7 @@
     
     if (groups.count < 2) {
         // need at least two separate groups to make a connection
-        return nil;
+        return;
     }
     
     int(^groupDFS)(NSUInteger idx) = ^(NSUInteger idx) {
@@ -251,8 +297,6 @@
             break;
         }
     }
-    
-    NSLog(@"%@", basesPaths);
     
     [basesPaths mapWithBlockIndexed:^id(NSUInteger idx, NSArray *path) {
         DBase *base = [DBase newObjectWithContext:self.managedObjectContext entity:nil];
@@ -363,55 +407,21 @@
         [innerDots enumerateObjectsUsingBlock:^(NSArray *XY, BOOL *stop) {
             [point setXY:XY];
             DDot *dot = [self getOrCreateDotWithPoint:point];
+            if (dot.belongsTo != nil) {
+                base.isCapturing = @YES;
+            }
+            [dot.baseAsInner enumerateObjectsUsingBlock:^(DBase *base, NSUInteger idx, BOOL *stop) {
+                if (!base.isCapturing) {
+                    // there can't be any sort of wannabe-bases inside our base
+                    [self.managedObjectContext deleteObject:base];
+                }
+            }];
             [base addInnerDotsObject:dot];
         }];
         return base;
     }];
     
-//    for (int i = 0; i < 8; i++) {
-//        if (((NSNumber*)alliedDotsAroundArray[i]).boolValue) {
-//            int leftmostInThisGroup = i;
-//            for (int j = 0; j < 8; j++) {
-//                int idx = (i+j)%8;
-//                if (!((NSNumber*)alliedDotsAroundArray[idx]).boolValue)
-//                {
-//                    if (idx%2 == 0) {
-//                        continue;
-//                    }
-//                    break;
-//                }
-//                pointToState[[startingDot.position addXY: movementArray[idx]]] = @0;
-//            }
-//            for (int j = 0; j < 8; j++) {
-//                int idx = (i-j+16)%8;
-//                if (!((NSNumber*)alliedDotsAroundArray[idx]).boolValue)
-//                {
-//                    if (idx%2 == 0) {
-//                        continue;
-//                    }
-//                    break;
-//                }
-//                leftmostInThisGroup = idx;
-//                pointToState[[startingDot.position addXY: movementArray[idx]]] = @0;
-//            }
-//            for (int j = 0; j < 8; j++) {
-//                int idx = (i+j)%8;
-//                if(![pointToState[[startingDot.position addXY: movementArray[idx]]] isEqual: @0] &&
-//                   ((NSNumber*)alliedDotsAroundArray[idx]).boolValue)
-//                {
-//                    pointToState[[startingDot.position addXY: movementArray[idx]]] = @3;
-//                }
-//            }
-//            // at this point we have our set dot as 2, starting dots as 0, targets as 3
-//            [point setWithPoint:startingDot.position];
-//            [point setXY: [point addXY:movementArray[leftmostInThisGroup]]];
-//            dfs(point, leftmostInThisGroup);
-//        }
-//    }
-
     point = nil;
-    
-    return nil;
 }
 
 -(void)awakeFromInsert
