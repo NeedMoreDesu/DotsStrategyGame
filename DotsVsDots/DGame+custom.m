@@ -262,6 +262,8 @@
         __block long long
         left = x.longLongValue, right = x.longLongValue,
         top = y.longLongValue, bottom = y.longLongValue;
+        NSMutableDictionary *nextPointDictionary = [NSMutableDictionary new];
+        __block NSArray *lastXY, *firstXY;
         [path enumerateObjectsUsingBlock:^(NSArray *XY, NSUInteger idx, BOOL *stop) {
             [point setXY:XY];
             DDot *dot = [self dotWithPoint:point];
@@ -281,7 +283,15 @@
                 top = yll;
             }
             [pathPoints addObject:XY];
+            if (lastXY) {
+                nextPointDictionary[lastXY] = XY;
+            } else
+            {
+                firstXY = XY;
+            }
+            lastXY = XY;
         }];
+        nextPointDictionary[lastXY] = firstXY;
         
         NSMutableSet *innerDots = [NSMutableSet new];
         
@@ -318,7 +328,9 @@
                     NSArray *currXY1 = [[point setXY:XY] addXY:moveXY1];
                     NSArray *currXY2 = [[point setXY:XY] addXY:moveXY2];
                     if([pathPoints containsObject:currXY1] &&
-                       [pathPoints containsObject:currXY2])
+                       [pathPoints containsObject:currXY2] &&
+                       ([nextPointDictionary[currXY1] isEqual: currXY2] ||
+                        [nextPointDictionary[currXY2] isEqual: currXY1]))
                     {  // no diagonal fall-through
                         continue;
                     }
