@@ -15,6 +15,8 @@
 
 @interface SKDot()
 
+@property SKSpriteNode *dot;
+
 @end
 
 @implementation SKDot
@@ -23,32 +25,23 @@
 {
     if ([self.game dotIsOccupied:dot]) {
         if (dot.belongsTo.shortValue == 0) {
-            self.color = [UIColor blueColor];
-            if (dot.baseAsOuter.count > 0) {
-                self.color = [UIColor colorWithRed:0.5 green:0.5 blue:1.0 alpha:1.0];
-            }
-            if (dot.baseAsInner.count > 0) {
-                self.color = [UIColor colorWithRed:0.0 green:0.0 blue:0.5 alpha:1.0];
-            }
-            return;
+            NSArray *textures = [Textures sharedInstance].blueDots;
+            SKTexture *texture = textures[(dot.position.x.intValue+2*dot.position.y.intValue)
+                                          %textures.count];
+            self.dot.texture = texture;
+            self.dot.size = self.dot.texture.size;
         }
         if (dot.belongsTo.shortValue == 1) {
-            self.color = [UIColor redColor];
-            if (dot.baseAsOuter.count > 0) {
-                self.color = [UIColor colorWithRed:1.0 green:0.5 blue:0.5 alpha:1.0];
-            }
-            if (dot.baseAsInner.count > 0) {
-                self.color = [UIColor colorWithRed:0.5 green:0.0 blue:0.0 alpha:1.0];
-            }
-            return;
+            NSArray *textures = [Textures sharedInstance].redDots;
+            SKTexture *texture = textures[(dot.position.x.intValue+2*dot.position.y.intValue)
+                                          %textures.count];
+            self.dot.texture = texture;
+            self.dot.size = self.dot.texture.size;
         }
     }
     else
     {
-        self.color = [UIColor whiteColor];
-        if (dot.baseAsInner.count > 0) {
-            self.color = [UIColor blackColor];
-        }
+        self.dot.texture = nil;
     }
 }
 
@@ -64,7 +57,14 @@
     [self.point setX:x Y:y];
     self.position = CGPointMake(x.longLongValue*DOT_SIZE, y.longLongValue*DOT_SIZE);
     DDot *dot = [self.game dotWithPoint:self.point];
+
+    NSArray *textures = [Textures sharedInstance].backgroundTextures;
+    SKTexture *texture = textures[(self.point.x.intValue+2*self.point.y.intValue)
+                                  % textures.count];
+    self.texture = texture;
+    self.size = self.texture.size;
     [self changeAccordingToDDot:dot];
+    
 }
 
 -(instancetype)init
@@ -72,9 +72,10 @@
     self = [super init];
     if(self)
     {
-        self.size = CGSizeMake(DOT_SIZE-DOT_INSET, DOT_SIZE-DOT_INSET);
-        self.color = [UIColor whiteColor];
         self.name = @"dot";
+        self.dot = [[SKSpriteNode alloc] init];
+        self.dot.zPosition = 10;
+        [self addChild:self.dot];
         self.point = [DPoint temporaryObjectWithContext:[CoreData sharedInstance].mainMOC entity:nil];
     }
     return self;

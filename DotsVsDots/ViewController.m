@@ -14,6 +14,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[UIApplication sharedApplication]
+     setStatusBarHidden:YES
+     withAnimation:UIStatusBarAnimationFade];
 
     // Configure the view.
     SKView * skView = (SKView *)self.view;

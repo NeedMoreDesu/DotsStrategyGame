@@ -13,6 +13,8 @@
 
 + (instancetype)sharedInstance;
 
-@property SKTexture *spaceshipTexture;
+@property NSArray *backgroundTextures;
+@property NSArray *redDots;
+@property NSArray *blueDots;
 
 @end

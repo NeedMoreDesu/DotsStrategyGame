@@ -19,6 +19,6 @@
 #import "NSManagedObjectContext+Helpers.h"
 #import "NSManagedObject+Helpers.h"
 
-#define DOT_SIZE 64
-#define DOT_INSET 5
+#define DOT_SIZE 20
+#define DOT_INSET 0
 

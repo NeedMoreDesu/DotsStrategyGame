@@ -171,7 +171,7 @@
         self.camera.name = @"camera";
         [self.world addChild:self.camera];
         
-        self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
+        self.backgroundColor = [SKColor whiteColor];
         
         self.game = [DGame newObjectWithContext:[CoreData sharedInstance].mainMOC entity:nil];
         
@@ -275,6 +275,10 @@
         SKNode *node = [self nodeAtPoint:self.lastTouchPosition];
         if ([node isKindOfClass:[SKDot class]]) {
             SKDot *dotNode = (SKDot*)node;
+            [dotNode makeTurn];
+        }
+        if ([node.parent isKindOfClass:[SKDot class]]) {
+            SKDot *dotNode = (SKDot*)node.parent;
             [dotNode makeTurn];
         }
         self.itWasTapOnly = NO;
