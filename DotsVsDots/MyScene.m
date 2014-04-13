@@ -131,6 +131,7 @@
         while (y > row.count) {
             SKDot *dot = [[SKDot alloc] init];
             dot.game = self.game;
+            dot.theScene = self;
             [self.world addChild:dot];
             [row addObject:dot];
         }

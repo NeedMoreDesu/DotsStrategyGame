@@ -9,6 +9,7 @@
 #import <SpriteKit/SpriteKit.h>
 #import "DPoint+custom.h"
 #import "DGame+custom.h"
+#import "MyScene.h"
 
 @interface SKDot : SKSpriteNode
 
@@ -18,6 +19,7 @@
 -(void)makeTurn;
 
 @property DGame *game;
+@property MyScene *theScene;
 @property (nonatomic, strong) DPoint *point;
 
 @end

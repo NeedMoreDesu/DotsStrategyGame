@@ -13,4 +13,6 @@
 
 @property DGame *game;
 
+-(void)redrawDots;
+
 @end

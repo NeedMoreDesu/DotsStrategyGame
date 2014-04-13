@@ -56,6 +56,7 @@
 {
     DDot *dot = [self.game makeTurn:self.point];
     [self changeAccordingToDDot:dot];
+    [self.theScene redrawDots];
 }
 
 -(void)setPointX:(NSNumber*)x Y:(NSNumber*)y
