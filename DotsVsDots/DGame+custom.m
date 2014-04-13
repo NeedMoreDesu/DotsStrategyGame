@@ -36,8 +36,13 @@
 {
     __block BOOL isCaptured = NO;
     [dot.baseAsInner enumerateObjectsUsingBlock:^(DBase *base, NSUInteger idx, BOOL *stop) {
-        if([base.isCapturing isEqual:@YES])
-        {
+        DDot *someDot = base.outerDots.firstObject;
+        if([someDot.belongsTo isEqual:dot.belongsTo])
+            return;
+        if ([self dotIsCaptured:someDot]) {
+            return;
+        }
+        if ([base.isCapturing isEqual:@YES]) {
             isCaptured = YES;
         }
     }];
@@ -66,6 +71,41 @@
 {
     self.turn = [NSNumber numberWithLong:self.turn.longValue+1];
     self.whoseTurn = [NSNumber numberWithShort:(self.whoseTurn.shortValue+1) % [self numberOfPlayers]];
+}
+
+-(NSArray*)countCapturedDots
+{
+    NSArray *bases = [self.managedObjectContext
+                      fetchObjectsForEntityName:@"DBase"
+                      sortDescriptors:nil
+                      limit:0
+                      predicate:nil];
+    NSArray *capturingBases = [bases filter:^BOOL(NSUInteger idx, DBase *base) {
+        return [[base isCapturing] isEqual:@YES];
+    }];
+    
+    NSLog(@"bases:%@", bases);
+    
+    NSMutableArray *capturedDots = [NSMutableArray new];
+    while (capturedDots.count < [self numberOfPlayers]) {
+        [capturedDots addObject:[NSMutableSet new]];
+    }
+    [capturingBases enumerateObjectsUsingBlock:^(DBase *base, NSUInteger idx, BOOL *stop) {
+        DDot *someDot = base.outerDots.firstObject;
+        if([self dotIsCaptured:someDot])
+            return;
+        [base.innerDots enumerateObjectsUsingBlock:^(DDot *dot, NSUInteger idx, BOOL *stop) {
+            if ([dot.belongsTo isEqual:someDot.belongsTo]) {
+                return;
+            }
+            if (![self dotIsOccupied:dot]) {
+                return;
+            }
+            NSMutableSet *captured = capturedDots[someDot.belongsTo.intValue];
+            [captured addObject:dot];
+        }];
+    }];
+    return capturedDots;
 }
 
 -(DDot*)makeTurn:(DPoint*)point
@@ -101,6 +141,11 @@
             }
             base.isCapturing = @YES;
         }];
+    }];
+    
+    NSArray *capturedDots = [self countCapturedDots];
+    [capturedDots enumerateObjectsUsingBlock:^(NSSet *captured, NSUInteger idx, BOOL *stop) {
+        NSLog(@"captured[%lu]: %lu", (unsigned long)idx, (unsigned long)captured.count);
     }];
     
     return dot;
@@ -413,6 +458,12 @@
             [dot.baseAsInner enumerateObjectsUsingBlock:^(DBase *base, NSUInteger idx, BOOL *stop) {
                 if (!base.isCapturing) {
                     // there can't be any sort of wannabe-bases inside our base
+                    [self.managedObjectContext deleteObject:base];
+                }
+            }];
+            [dot.baseAsOuter enumerateObjectsUsingBlock:^(DBase *base, NSUInteger idx, BOOL *stop) {
+                if (!base.isCapturing) {
+                    // kill non-capturing bases with fire
                     [self.managedObjectContext deleteObject:base];
                 }
             }];

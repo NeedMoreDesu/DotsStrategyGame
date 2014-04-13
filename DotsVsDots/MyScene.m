@@ -10,8 +10,7 @@
 #import "CoreData.h"
 #import "SKDot.h"
 
-#define FRAME_MULTIPLIER 0.5
-#define DOTS_OFFSET 2
+#define DOTS_OFFSET 10
 #define MIN_SCALE 0.5
 #define MAX_SCALE 3
 
@@ -23,11 +22,121 @@
 @property SKNode *world;
 @property double lastLenBetweenFingers;
 @property NSMutableSet *touches;
-@property NSMutableDictionary *dots;
+@property NSMutableArray *dots;
+@property long long lastX, lastY;
 
 @end
 
 @implementation MyScene
+
+-(NSUInteger)dotsWidth
+{
+    return self.dots.count;
+}
+
+-(NSUInteger)dotsHeight
+{
+    NSMutableArray *row = self.dots.firstObject;
+    if (!row) {
+        return 0;
+    }
+    return row.count;
+}
+
+-(SKDot*)dotsGetX:(NSUInteger)x y:(NSUInteger)y
+{
+    if ([self dotsWidth] <= x) {
+        return nil;
+    }
+    NSMutableArray *row = self.dots[x];
+    if (row.count <= y) {
+        return nil;
+    }
+    return row[y];
+}
+
+-(void)dotsSetX:(NSUInteger)x y:(NSUInteger)y node:(SKDot*)node
+{
+    while ([self dotsWidth] <= x) {
+        [self.dots addObject:[NSMutableArray new]];
+    }
+    NSMutableArray *row = self.dots[x];
+    while (row.count <= y) {
+        [row addObject:node];
+    }
+}
+
+-(void)dotsShiftToX:(long long)x y:(long long)y
+{
+    long long
+    shiftX = self.lastX - x,
+    shiftY = self.lastY - y;
+    if (shiftX == 0 && shiftY == 0) {
+        return;
+    }
+    for (NSUInteger i = 0; i < [self dotsWidth]; i++) {
+        for (NSUInteger j = 0; j < [self dotsHeight]; j++) {
+            SKDot *node = [self dotsGetX:i y:j];
+            long long resultingI = i+shiftX, resultingJ = j+shiftY;
+            [node setPointX:[NSNumber numberWithLongLong:resultingI+x-[self dotsWidth]/2]
+                          Y:[NSNumber numberWithLongLong:resultingJ+y-[self dotsHeight]/2]];
+        }
+    }
+    self.lastX = x;
+    self.lastY = y;
+}
+
+-(void)redrawDots
+{
+    double dotSize    = DOT_SIZE;
+    double cameraX = self.camera.position.x;
+    double cameraY = self.camera.position.y;
+    long long centralNodeX = cameraX / dotSize;
+    long long centralNodeY = cameraY / dotSize;
+    
+    for (NSUInteger i = 0; i < [self dotsWidth]; i++) {
+        for (NSUInteger j = 0; j < [self dotsHeight]; j++) {
+            SKDot *node = [self dotsGetX:i y:j];
+            [node setPointX:[NSNumber numberWithLongLong:i+centralNodeX-[self dotsWidth]/2]
+                          Y:[NSNumber numberWithLongLong:j+centralNodeY-[self dotsHeight]/2]];
+        }
+    }
+}
+
+-(void)dotsResizeToX:(NSUInteger)x y:(NSUInteger)y
+             centerX:(long long)centerX
+             centerY:(long long)centerY
+{
+    if ([self dotsWidth] == x &&
+        [self dotsHeight] == y) {
+        return;
+    }
+    while (x < [self dotsWidth])
+    {
+        [self.dots.lastObject enumerateObjectsUsingBlock:^(SKDot *dot, NSUInteger idx, BOOL *stop) {
+            [dot removeFromParent];
+        }];
+        [self.dots removeLastObject];
+    }
+    while (x > [self dotsWidth]) {
+        [self.dots addObject:[NSMutableArray new]];
+    }
+    [self.dots enumerateObjectsUsingBlock:^(NSMutableArray *row, NSUInteger i, BOOL *stop) {
+        while (y < row.count)
+        {
+            SKDot *dot = row.lastObject;
+            [dot removeFromParent];
+            [row removeLastObject];
+        }
+        while (y > row.count) {
+            SKDot *dot = [[SKDot alloc] init];
+            dot.game = self.game;
+            [self.world addChild:dot];
+            [row addObject:dot];
+        }
+    }];
+    [self redrawDots];
+}
 
 -(void)createDots
 {
@@ -39,61 +148,11 @@
     long long centralNodeX = cameraX / dotSize;
     long long centralNodeY = cameraY / dotSize;
     
-    NSMutableArray *freedDots = [NSMutableArray new];
-
-    [self.world enumerateChildNodesWithName:@"dot" usingBlock:^(SKNode *node, BOOL *stop) {
-        SKDot *dot = (SKDot*)node;
-        long long x = dot.point.x.longLongValue;
-        long long y = dot.point.y.longLongValue;
-        if ((ABS((x-centralNodeX)*dotSize) > frameWidth*FRAME_MULTIPLIER + dotSize*DOTS_OFFSET) ||
-            (ABS((y-centralNodeY)*dotSize) > frameHeigh*FRAME_MULTIPLIER + dotSize*DOTS_OFFSET))
-        {
-            [freedDots addObject:dot];
-            [self.dots removeObjectForKey:dot.point.XY];
-        }
-    }];
-    
-    void(^dotCreationBlock)(long long i, long long j) = ^(long long i, long long j) {
-        NSArray *key = @[[NSNumber numberWithLongLong:i], [NSNumber numberWithLongLong:j]];
-        if (!self.dots[key]) {
-            SKDot *dotNode;
-            if (freedDots.count > 0) {
-                dotNode = freedDots.lastObject;
-                [freedDots removeLastObject];
-            }
-            else
-            {
-                dotNode = [[SKDot alloc] init];
-                dotNode.game = self.game;
-                [self.world addChild:dotNode];
-            }
-            [dotNode setPointX:[NSNumber numberWithLongLong:i]
-                             Y:[NSNumber numberWithLongLong:j]];
-            self.dots[dotNode.point.XY] = dotNode;
-        }
-    };
-    
-    for (long long i = 0; (i*dotSize) < frameWidth*FRAME_MULTIPLIER + dotSize*DOTS_OFFSET; i++) {
-        for (long long j = 0; (j*dotSize) < frameHeigh*FRAME_MULTIPLIER + dotSize*DOTS_OFFSET; j++) {
-            dotCreationBlock(i+centralNodeX,j+centralNodeY);
-            if(i != 0)
-            {
-                dotCreationBlock(-i+centralNodeX,j+centralNodeY);
-                if (j != 0) {
-                    dotCreationBlock(-i+centralNodeX,-j+centralNodeY);
-                }
-            }
-            if(j != 0)
-            {
-                dotCreationBlock(i+centralNodeX,-j+centralNodeY);
-            }
-        }
-    }
-    
-    [freedDots enumerateObjectsUsingBlock:^(SKNode *node, NSUInteger idx, BOOL *stop) {
-        [node removeFromParent];
-    }];
-    [freedDots removeAllObjects];
+    [self dotsResizeToX:frameWidth/dotSize+DOTS_OFFSET
+                      y:frameHeigh/dotSize+DOTS_OFFSET
+                centerX:centralNodeX
+                centerY:centralNodeY];
+    [self dotsShiftToX:centralNodeX y:centralNodeY];
 }
 
 -(id)initWithSize:(CGSize)size {
@@ -101,7 +160,7 @@
         /* Setup your scene here */
         
         self.touches = [NSMutableSet new];
-        self.dots = [NSMutableDictionary new];
+        self.dots = [NSMutableArray new];
         
         self.anchorPoint = CGPointMake(0.5, 0.5);
         self.world = [SKNode node];
@@ -182,17 +241,14 @@
             UITouch *touch = [touches anyObject];
             CGPoint oldPosition = self.lastTouchPosition;
             CGPoint newPosition = [touch locationInNode:self];
-            [self.camera runAction:
-              [SKAction sequence:@[[SKAction moveByX:
-                                    (-newPosition.x + oldPosition.x)/self.world.xScale
-                                                   y:
-                                    (-newPosition.y + oldPosition.y)/self.world.yScale
-                                            duration:0],
-                                   [SKAction runBlock:^{
-                  [self createDots];
-              }]
-                                   ]]
-            ];
+            self.camera.position = CGPointMake(self.camera.position.x
+                                               + (-newPosition.x + oldPosition.x)/self.world.xScale,
+                                               self.camera.position.y
+                                               + (-newPosition.y + oldPosition.y)/self.world.yScale);
+            [self createDots];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0001 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self redrawDots];
+            });
             self.lastTouchPosition = newPosition;
         }
         self.lastLenBetweenFingers = -1;
@@ -225,17 +281,6 @@
 }
 
 -(void)update:(CFTimeInterval)currentTime {
-//    [self.world enumerateChildNodesWithName:@"dot" usingBlock:^(SKNode *node, BOOL *stop) {
-//        BOOL unseenHorizontally = (ABS(node.position.x - self.camera.position.x)*self.world.xScale
-//                                   > self.frame.size.width/2);
-//        BOOL unseenVertically   = (ABS(node.position.y - self.camera.position.y)*self.world.yScale
-//                                   > self.frame.size.height/2);
-//        if (unseenHorizontally || unseenVertically) {
-//            [node removeFromParent];
-//            node = nil;
-//        }
-//    }];
-    /* Called before each frame is rendered */
 }
 
 @end
