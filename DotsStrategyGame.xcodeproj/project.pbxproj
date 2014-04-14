@@ -28,7 +28,6 @@
 		29C6985618DEFDB0001F1F1E /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29C6985418DEFDB0001F1F1E /* Main_iPad.storyboard */; };
 		29C6985918DEFDB0001F1F1E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29C6985818DEFDB0001F1F1E /* ViewController.m */; };
 		29C6985C18DEFDB0001F1F1E /* MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 29C6985B18DEFDB0001F1F1E /* MyScene.m */; };
-		29C6985E18DEFDB0001F1F1E /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 29C6985D18DEFDB0001F1F1E /* Spaceship.png */; };
 		29C6986018DEFDB0001F1F1E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29C6985F18DEFDB0001F1F1E /* Images.xcassets */; };
 		29C6986718DEFDB0001F1F1E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C6986618DEFDB0001F1F1E /* XCTest.framework */; };
 		29C6986818DEFDB0001F1F1E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C6983D18DEFDB0001F1F1E /* Foundation.framework */; };
@@ -36,6 +35,7 @@
 		29C6987118DEFDB0001F1F1E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 29C6986F18DEFDB0001F1F1E /* InfoPlist.strings */; };
 		29C6987318DEFDB0001F1F1E /* DotsVsDotsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 29C6987218DEFDB0001F1F1E /* DotsVsDotsTests.m */; };
 		29EBB51C18F4716100A4C8CC /* Textures.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EBB51B18F4716100A4C8CC /* Textures.m */; };
+		29F3505E18FC582D00BFB013 /* Panels.m in Sources */ = {isa = PBXBuildFile; fileRef = 29F3505D18FC582D00BFB013 /* Panels.m */; };
 		29FA683B18F7187200CC5A04 /* DGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FA683A18F7187200CC5A04 /* DGame.m */; };
 		29FA683E18F7187300CC5A04 /* DPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FA683D18F7187300CC5A04 /* DPoint.m */; };
 		29FA684118F7187300CC5A04 /* DBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FA684018F7187300CC5A04 /* DBase.m */; };
@@ -91,7 +91,6 @@
 		29C6985818DEFDB0001F1F1E /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		29C6985A18DEFDB0001F1F1E /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
 		29C6985B18DEFDB0001F1F1E /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
-		29C6985D18DEFDB0001F1F1E /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
 		29C6985F18DEFDB0001F1F1E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		29C6986518DEFDB0001F1F1E /* DotsStrategyGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DotsStrategyGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		29C6986618DEFDB0001F1F1E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -100,6 +99,8 @@
 		29C6987218DEFDB0001F1F1E /* DotsVsDotsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DotsVsDotsTests.m; sourceTree = "<group>"; };
 		29EBB51A18F4716100A4C8CC /* Textures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Textures.h; sourceTree = "<group>"; };
 		29EBB51B18F4716100A4C8CC /* Textures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Textures.m; sourceTree = "<group>"; };
+		29F3505C18FC582D00BFB013 /* Panels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Panels.h; sourceTree = "<group>"; };
+		29F3505D18FC582D00BFB013 /* Panels.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Panels.m; sourceTree = "<group>"; };
 		29FA683918F7187200CC5A04 /* DGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGame.h; sourceTree = "<group>"; };
 		29FA683A18F7187200CC5A04 /* DGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGame.m; sourceTree = "<group>"; };
 		29FA683C18F7187300CC5A04 /* DPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPoint.h; sourceTree = "<group>"; };
@@ -167,6 +168,8 @@
 				29C6985B18DEFDB0001F1F1E /* MyScene.m */,
 				29B2D5CD18EA5843002DADEE /* SKDot.h */,
 				29B2D5CE18EA5843002DADEE /* SKDot.m */,
+				29F3505C18FC582D00BFB013 /* Panels.h */,
+				29F3505D18FC582D00BFB013 /* Panels.m */,
 				29EBB51A18F4716100A4C8CC /* Textures.h */,
 				29EBB51B18F4716100A4C8CC /* Textures.m */,
 			);
@@ -271,7 +274,6 @@
 				2982505A18DF5BCC00C3F034 /* Model */,
 				2916C5FD18E8ACA800D8B3C8 /* View */,
 				2916C5FE18E8ACD800D8B3C8 /* Controller */,
-				29C6985D18DEFDB0001F1F1E /* Spaceship.png */,
 				29C6985F18DEFDB0001F1F1E /* Images.xcassets */,
 				29C6984618DEFDB0001F1F1E /* Supporting Files */,
 			);
@@ -383,7 +385,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				29C6985E18DEFDB0001F1F1E /* Spaceship.png in Resources */,
 				29C6986018DEFDB0001F1F1E /* Images.xcassets in Resources */,
 				29C6985618DEFDB0001F1F1E /* Main_iPad.storyboard in Resources */,
 				29C6985318DEFDB0001F1F1E /* Main_iPhone.storyboard in Resources */,
@@ -424,6 +425,7 @@
 				2916C61218E8B16C00D8B3C8 /* NSArray+Func.m in Sources */,
 				29C6985018DEFDB0001F1F1E /* AppDelegate.m in Sources */,
 				29EBB51C18F4716100A4C8CC /* Textures.m in Sources */,
+				29F3505E18FC582D00BFB013 /* Panels.m in Sources */,
 				29FA684118F7187300CC5A04 /* DBase.m in Sources */,
 				29C6984C18DEFDB0001F1F1E /* main.m in Sources */,
 				292827F818DF65900066B48B /* DPoint+custom.m in Sources */,

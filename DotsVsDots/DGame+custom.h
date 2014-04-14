@@ -22,5 +22,9 @@
 
 -(DDot*)makeTurn:(DPoint*)point;
 -(NSArray*)capturingBases;
+-(NSArray*)countCapturedDots;
+-(int)numberOfPlayers;
+
+-(BOOL)stopWhenTurn:(int)turn orNumberOfCapturedDotsExceeds:(int)capturedDotsFromSinglePlayer;
 
 @end

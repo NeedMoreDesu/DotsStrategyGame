@@ -11,6 +11,12 @@
 
 @implementation DGame (custom)
 
+- (void)addBasesObject:(DDot *)value;
+{
+    NSMutableOrderedSet* tempSet = [self mutableOrderedSetValueForKey:@"bases"];
+    [tempSet addObject:value];
+}
+
 -(int)numberOfPlayers
 {
     return 2;
@@ -75,12 +81,7 @@
 
 -(NSArray*)capturingBases
 {
-    NSArray *bases = [self.managedObjectContext
-                      fetchObjectsForEntityName:@"DBase"
-                      sortDescriptors:nil
-                      limit:0
-                      predicate:nil];
-    NSArray *capturingBases = [bases filter:^BOOL(NSUInteger idx, DBase *base) {
+    NSArray *capturingBases = [self.bases.array filter:^BOOL(NSUInteger idx, DBase *base) {
         return [[base isCapturing] isEqual:@YES];
     }];
     
@@ -114,6 +115,9 @@
 
 -(DDot*)makeTurn:(DPoint*)point
 {
+    if (![self.isPlaying isEqual:@YES]) {
+        return [self dotWithPoint:point];
+    }
     if([self pointIsOccupied:point])
         return [self dotWithPoint:point];
 
@@ -145,11 +149,6 @@
             }
             base.isCapturing = @YES;
         }];
-    }];
-    
-    NSArray *capturedDots = [self countCapturedDots];
-    [capturedDots enumerateObjectsUsingBlock:^(NSSet *captured, NSUInteger idx, BOOL *stop) {
-        NSLog(@"captured[%lu]: %lu", (unsigned long)idx, (unsigned long)captured.count);
     }];
     
     return dot;
@@ -353,6 +352,7 @@
     
     [basesPaths mapWithBlockIndexed:^id(NSUInteger idx, NSArray *path) {
         DBase *base = [DBase newObjectWithContext:self.managedObjectContext entity:nil];
+        [self addBasesObject:base];
         NSMutableSet *pathPoints = [NSMutableSet new];
         NSArray *XY = path.firstObject;
         NSNumber *x = XY[0], *y = XY[1];
@@ -492,9 +492,38 @@
     self.grid = [DGrid newObjectWithContext:self.managedObjectContext entity:nil];
 }
 
--(void)stop
+-(BOOL)stopWhenTurn:(int)turn orNumberOfCapturedDotsExceeds:(int)capturedDotsFromSinglePlayer
 {
-    self.isPlaying = @NO;
+    NSArray *capturedDots = [self countCapturedDots];
+    int idx = 0;
+    for (NSSet *dots in capturedDots) {
+        if(capturedDotsFromSinglePlayer <= dots.count)
+        {
+            self.isPlaying = @NO;
+            self.whoseTurn = [NSNumber numberWithShort:idx];
+            return YES;
+        }
+        idx++;
+    }
+    
+    if (turn <= self.turn.intValue) {
+        self.isPlaying = @NO;
+        int maxCapturedDots = 0;
+        for (NSSet *dots in capturedDots) {
+            if(maxCapturedDots < dots.count)
+            {
+                maxCapturedDots = dots.count;
+                self.whoseTurn = [NSNumber numberWithShort:idx];
+            }
+            if (maxCapturedDots == dots.count) {
+                self.whoseTurn = nil;
+            }
+            idx++;
+        }
+        return YES;
+    }
+    
+    return NO;
 }
 
 @end

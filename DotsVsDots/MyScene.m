@@ -10,10 +10,13 @@
 #import "CoreData.h"
 #import "SKDot.h"
 #import "DBase+custom.h"
+#import "Panels.h"
 
 #define DOTS_OFFSET 10
-#define MIN_SCALE 0.5
-#define MAX_SCALE 3
+#define MAX_DOTS_IN_A_ROW 15
+#define MAX_DOTS_IN_A_COLUMN 20
+#define MIN_DOTS_IN_A_ROW 5
+#define MIN_DOTS_IN_A_COLUMN 8
 
 @interface MyScene()
 
@@ -26,10 +29,62 @@
 @property NSMutableArray *dots;
 @property NSMutableDictionary *bases;
 @property long long lastX, lastY;
+@property Panels *panels;
 
 @end
 
 @implementation MyScene
+
+-(void)getLastGameOrCreate
+{
+    NSArray *fetch = [[CoreData sharedInstance].mainMOC
+                      fetchObjectsForEntityName:@"DGame"
+                      sortDescriptors:nil
+                      limit:1
+                      predicate:[NSPredicate predicateWithFormat:@"isPlaying == YES"]];
+    NSArray *fetch2 = [[CoreData sharedInstance].mainMOC
+                      fetchObjectsForEntityName:@"DDot"
+                      sortDescriptors:nil
+                      limit:0
+                      predicate:nil];
+    [fetch2 enumerateObjectsUsingBlock:^(DDot *dot, NSUInteger idx, BOOL *stop) {
+        NSLog(@"[%d, %@] ", dot.belongsTo.intValue, dot.position.XY);
+    }];
+    self.game = fetch.firstObject;
+    if (self.game == nil) {
+        [self createNewGame];
+    }
+}
+
+-(void)createNewGame
+{
+    self.game = [DGame newObjectWithContext:[CoreData sharedInstance].mainMOC entity:nil];
+    self.panels.game = self.game;
+    [self.dots enumerateObjectsUsingBlock:^(NSArray *column, NSUInteger idx, BOOL *stop) {
+        [column enumerateObjectsUsingBlock:^(SKDot *dot, NSUInteger idx, BOOL *stop) {
+            dot.game = self.game;
+        }];
+    }];
+    NSError *error = nil;
+    [CoreData save:&error];
+    if (error) {
+        NSLog(@"%@", error);
+    }
+}
+
+-(double)minScale
+{
+    return
+    MIN(self.frame.size.width  / (MAX_DOTS_IN_A_ROW    * DOT_SIZE),
+        self.frame.size.height / (MAX_DOTS_IN_A_COLUMN * DOT_SIZE));
+}
+
+-(double)maxScale
+{
+    return
+    MIN(self.frame.size.width  / (MIN_DOTS_IN_A_ROW    * DOT_SIZE),
+        self.frame.size.height / (MIN_DOTS_IN_A_COLUMN * DOT_SIZE));
+}
 
 -(NSUInteger)dotsWidth
 {
@@ -133,14 +188,16 @@
         }
         node.zPosition = 20;
         
-//        SKSpriteNode *node = [SKSpriteNode
-//                              spriteNodeWithColor:[UIColor greenColor]
-//                              size:CGSizeMake(30, 30)];
-//        node.position = CGPointMake(trappingDot.position.x.intValue,
-//                                    trappingDot.position.y.intValue);
         self.bases[trappingDot.position.XY] = node;
         [self.world addChild:node];
     }];
+    [self.game stopWhenTurn:100 orNumberOfCapturedDotsExceeds:3];
+    [self.panels updateScores];
+    NSError *error = nil;
+    [CoreData save:&error];
+    if (error) {
+        NSLog(@"%@", error);
+    }
 }
 
 -(void)dotsResizeToX:(NSUInteger)x y:(NSUInteger)y
@@ -214,11 +271,17 @@
         
         self.backgroundColor = [SKColor whiteColor];
         
-        self.game = [DGame newObjectWithContext:[CoreData sharedInstance].mainMOC entity:nil];
+        [self createNewGame];
         
-        [self.world setScale:0.5];
+        [self.world setScale:[self minScale]*0.8+[self maxScale]*0.2];
 
         [self createDots];
+        
+        self.panels = [[Panels alloc] initWithDGame:self.game];
+        self.panels.zPosition = 1000;
+        self.panels.position = CGPointMake(0, self.frame.size.height/2);
+        [self addChild:self.panels];
+        [self.panels updateScores];
     }
     return self;
 }
@@ -269,8 +332,8 @@
         if(self.lastLenBetweenFingers > 0)
         {
             double scale = self.world.xScale * lenBetweenFingers / self.lastLenBetweenFingers;
-            scale = MAX(scale, MIN_SCALE);
-            scale = MIN(scale, MAX_SCALE);
+            scale = MAX(scale, [self minScale]);
+            scale = MIN(scale, [self maxScale]);
             [self.world setScale:scale];
             [self createDots];
         }

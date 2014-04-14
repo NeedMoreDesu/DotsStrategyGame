@@ -2,20 +2,21 @@
 //  DBase.h
 //  DotsStrategyGame
 //
-//  Created by baka on 4/11/14.
+//  Created by baka on 4/15/14.
 //  Copyright (c) 2014 baka. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class DDot;
+@class DDot, DGame;
 
 @interface DBase : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * isCapturing;
 @property (nonatomic, retain) NSOrderedSet *innerDots;
 @property (nonatomic, retain) NSOrderedSet *outerDots;
+@property (nonatomic, retain) DGame *game;
 @end
 
 @interface DBase (CoreDataGeneratedAccessors)
