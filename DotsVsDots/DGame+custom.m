@@ -73,7 +73,7 @@
     self.whoseTurn = [NSNumber numberWithShort:(self.whoseTurn.shortValue+1) % [self numberOfPlayers]];
 }
 
--(NSArray*)countCapturedDots
+-(NSArray*)capturingBases
 {
     NSArray *bases = [self.managedObjectContext
                       fetchObjectsForEntityName:@"DBase"
@@ -84,8 +84,12 @@
         return [[base isCapturing] isEqual:@YES];
     }];
     
-    NSLog(@"bases:%@", bases);
-    
+    return capturingBases;
+}
+
+-(NSArray*)countCapturedDots
+{
+    NSArray *capturingBases = [self capturingBases];
     NSMutableArray *capturedDots = [NSMutableArray new];
     while (capturedDots.count < [self numberOfPlayers]) {
         [capturedDots addObject:[NSMutableSet new]];
@@ -192,6 +196,10 @@
         { // central point from target point
             [pathArray addObject:dot.position.XY];
             return 1;
+        }
+        if([lastState isEqual:@3])
+        { // there is only one way out from target point
+            return 0;
         }
         if ([state isEqual:@4])
         { // just hit central spot
@@ -452,7 +460,8 @@
         [innerDots enumerateObjectsUsingBlock:^(NSArray *XY, BOOL *stop) {
             [point setXY:XY];
             DDot *dot = [self getOrCreateDotWithPoint:point];
-            if (dot.belongsTo != nil) {
+            if (dot.belongsTo != nil &&
+                ![self dotIsCaptured:dot]) {
                 base.isCapturing = @YES;
             }
             [dot.baseAsInner enumerateObjectsUsingBlock:^(DBase *base, NSUInteger idx, BOOL *stop) {

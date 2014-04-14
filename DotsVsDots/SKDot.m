@@ -64,7 +64,6 @@
     self.texture = texture;
     self.size = self.texture.size;
     [self changeAccordingToDDot:dot];
-    
 }
 
 -(instancetype)init

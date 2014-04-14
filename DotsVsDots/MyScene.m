@@ -9,6 +9,7 @@
 #import "MyScene.h"
 #import "CoreData.h"
 #import "SKDot.h"
+#import "DBase+custom.h"
 
 #define DOTS_OFFSET 10
 #define MIN_SCALE 0.5
@@ -23,6 +24,7 @@
 @property double lastLenBetweenFingers;
 @property NSMutableSet *touches;
 @property NSMutableArray *dots;
+@property NSMutableDictionary *bases;
 @property long long lastX, lastY;
 
 @end
@@ -101,6 +103,44 @@
                           Y:[NSNumber numberWithLongLong:j+centralNodeY-[self dotsHeight]/2]];
         }
     }
+    
+    [self.game.capturingBases enumerateObjectsUsingBlock:^(DBase *base, NSUInteger idx, BOOL *stop) {
+        DDot *trappingDot = base.outerDots.lastObject;
+        if (self.bases[trappingDot.position.XY]) {
+            return;
+        }
+        SKShapeNode *node = [SKShapeNode new];
+        CGMutablePathRef path = CGPathCreateMutable();
+        CGPathMoveToPoint(path, 0,
+                          trappingDot.position.x.longLongValue*dotSize,
+                          trappingDot.position.y.longLongValue*dotSize);
+        for (int i = 0; i < base.outerDots.count; i++) {
+            DDot *dot = base.outerDots[i];
+            CGPathAddLineToPoint(path, nil,
+                                 dot.position.x.longLongValue*dotSize,
+                                 dot.position.y.longLongValue*dotSize);
+        }
+        node.path = path;
+        node.fillColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
+        node.strokeColor = [UIColor blackColor];
+        if (trappingDot.belongsTo.shortValue == 0) {
+            node.fillColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:0.3];
+            node.strokeColor = [UIColor colorWithRed:0 green:0 blue:1 alpha:1];
+        }
+        if (trappingDot.belongsTo.shortValue == 1) {
+            node.fillColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.3];
+            node.strokeColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:1];
+        }
+        node.zPosition = 20;
+        
+//        SKSpriteNode *node = [SKSpriteNode
+//                              spriteNodeWithColor:[UIColor greenColor]
+//                              size:CGSizeMake(30, 30)];
+//        node.position = CGPointMake(trappingDot.position.x.intValue,
+//                                    trappingDot.position.y.intValue);
+        self.bases[trappingDot.position.XY] = node;
+        [self.world addChild:node];
+    }];
 }
 
 -(void)dotsResizeToX:(NSUInteger)x y:(NSUInteger)y
@@ -162,6 +202,7 @@
         
         self.touches = [NSMutableSet new];
         self.dots = [NSMutableArray new];
+        self.bases = [NSMutableDictionary new];
         
         self.anchorPoint = CGPointMake(0.5, 0.5);
         self.world = [SKNode node];
@@ -272,15 +313,13 @@
 
     if(self.itWasTapOnly)
     {
-        SKNode *node = [self nodeAtPoint:self.lastTouchPosition];
-        if ([node isKindOfClass:[SKDot class]]) {
-            SKDot *dotNode = (SKDot*)node;
-            [dotNode makeTurn];
-        }
-        if ([node.parent isKindOfClass:[SKDot class]]) {
-            SKDot *dotNode = (SKDot*)node.parent;
-            [dotNode makeTurn];
-        }
+        NSArray *nodes = [self nodesAtPoint:self.lastTouchPosition];
+        [nodes enumerateObjectsUsingBlock:^(SKNode *node, NSUInteger idx, BOOL *stop) {
+            if ([node isKindOfClass:[SKDot class]]) {
+                SKDot *dotNode = (SKDot*)node;
+                [dotNode makeTurn];
+            }
+        }];
         self.itWasTapOnly = NO;
     }
 }

@@ -21,5 +21,6 @@
 -(BOOL)pointIsOccupied:(DPoint*)point;
 
 -(DDot*)makeTurn:(DPoint*)point;
+-(NSArray*)capturingBases;
 
 @end
