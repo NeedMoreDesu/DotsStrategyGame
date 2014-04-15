@@ -2,7 +2,7 @@
 //  DGame.m
 //  DotsStrategyGame
 //
-//  Created by baka on 4/15/14.
+//  Created by dev on 4/15/14.
 //  Copyright (c) 2014 baka. All rights reserved.
 //
 
@@ -16,7 +16,8 @@
 @dynamic isPlaying;
 @dynamic turn;
 @dynamic whoseTurn;
-@dynamic grid;
+@dynamic date;
 @dynamic bases;
+@dynamic grid;
 
 @end

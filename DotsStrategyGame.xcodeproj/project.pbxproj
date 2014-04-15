@@ -42,6 +42,7 @@
 		29FA684418F7187300CC5A04 /* DDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FA684318F7187300CC5A04 /* DDot.m */; };
 		29FA684718F7187300CC5A04 /* DGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FA684618F7187300CC5A04 /* DGrid.m */; };
 		29FA685918F7261700CC5A04 /* DBase+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FA685818F7261700CC5A04 /* DBase+custom.m */; };
+		D7489BB918FD86220089663F /* NewGameButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D7489BB818FD86220089663F /* NewGameButton.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +114,8 @@
 		29FA684618F7187300CC5A04 /* DGrid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGrid.m; sourceTree = "<group>"; };
 		29FA685718F7261700CC5A04 /* DBase+custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DBase+custom.h"; sourceTree = "<group>"; };
 		29FA685818F7261700CC5A04 /* DBase+custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DBase+custom.m"; sourceTree = "<group>"; };
+		D7489BB718FD86220089663F /* NewGameButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGameButton.h; sourceTree = "<group>"; };
+		D7489BB818FD86220089663F /* NewGameButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGameButton.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +175,8 @@
 				29F3505D18FC582D00BFB013 /* Panels.m */,
 				29EBB51A18F4716100A4C8CC /* Textures.h */,
 				29EBB51B18F4716100A4C8CC /* Textures.m */,
+				D7489BB718FD86220089663F /* NewGameButton.h */,
+				D7489BB818FD86220089663F /* NewGameButton.m */,
 			);
 			name = SpriteKit;
 			sourceTree = "<group>";
@@ -415,6 +420,7 @@
 				29FA684418F7187300CC5A04 /* DDot.m in Sources */,
 				29C6985918DEFDB0001F1F1E /* ViewController.m in Sources */,
 				2916C61418E8B16C00D8B3C8 /* NSManagedObjectContext+Helpers.m in Sources */,
+				D7489BB918FD86220089663F /* NewGameButton.m in Sources */,
 				29FA685918F7261700CC5A04 /* DBase+custom.m in Sources */,
 				29B4841918EA7990009AA1A2 /* CoreData.m in Sources */,
 				29BAFFAD18E8A3F900CACC7C /* DGame+custom.m in Sources */,

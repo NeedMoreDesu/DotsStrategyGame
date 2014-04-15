@@ -151,6 +151,8 @@
         }];
     }];
     
+    self.date = [NSDate date];
+    
     return dot;
 }
 
@@ -495,6 +497,9 @@
 
 -(BOOL)stopWhenTurn:(int)turn orNumberOfCapturedDotsExceeds:(int)capturedDotsFromSinglePlayer
 {
+    if ([self.isPlaying isEqual:@NO]) {
+        return NO;
+    }
     NSArray *capturedDots = [self countCapturedDots];
     int idx = 0;
     for (NSSet *dots in capturedDots) {

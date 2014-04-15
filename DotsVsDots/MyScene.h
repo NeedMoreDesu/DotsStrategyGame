@@ -14,5 +14,6 @@
 @property DGame *game;
 
 -(void)redrawDots;
+-(void)createNewGame;
 
 @end

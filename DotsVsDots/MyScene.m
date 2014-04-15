@@ -11,6 +11,7 @@
 #import "SKDot.h"
 #import "DBase+custom.h"
 #import "Panels.h"
+#import "NewGameButton.h"
 
 #define DOTS_OFFSET 10
 #define MAX_DOTS_IN_A_ROW 15
@@ -39,9 +40,9 @@
 {
     NSArray *fetch = [[CoreData sharedInstance].mainMOC
                       fetchObjectsForEntityName:@"DGame"
-                      sortDescriptors:nil
+                      sortDescriptors:@[@[@"date", @NO]]
                       limit:1
-                      predicate:[NSPredicate predicateWithFormat:@"isPlaying == YES"]];
+                      predicate:nil];
     self.game = fetch.firstObject;
     if (self.game == nil) {
         [self createNewGame];
@@ -63,6 +64,10 @@
     if (error) {
         NSLog(@"%@", error);
     }
+    [self.bases enumerateKeysAndObjectsUsingBlock:^(id key, SKNode *obj, BOOL *stop) {
+        [obj removeFromParent];
+    }];
+    [self redrawDots];
 }
 
 -(double)minScale
@@ -184,7 +189,27 @@
         self.bases[trappingDot.position.XY] = node;
         [self.world addChild:node];
     }];
-    [self.game stopWhenTurn:100 orNumberOfCapturedDotsExceeds:3];
+    
+    if ([self.game stopWhenTurn:100 orNumberOfCapturedDotsExceeds:3])
+    {
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle:@"Ta-daa!"
+                              message: [NSString stringWithFormat:@"Player %@ wins!", self.game.whoseTurn]
+                              delegate:nil
+                              cancelButtonTitle:@"Yay!"
+                              otherButtonTitles:nil];
+        if (!self.game.whoseTurn) {
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Duh!"
+                                  message:@"We have a draw here!"
+                                  delegate:nil
+                                  cancelButtonTitle:@"Okay. =("
+                                  otherButtonTitles:nil];
+            
+        }
+        [alert show];
+    }
+    
     [self.panels updateScores];
     NSError *error = nil;
     [CoreData save:&error];
@@ -285,6 +310,12 @@
         self.panels.position = CGPointMake(0, self.frame.size.height/2);
         [self addChild:self.panels];
         [self.panels updateScores];
+        
+        NewGameButton *newGameButton = [[NewGameButton alloc] init];
+        newGameButton.position = CGPointMake(-self.frame.size.width/2+newGameButton.size.width/2,
+                                             +self.frame.size.height/2-newGameButton.size.height/2);
+        newGameButton.zPosition = 1000;
+        [self addChild:newGameButton];
     }
     return self;
 }

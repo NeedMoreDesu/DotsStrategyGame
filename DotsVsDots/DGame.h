@@ -2,7 +2,7 @@
 //  DGame.h
 //  DotsStrategyGame
 //
-//  Created by baka on 4/15/14.
+//  Created by dev on 4/15/14.
 //  Copyright (c) 2014 baka. All rights reserved.
 //
 
@@ -16,8 +16,9 @@
 @property (nonatomic, retain) NSNumber * isPlaying;
 @property (nonatomic, retain) NSNumber * turn;
 @property (nonatomic, retain) NSNumber * whoseTurn;
-@property (nonatomic, retain) DGrid *grid;
+@property (nonatomic, retain) NSDate * date;
 @property (nonatomic, retain) NSOrderedSet *bases;
+@property (nonatomic, retain) DGrid *grid;
 @end
 
 @interface DGame (CoreDataGeneratedAccessors)
