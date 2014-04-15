@@ -12,6 +12,8 @@
 
 @interface DGrid (custom)
 
+-(void)setup;
+
 - (DDot*)dotAtPoint:(DPoint*)point lastGrid:(DGrid**)grid;
 - (DDot*)getOrCreateDotAtPoint:(DPoint*)point lastGrid:(DGrid**)grid;
 

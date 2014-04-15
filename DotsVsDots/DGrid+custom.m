@@ -82,6 +82,7 @@
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 5; j++) {
                     DGrid *child = [DGrid newObjectWithContext:self.managedObjectContext entity:nil];
+                    [child setup];
                     child.level = [NSNumber numberWithLong:self.level.longValue-1];
                     long long diameter = pow(5, child.level.longValue);
                     DPoint *center = [DPoint newObjectWithContext:self.managedObjectContext entity:nil];
@@ -106,6 +107,7 @@
         else
         {
             self.dot = [DDot newObjectWithContext:self.managedObjectContext entity:nil];
+            [self.dot setup];
             self.dot.position = [[DPoint newObjectWithContext:self.managedObjectContext entity:nil]
                                  setWithPoint:point];
             return self.dot;
@@ -116,6 +118,7 @@
         if(!self.root)
         {
             DGrid *root = [DGrid newObjectWithContext:self.managedObjectContext entity:nil];
+            [root setup];
             root.level = [NSNumber numberWithLong:self.level.longValue+1];
             root.center = self.center;
             for (int i = 0; i < 5; i++) {
@@ -128,6 +131,7 @@
                     else
                     {
                         DGrid *child = [DGrid newObjectWithContext:self.managedObjectContext entity:nil];
+                        [child setup];
                         child.level = self.level;
                         long long diameter = pow(5, child.level.longValue);
                         DPoint *center = [DPoint newObjectWithContext:self.managedObjectContext entity:nil];
@@ -156,7 +160,7 @@
     }
 }
 
-- (void)awakeFromInsert
+-(void)setup
 {
     self.center = [[DPoint newObjectWithContext:self.managedObjectContext entity:nil] setX:@0 Y:@0];
     self.level = @0;

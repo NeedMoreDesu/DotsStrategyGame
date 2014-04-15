@@ -484,12 +484,13 @@
     point = nil;
 }
 
--(void)awakeFromInsert
+-(void)setup
 {
     self.isPlaying = @YES;
     self.turn = @0;
     self.whoseTurn = @0;
     self.grid = [DGrid newObjectWithContext:self.managedObjectContext entity:nil];
+    [self.grid setup];
 }
 
 -(BOOL)stopWhenTurn:(int)turn orNumberOfCapturedDotsExceeds:(int)capturedDotsFromSinglePlayer

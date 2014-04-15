@@ -42,14 +42,6 @@
                       sortDescriptors:nil
                       limit:1
                       predicate:[NSPredicate predicateWithFormat:@"isPlaying == YES"]];
-    NSArray *fetch2 = [[CoreData sharedInstance].mainMOC
-                      fetchObjectsForEntityName:@"DDot"
-                      sortDescriptors:nil
-                      limit:0
-                      predicate:nil];
-    [fetch2 enumerateObjectsUsingBlock:^(DDot *dot, NSUInteger idx, BOOL *stop) {
-        NSLog(@"[%d, %@] ", dot.belongsTo.intValue, dot.position.XY);
-    }];
     self.game = fetch.firstObject;
     if (self.game == nil) {
         [self createNewGame];
@@ -59,6 +51,7 @@
 -(void)createNewGame
 {
     self.game = [DGame newObjectWithContext:[CoreData sharedInstance].mainMOC entity:nil];
+    [self.game setup];
     self.panels.game = self.game;
     [self.dots enumerateObjectsUsingBlock:^(NSArray *column, NSUInteger idx, BOOL *stop) {
         [column enumerateObjectsUsingBlock:^(SKDot *dot, NSUInteger idx, BOOL *stop) {
@@ -198,6 +191,16 @@
     if (error) {
         NSLog(@"%@", error);
     }
+    
+//    NSArray *fetch2 = [[CoreData sharedInstance].mainMOC
+//                       fetchObjectsForEntityName:@"DDot"
+//                       sortDescriptors:nil
+//                       limit:0
+//                       predicate:nil];
+//    NSLog(@"%@",
+//          [fetch2 map:^(DDot *dot) {
+//        return [NSString stringWithFormat:@"[%d, %d, %@, {%@:%@}] ", dot != nil, dot.belongsTo != nil, dot.belongsTo, dot.position.x, dot.position.y];
+//    }]);
 }
 
 -(void)dotsResizeToX:(NSUInteger)x y:(NSUInteger)y
@@ -271,7 +274,7 @@
         
         self.backgroundColor = [SKColor whiteColor];
         
-        [self createNewGame];
+        [self getLastGameOrCreate];
         
         [self.world setScale:[self minScale]*0.8+[self maxScale]*0.2];
 
@@ -294,7 +297,8 @@
 - (void) centerOnNode: (SKNode *) node
 {
     CGPoint cameraPositionInScene = [node.scene convertPoint:node.position fromNode:node.parent];
-    node.parent.position = CGPointMake(node.parent.position.x - cameraPositionInScene.x,                                       node.parent.position.y - cameraPositionInScene.y);
+    node.parent.position = CGPointMake(node.parent.position.x - cameraPositionInScene.x,
+                                       node.parent.position.y - cameraPositionInScene.y);
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {

@@ -13,6 +13,8 @@
 
 @interface DGame (custom)
 
+-(void)setup;
+
 -(DDot*)dotWithPoint:(DPoint*)point;
 
 -(BOOL)dotIsCaptured:(DDot*)dot;

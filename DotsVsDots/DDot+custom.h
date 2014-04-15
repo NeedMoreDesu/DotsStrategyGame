@@ -10,4 +10,6 @@
 
 @interface DDot (custom)
 
+- (void)setup;
+
 @end
