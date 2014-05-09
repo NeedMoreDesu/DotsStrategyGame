@@ -14,8 +14,8 @@
 #import "NewGameButton.h"
 
 #define DOTS_OFFSET 10
-#define MAX_DOTS_IN_A_ROW 15
-#define MAX_DOTS_IN_A_COLUMN 20
+#define MAX_DOTS_IN_A_ROW 30
+#define MAX_DOTS_IN_A_COLUMN 40
 #define MIN_DOTS_IN_A_ROW 5
 #define MIN_DOTS_IN_A_COLUMN 8
 
@@ -164,8 +164,6 @@
     int width = frameWidth/dotSize+DOTS_OFFSET;
     int height = frameHeigh/dotSize+DOTS_OFFSET;
     
-    int added = 0, removed = 0;
-    
     NSArray *arr = self.dotWorld.children;
     for (int i = arr.count; i < width*height; i++)
     { // add dots if we lack them
@@ -173,7 +171,6 @@
         dot.game = self.game;
         dot.theScene = self;
         [self.dotWorld addChild:dot];
-        added++;
     }
     
     arr = self.dotWorld.children;
@@ -181,11 +178,6 @@
     { // remove dots if we have more than we need
         SKDot *dot = arr[i];
         [dot removeFromParent];
-        removed++;
-    }
-    
-    if (added > 0 || removed > 0) {
-        NSLog(@"Added: %d, Removed: %d", added, removed);
     }
     
     arr = self.dotWorld.children;
@@ -467,7 +459,6 @@
             }
         }
         lenBetweenFingers /= touches.count;
-        NSLog(@"%f ; %f", lenBetweenFingers, self.lastLenBetweenFingers);
         if(self.lastLenBetweenFingers > 0)
         {
             double scale = self.world.xScale * lenBetweenFingers / self.lastLenBetweenFingers;
