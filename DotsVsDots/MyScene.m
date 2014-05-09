@@ -261,7 +261,6 @@
             [row addObject:dot];
         }
     }];
-    [self redrawDots];
 }
 
 -(void)createDots
@@ -279,6 +278,7 @@
                 centerX:centralNodeX
                 centerY:centralNodeY];
     [self dotsShiftToX:centralNodeX y:centralNodeY];
+    [self redrawDots];
 }
 
 -(id)initWithSize:(CGSize)size {
@@ -385,10 +385,8 @@
                                                + (-newPosition.x + oldPosition.x)/self.world.xScale,
                                                self.camera.position.y
                                                + (-newPosition.y + oldPosition.y)/self.world.yScale);
+            
             [self createDots];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0001 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self redrawDots];
-            });
             self.lastTouchPosition = newPosition;
         }
         self.lastLenBetweenFingers = -1;
@@ -401,6 +399,7 @@
     [touches enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         [self.touches removeObject:obj];
     }];
+    [self redrawDots];
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -420,6 +419,7 @@
         }];
         self.itWasTapOnly = NO;
     }
+    [self redrawDots];
 }
 
 -(void)update:(CFTimeInterval)currentTime {
