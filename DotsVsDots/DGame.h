@@ -2,23 +2,24 @@
 //  DGame.h
 //  DotsStrategyGame
 //
-//  Created by dev on 4/15/14.
+//  Created by baka on 5/9/14.
 //  Copyright (c) 2014 baka. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class DBase, DGrid;
+@class DBase, DDot, DGrid;
 
 @interface DGame : NSManagedObject
 
+@property (nonatomic, retain) NSDate * date;
 @property (nonatomic, retain) NSNumber * isPlaying;
 @property (nonatomic, retain) NSNumber * turn;
 @property (nonatomic, retain) NSNumber * whoseTurn;
-@property (nonatomic, retain) NSDate * date;
 @property (nonatomic, retain) NSOrderedSet *bases;
 @property (nonatomic, retain) DGrid *grid;
+@property (nonatomic, retain) NSSet *lastDots;
 @end
 
 @interface DGame (CoreDataGeneratedAccessors)
@@ -33,4 +34,9 @@
 - (void)removeBasesObject:(DBase *)value;
 - (void)addBases:(NSOrderedSet *)values;
 - (void)removeBases:(NSOrderedSet *)values;
+- (void)addLastDotsObject:(DDot *)value;
+- (void)removeLastDotsObject:(DDot *)value;
+- (void)addLastDots:(NSSet *)values;
+- (void)removeLastDots:(NSSet *)values;
+
 @end

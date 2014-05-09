@@ -59,11 +59,6 @@
             dot.game = self.game;
         }];
     }];
-    NSError *error = nil;
-    [CoreData save:&error];
-    if (error) {
-        NSLog(@"%@", error);
-    }
     [self.bases enumerateKeysAndObjectsUsingBlock:^(id key, SKNode *obj, BOOL *stop) {
         [obj removeFromParent];
     }];
@@ -121,42 +116,10 @@
     }
 }
 
--(void)dotsShiftToX:(long long)x y:(long long)y
-{
-    long long
-    shiftX = self.lastX - x,
-    shiftY = self.lastY - y;
-    if (shiftX == 0 && shiftY == 0) {
-        return;
-    }
-    for (NSUInteger i = 0; i < [self dotsWidth]; i++) {
-        for (NSUInteger j = 0; j < [self dotsHeight]; j++) {
-            SKDot *node = [self dotsGetX:i y:j];
-            long long resultingI = i+shiftX, resultingJ = j+shiftY;
-            [node setPointX:[NSNumber numberWithLongLong:resultingI+x-[self dotsWidth]/2]
-                          Y:[NSNumber numberWithLongLong:resultingJ+y-[self dotsHeight]/2]];
-        }
-    }
-    self.lastX = x;
-    self.lastY = y;
-}
-
--(void)redrawDots
+-(void)updateEnvironment
 {
     double dotSize    = DOT_SIZE;
-    double cameraX = self.camera.position.x;
-    double cameraY = self.camera.position.y;
-    long long centralNodeX = cameraX / dotSize;
-    long long centralNodeY = cameraY / dotSize;
-    
-    for (NSUInteger i = 0; i < [self dotsWidth]; i++) {
-        for (NSUInteger j = 0; j < [self dotsHeight]; j++) {
-            SKDot *node = [self dotsGetX:i y:j];
-            [node setPointX:[NSNumber numberWithLongLong:i+centralNodeX-[self dotsWidth]/2]
-                          Y:[NSNumber numberWithLongLong:j+centralNodeY-[self dotsHeight]/2]];
-        }
-    }
-    
+
     [self.game.capturingBases enumerateObjectsUsingBlock:^(DBase *base, NSUInteger idx, BOOL *stop) {
         DDot *trappingDot = base.outerDots.lastObject;
         if (self.bases[trappingDot.position.XY]) {
@@ -199,33 +162,49 @@
                               cancelButtonTitle:@"Yay!"
                               otherButtonTitles:nil];
         if (!self.game.whoseTurn) {
-            UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle:@"Duh!"
-                                  message:@"We have a draw here!"
-                                  delegate:nil
-                                  cancelButtonTitle:@"Okay. =("
-                                  otherButtonTitles:nil];
+            alert = [[UIAlertView alloc]
+                     initWithTitle:@"Duh!"
+                     message:@"We have a draw here!"
+                     delegate:nil
+                     cancelButtonTitle:@"Okay. =("
+                     otherButtonTitles:nil];
             
         }
         [alert show];
     }
     
     [self.panels updateScores];
-    NSError *error = nil;
-    [CoreData save:&error];
-    if (error) {
-        NSLog(@"%@", error);
-    }
+}
+
+-(void)redrawDots
+{
+    double dotSize    = DOT_SIZE;
+    double cameraX = self.camera.position.x;
+    double cameraY = self.camera.position.y;
+    long long centralNodeX = cameraX / dotSize;
+    long long centralNodeY = cameraY / dotSize;
     
-//    NSArray *fetch2 = [[CoreData sharedInstance].mainMOC
-//                       fetchObjectsForEntityName:@"DDot"
-//                       sortDescriptors:nil
-//                       limit:0
-//                       predicate:nil];
-//    NSLog(@"%@",
-//          [fetch2 map:^(DDot *dot) {
-//        return [NSString stringWithFormat:@"[%d, %d, %@, {%@:%@}] ", dot != nil, dot.belongsTo != nil, dot.belongsTo, dot.position.x, dot.position.y];
-//    }]);
+    for (NSUInteger i = 0; i < [self dotsWidth]; i++) {
+        for (NSUInteger j = 0; j < [self dotsHeight]; j++) {
+            SKDot *node = [self dotsGetX:i y:j];
+            [node setPointX:[NSNumber numberWithLongLong:i+centralNodeX-[self dotsWidth]/2]
+                          Y:[NSNumber numberWithLongLong:j+centralNodeY-[self dotsHeight]/2]];
+        }
+    }
+    [self updateEnvironment];
+}
+
+-(void)dotsShiftToX:(long long)x y:(long long)y
+{
+    long long
+    shiftX = self.lastX - x,
+    shiftY = self.lastY - y;
+    if (shiftX == 0 && shiftY == 0) {
+        return;
+    }
+    self.lastX = x;
+    self.lastY = y;
+    [self redrawDots];
 }
 
 -(void)dotsResizeToX:(NSUInteger)x y:(NSUInteger)y
@@ -261,6 +240,7 @@
             [row addObject:dot];
         }
     }];
+    [self redrawDots];
 }
 
 -(void)createDots
@@ -278,7 +258,6 @@
                 centerX:centralNodeX
                 centerY:centralNodeY];
     [self dotsShiftToX:centralNodeX y:centralNodeY];
-    [self redrawDots];
 }
 
 -(id)initWithSize:(CGSize)size {

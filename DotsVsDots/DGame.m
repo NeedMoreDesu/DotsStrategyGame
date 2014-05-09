@@ -2,22 +2,24 @@
 //  DGame.m
 //  DotsStrategyGame
 //
-//  Created by dev on 4/15/14.
+//  Created by baka on 5/9/14.
 //  Copyright (c) 2014 baka. All rights reserved.
 //
 
 #import "DGame.h"
 #import "DBase.h"
+#import "DDot.h"
 #import "DGrid.h"
 
 
 @implementation DGame
 
+@dynamic date;
 @dynamic isPlaying;
 @dynamic turn;
 @dynamic whoseTurn;
-@dynamic date;
 @dynamic bases;
 @dynamic grid;
+@dynamic lastDots;
 
 @end

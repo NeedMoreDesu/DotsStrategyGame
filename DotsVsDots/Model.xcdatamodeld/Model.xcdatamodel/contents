@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5063" systemVersion="12F45" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13C64" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="DBase" representedClassName="DBase" syncable="YES">
         <attribute name="isCapturing" optional="YES" attributeType="Boolean" syncable="YES"/>
         <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DGame" inverseName="bases" inverseEntity="DGame" syncable="YES"/>
@@ -13,6 +13,7 @@
         <relationship name="baseAsInner" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DBase" inverseName="innerDots" inverseEntity="DBase" syncable="YES"/>
         <relationship name="baseAsOuter" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DBase" inverseName="outerDots" inverseEntity="DBase" syncable="YES"/>
         <relationship name="grid" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DGrid" inverseName="dot" inverseEntity="DGrid" syncable="YES"/>
+        <relationship name="lastDotsInverse" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DGame" inverseName="lastDots" inverseEntity="DGame" syncable="YES"/>
         <relationship name="position" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DPoint" inverseName="dot" inverseEntity="DPoint" syncable="YES"/>
     </entity>
     <entity name="DGame" representedClassName="DGame" syncable="YES">
@@ -22,6 +23,7 @@
         <attribute name="whoseTurn" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="bases" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DBase" inverseName="game" inverseEntity="DBase" syncable="YES"/>
         <relationship name="grid" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DGrid" inverseName="game" inverseEntity="DGrid" syncable="YES"/>
+        <relationship name="lastDots" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DDot" inverseName="lastDotsInverse" inverseEntity="DDot" syncable="YES"/>
     </entity>
     <entity name="DGrid" representedClassName="DGrid" syncable="YES">
         <attribute name="level" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -39,8 +41,8 @@
     </entity>
     <elements>
         <element name="DBase" positionX="-90" positionY="18" width="128" height="105"/>
-        <element name="DDot" positionX="-173" positionY="-136" width="128" height="148"/>
-        <element name="DGame" positionX="36" positionY="144" width="128" height="135"/>
+        <element name="DDot" positionX="-173" positionY="-136" width="128" height="163"/>
+        <element name="DGame" positionX="36" positionY="144" width="128" height="148"/>
         <element name="DGrid" positionX="70" positionY="-63" width="128" height="133"/>
         <element name="DPoint" positionX="-279" positionY="50" width="128" height="103"/>
     </elements>

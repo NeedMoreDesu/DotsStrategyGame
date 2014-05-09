@@ -8,6 +8,7 @@
 
 #import "DGame+custom.h"
 #import "DBase+custom.h"
+#import "CoreData.h"
 
 @implementation DGame (custom)
 
@@ -15,6 +16,18 @@
 {
     NSMutableOrderedSet* tempSet = [self mutableOrderedSetValueForKey:@"bases"];
     [tempSet addObject:value];
+}
+
+- (void)addLastDotsObject:(DDot *)value
+{
+    NSMutableOrderedSet* tempSet = [self mutableOrderedSetValueForKey:@"lastDots"];
+    [tempSet addObject:value];
+}
+
+- (void)removeLastDotsObject:(DDot *)value
+{
+    NSMutableOrderedSet* tempSet = [self mutableOrderedSetValueForKey:@"lastDots"];
+    [tempSet removeObject:value];
 }
 
 -(int)numberOfPlayers
@@ -129,19 +142,21 @@
     dot.belongsTo = self.whoseTurn;
     dot.turn = self.turn;
     dot.date = [NSDate date];
+    [self addLastDotsObject:dot];
     
     [self tryToCaptureWith:dot];
     
     [self nextTurn];
     
-    NSArray *lastDots =
-    [self.managedObjectContext
-     fetchObjectsForEntityName:@"DDot"
-     sortDescriptors:@[@[@"turn", @NO]]
-     limit:[self numberOfPlayers]-1
-     predicate:nil];
+    [self.lastDots enumerateObjectsUsingBlock:^(DDot *dot, BOOL *stop) {
+        if(dot.turn.integerValue < self.turn.integerValue - ([self numberOfPlayers]-1))
+            [self removeLastDotsObject:dot];
+    }];
     
-    [lastDots enumerateObjectsUsingBlock:^(DDot *dot, NSUInteger idx, BOOL *stop) {
+    NSLog(@"%@", self.bases.array);
+    NSLog(@"Last: %@", self.lastDots);
+    
+    [self.lastDots.allObjects enumerateObjectsUsingBlock:^(DDot *dot, NSUInteger idx, BOOL *stop) {
         [dot.baseAsInner enumerateObjectsUsingBlock:^(DBase *base, NSUInteger idx, BOOL *stop) {
             DDot *firstDot = base.outerDots.firstObject;
             if (firstDot.belongsTo != self.whoseTurn) {
@@ -152,6 +167,12 @@
     }];
     
     self.date = [NSDate date];
+    
+    NSError *error = nil;
+    [CoreData save:&error];
+    if (error) {
+        NSLog(@"%@", error);
+    }
     
     return dot;
 }
@@ -491,8 +512,15 @@
     self.isPlaying = @YES;
     self.turn = @0;
     self.whoseTurn = @0;
+    self.date = [NSDate date];
     self.grid = [DGrid newObjectWithContext:self.managedObjectContext entity:nil];
     [self.grid setup];
+    
+    NSError *error = nil;
+    [CoreData save:&error];
+    if (error) {
+        NSLog(@"%@", error);
+    }
 }
 
 -(BOOL)stopWhenTurn:(int)turn orNumberOfCapturedDotsExceeds:(int)capturedDotsFromSinglePlayer
