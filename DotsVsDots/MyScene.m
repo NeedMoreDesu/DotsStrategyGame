@@ -25,11 +25,12 @@
 @property CGPoint lastTouchPosition;
 @property BOOL itWasTapOnly;
 @property SKNode *world;
+@property SKNode *dotWorld;
 @property double lastLenBetweenFingers;
 @property NSMutableSet *touches;
-@property NSMutableArray *dots;
 @property NSMutableDictionary *bases;
 @property long long lastX, lastY;
+@property NSUInteger lastWidth, lastHeight;
 @property Panels *panels;
 
 @end
@@ -54,10 +55,8 @@
     self.game = [DGame newObjectWithContext:[CoreData sharedInstance].mainMOC entity:nil];
     [self.game setup];
     self.panels.game = self.game;
-    [self.dots enumerateObjectsUsingBlock:^(NSArray *column, NSUInteger idx, BOOL *stop) {
-        [column enumerateObjectsUsingBlock:^(SKDot *dot, NSUInteger idx, BOOL *stop) {
-            dot.game = self.game;
-        }];
+    [self.dotWorld.children enumerateObjectsUsingBlock:^(SKDot *dot, NSUInteger idx, BOOL *stop) {
+        dot.game = self.game;
     }];
     [self.bases enumerateKeysAndObjectsUsingBlock:^(id key, SKNode *obj, BOOL *stop) {
         [obj removeFromParent];
@@ -77,43 +76,6 @@
     return
     MIN(self.frame.size.width  / (MIN_DOTS_IN_A_ROW    * DOT_SIZE),
         self.frame.size.height / (MIN_DOTS_IN_A_COLUMN * DOT_SIZE));
-}
-
--(NSUInteger)dotsWidth
-{
-    return self.dots.count;
-}
-
--(NSUInteger)dotsHeight
-{
-    NSMutableArray *row = self.dots.firstObject;
-    if (!row) {
-        return 0;
-    }
-    return row.count;
-}
-
--(SKDot*)dotsGetX:(NSUInteger)x y:(NSUInteger)y
-{
-    if ([self dotsWidth] <= x) {
-        return nil;
-    }
-    NSMutableArray *row = self.dots[x];
-    if (row.count <= y) {
-        return nil;
-    }
-    return row[y];
-}
-
--(void)dotsSetX:(NSUInteger)x y:(NSUInteger)y node:(SKDot*)node
-{
-    while ([self dotsWidth] <= x) {
-        [self.dots addObject:[NSMutableArray new]];
-    }
-    NSMutableArray *row = self.dots[x];
-    while (row.count <= y) {
-        [row addObject:node];
-    }
 }
 
 -(void)updateEnvironment
@@ -176,74 +138,21 @@
     [self.panels updateScores];
 }
 
+-(int)requiredWidth
+{
+    double frameWidth = self.frame.size.width / self.world.xScale;
+    int width = frameWidth/DOT_SIZE+DOTS_OFFSET;
+    return width;
+}
+
+-(int)requiredHeight
+{
+    double frameHeight = self.frame.size.height / self.world.yScale;
+    int height = frameHeight/DOT_SIZE+DOTS_OFFSET;
+    return height;
+}
+
 -(void)redrawDots
-{
-    double dotSize    = DOT_SIZE;
-    double cameraX = self.camera.position.x;
-    double cameraY = self.camera.position.y;
-    long long centralNodeX = cameraX / dotSize;
-    long long centralNodeY = cameraY / dotSize;
-    
-    for (NSUInteger i = 0; i < [self dotsWidth]; i++) {
-        for (NSUInteger j = 0; j < [self dotsHeight]; j++) {
-            SKDot *node = [self dotsGetX:i y:j];
-            [node setPointX:[NSNumber numberWithLongLong:i+centralNodeX-[self dotsWidth]/2]
-                          Y:[NSNumber numberWithLongLong:j+centralNodeY-[self dotsHeight]/2]];
-        }
-    }
-    [self updateEnvironment];
-}
-
--(void)dotsShiftToX:(long long)x y:(long long)y
-{
-    long long
-    shiftX = self.lastX - x,
-    shiftY = self.lastY - y;
-    if (shiftX == 0 && shiftY == 0) {
-        return;
-    }
-    self.lastX = x;
-    self.lastY = y;
-    [self redrawDots];
-}
-
--(void)dotsResizeToX:(NSUInteger)x y:(NSUInteger)y
-             centerX:(long long)centerX
-             centerY:(long long)centerY
-{
-    if ([self dotsWidth] == x &&
-        [self dotsHeight] == y) {
-        return;
-    }
-    while (x < [self dotsWidth])
-    {
-        [self.dots.lastObject enumerateObjectsUsingBlock:^(SKDot *dot, NSUInteger idx, BOOL *stop) {
-            [dot removeFromParent];
-        }];
-        [self.dots removeLastObject];
-    }
-    while (x > [self dotsWidth]) {
-        [self.dots addObject:[NSMutableArray new]];
-    }
-    [self.dots enumerateObjectsUsingBlock:^(NSMutableArray *row, NSUInteger i, BOOL *stop) {
-        while (y < row.count)
-        {
-            SKDot *dot = row.lastObject;
-            [dot removeFromParent];
-            [row removeLastObject];
-        }
-        while (y > row.count) {
-            SKDot *dot = [[SKDot alloc] init];
-            dot.game = self.game;
-            dot.theScene = self;
-            [self.world addChild:dot];
-            [row addObject:dot];
-        }
-    }];
-    [self redrawDots];
-}
-
--(void)createDots
 {
     double frameWidth = self.frame.size.width / self.world.xScale;
     double frameHeigh = self.frame.size.height / self.world.yScale;
@@ -252,11 +161,217 @@
     double cameraY = self.camera.position.y;
     long long centralNodeX = cameraX / dotSize;
     long long centralNodeY = cameraY / dotSize;
+    int width = frameWidth/dotSize+DOTS_OFFSET;
+    int height = frameHeigh/dotSize+DOTS_OFFSET;
     
-    [self dotsResizeToX:frameWidth/dotSize+DOTS_OFFSET
-                      y:frameHeigh/dotSize+DOTS_OFFSET
-                centerX:centralNodeX
-                centerY:centralNodeY];
+    int added = 0, removed = 0;
+    
+    NSArray *arr = self.dotWorld.children;
+    for (int i = arr.count; i < width*height; i++)
+    { // add dots if we lack them
+        SKDot *dot = [[SKDot alloc] init];
+        dot.game = self.game;
+        dot.theScene = self;
+        [self.dotWorld addChild:dot];
+        added++;
+    }
+    
+    arr = self.dotWorld.children;
+    for (int i = arr.count-1; i >= width*height; i--)
+    { // remove dots if we have more than we need
+        SKDot *dot = arr[i];
+        [dot removeFromParent];
+        removed++;
+    }
+    
+    if (added > 0 || removed > 0) {
+        NSLog(@"Added: %d, Removed: %d", added, removed);
+    }
+    
+    arr = self.dotWorld.children;
+    NSUInteger idx = 0;
+    for (long long i = 0; i < width; i++) {
+        for (long long j = 0; j < height; j++) {
+            SKDot *node = arr[idx];
+            idx++;
+            NSNumber *x = [NSNumber numberWithLongLong:i+centralNodeX - (width - (width-1)/2 - 1)];
+            NSNumber *y = [NSNumber numberWithLongLong:j+centralNodeY - (height - (height-1)/2 - 1)];
+            [node setPointX:x Y:y];
+        }
+    }
+    
+    self.lastX = centralNodeX;
+    self.lastY = centralNodeY;
+    self.lastWidth = width;
+    self.lastHeight = height;
+    [self updateEnvironment];
+}
+
+-(void)dotsShiftToX:(long long)centralNodeX y:(long long)centralNodeY
+{
+    long long deltaX = self.lastX - centralNodeX;
+    long long deltaY = self.lastY - centralNodeY;
+    if (deltaX == 0 && deltaY == 0) {
+        return;
+    }
+    
+    double frameWidth = self.frame.size.width / self.world.xScale;
+    double frameHeigh = self.frame.size.height / self.world.yScale;
+    double dotSize    = DOT_SIZE;
+    int width = frameWidth/dotSize+DOTS_OFFSET;
+    int height = frameHeigh/dotSize+DOTS_OFFSET;
+    int rightWidth = (width-1)/2;
+    int leftWidth = width - rightWidth - 1;
+    int topHeight = (height-1)/2;
+    int bottomHeight = height - topHeight - 1;
+    long long baseX = (centralNodeX/width)*width;
+    long long baseY = (centralNodeY/height)*height;
+    
+    [self.dotWorld.children enumerateObjectsUsingBlock:^(SKDot *dot, NSUInteger idx, BOOL *stop) {
+        long long x = dot.point.x.longLongValue;
+        long long y = dot.point.y.longLongValue;
+        // we may happen to run into huge (bug-driven) differences
+        // so just running loops may hang our program forever
+        x = baseX + (x % width);
+        y = baseY + (y % height);
+        while (x > centralNodeX+rightWidth) {
+            x -= width;
+        }
+        while (x < centralNodeX-leftWidth) {
+            x += width;
+        }
+        while (y > centralNodeY+topHeight) {
+            y -= height;
+        }
+        while (y < centralNodeY-bottomHeight) {
+            y += height;
+        }
+        if (dot.point.x.longLongValue != x ||
+            dot.point.y.longLongValue != y)
+        {
+            [dot setPointX:[NSNumber numberWithLongLong:x]
+                         Y:[NSNumber numberWithLongLong:y]];
+        }
+    }];
+    
+    self.lastX = centralNodeX;
+    self.lastY = centralNodeY;
+}
+
+-(void)dotsResizeToWidth:(NSUInteger)width heigth:(NSUInteger)height
+{
+    int deltaWidth  = width - self.lastWidth;
+    int deltaHeight = height - self.lastHeight;
+    int addWidth  = deltaWidth/2;
+    int addHeight = deltaHeight/2;
+
+    int rightWidth = (self.lastWidth-1)/2;
+    int leftWidth = self.lastWidth - rightWidth - 1;
+    int topHeight = (self.lastHeight-1)/2;
+    int bottomHeight = self.lastHeight - topHeight - 1;
+    
+    double dotSize = DOT_SIZE;
+    double cameraX = self.camera.position.x;
+    double cameraY = self.camera.position.y;
+    long long centralNodeX = cameraX / dotSize;
+    long long centralNodeY = cameraY / dotSize;
+
+    if (addWidth != 0)
+    {
+        if (addWidth > 0)
+        {
+            for (long long i = centralNodeX+rightWidth+1; i <= centralNodeX+rightWidth+addWidth; i++) {
+                for (long long j = centralNodeY-bottomHeight; j <= centralNodeY+topHeight; j++) {
+                    SKDot *dot = [[SKDot alloc] init];
+                    dot.game = self.game;
+                    dot.theScene = self;
+                    [self.dotWorld addChild:dot];
+                    [dot setPointX:[NSNumber numberWithLongLong:i]
+                                 Y:[NSNumber numberWithLongLong:j]];
+                }
+            }
+            for (long long i = centralNodeX-leftWidth-addWidth; i <= centralNodeX-leftWidth-1; i++) {
+                for (long long j = centralNodeY-bottomHeight; j <= centralNodeY+topHeight; j++) {
+                    SKDot *dot = [[SKDot alloc] init];
+                    dot.game = self.game;
+                    dot.theScene = self;
+                    [self.dotWorld addChild:dot];
+                    [dot setPointX:[NSNumber numberWithLongLong:i]
+                                 Y:[NSNumber numberWithLongLong:j]];
+                }
+            }
+        }
+        else
+        {
+            [self.dotWorld.children
+             enumerateObjectsUsingBlock:^(SKDot *dot, NSUInteger idx, BOOL *stop) {
+                 long long x = dot.point.x.longLongValue;
+                 if ((x < centralNodeX-leftWidth-addWidth) ||
+                     (x > centralNodeX+rightWidth+addWidth)){
+                     [dot removeFromParent];
+                 }
+             }];
+        }
+        // we have resized width
+        self.lastWidth += addWidth*2;
+        rightWidth = (self.lastWidth-1)/2;
+        leftWidth = self.lastWidth - rightWidth - 1;
+    }
+    
+    if (addHeight != 0)
+    {
+        if (addHeight > 0)
+        {
+            for (long long j = centralNodeY+topHeight+1; j <= centralNodeY+topHeight+addHeight; j++) {
+                for (long long i = centralNodeX-leftWidth; i <= centralNodeX+rightWidth; i++) {
+                    SKDot *dot = [[SKDot alloc] init];
+                    dot.game = self.game;
+                    dot.theScene = self;
+                    [self.dotWorld addChild:dot];
+                    [dot setPointX:[NSNumber numberWithLongLong:i]
+                                 Y:[NSNumber numberWithLongLong:j]];
+                }
+            }
+            for (long long j = centralNodeY-bottomHeight-addHeight; j <= centralNodeY-bottomHeight-1; j++) {
+                for (long long i = centralNodeX-leftWidth; i <= centralNodeX+rightWidth; i++) {
+                    SKDot *dot = [[SKDot alloc] init];
+                    dot.game = self.game;
+                    dot.theScene = self;
+                    [self.dotWorld addChild:dot];
+                    [dot setPointX:[NSNumber numberWithLongLong:i]
+                                 Y:[NSNumber numberWithLongLong:j]];
+                }
+            }
+        }
+        else
+        {
+            [self.dotWorld.children
+             enumerateObjectsUsingBlock:^(SKDot *dot, NSUInteger idx, BOOL *stop) {
+                 long long y = dot.point.y.longLongValue;
+                 if ((y < centralNodeY-bottomHeight-addHeight) ||
+                     (y > centralNodeY+topHeight+addHeight)){
+                     [dot removeFromParent];
+                 }
+             }];
+        }
+        self.lastHeight += addHeight*2;
+    }
+}
+
+-(void)scrollOrShift
+{
+    double frameWidth = self.frame.size.width / self.world.xScale;
+    double frameHeigh = self.frame.size.height / self.world.yScale;
+    double dotSize    = DOT_SIZE;
+    double cameraX = self.camera.position.x;
+    double cameraY = self.camera.position.y;
+    long long centralNodeX = cameraX / dotSize;
+    long long centralNodeY = cameraY / dotSize;
+    int width = frameWidth/dotSize+DOTS_OFFSET;
+    int height = frameHeigh/dotSize+DOTS_OFFSET;
+    
+    [self dotsResizeToWidth:width
+                     heigth:height];
     [self dotsShiftToX:centralNodeX y:centralNodeY];
 }
 
@@ -265,7 +380,6 @@
         /* Setup your scene here */
         
         self.touches = [NSMutableSet new];
-        self.dots = [NSMutableArray new];
         self.bases = [NSMutableDictionary new];
         
         self.anchorPoint = CGPointMake(0.5, 0.5);
@@ -275,6 +389,9 @@
         self.camera = [SKNode node];
         self.camera.name = @"camera";
         [self.world addChild:self.camera];
+        self.dotWorld = [SKNode node];
+        self.dotWorld.name = @"dotWorld";
+        [self.world addChild:self.dotWorld];
         
         self.backgroundColor = [SKColor whiteColor];
         
@@ -282,8 +399,6 @@
         
         [self.world setScale:[self minScale]*0.8+[self maxScale]*0.2];
 
-        [self createDots];
-        
         self.panels = [[Panels alloc] initWithDGame:self.game];
         self.panels.zPosition = 1000;
         self.panels.position = CGPointMake(0, self.frame.size.height/2);
@@ -295,6 +410,8 @@
                                              +self.frame.size.height/2-newGameButton.size.height/2);
         newGameButton.zPosition = 1000;
         [self addChild:newGameButton];
+        
+        [self redrawDots];
     }
     return self;
 }
@@ -349,7 +466,7 @@
             scale = MAX(scale, [self minScale]);
             scale = MIN(scale, [self maxScale]);
             [self.world setScale:scale];
-            [self createDots];
+            [self scrollOrShift];
         }
         self.lastLenBetweenFingers = lenBetweenFingers;
     }
@@ -365,7 +482,7 @@
                                                self.camera.position.y
                                                + (-newPosition.y + oldPosition.y)/self.world.yScale);
             
-            [self createDots];
+            [self scrollOrShift];
             self.lastTouchPosition = newPosition;
         }
         self.lastLenBetweenFingers = -1;

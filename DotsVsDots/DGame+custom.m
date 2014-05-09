@@ -153,9 +153,6 @@
             [self removeLastDotsObject:dot];
     }];
     
-    NSLog(@"%@", self.bases.array);
-    NSLog(@"Last: %@", self.lastDots);
-    
     [self.lastDots.allObjects enumerateObjectsUsingBlock:^(DDot *dot, NSUInteger idx, BOOL *stop) {
         [dot.baseAsInner enumerateObjectsUsingBlock:^(DBase *base, NSUInteger idx, BOOL *stop) {
             DDot *firstDot = base.outerDots.firstObject;
