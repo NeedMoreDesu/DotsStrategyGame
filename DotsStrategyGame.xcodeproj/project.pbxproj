@@ -34,7 +34,8 @@
 		29C6986918DEFDB0001F1F1E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29C6984118DEFDB0001F1F1E /* UIKit.framework */; };
 		29C6987118DEFDB0001F1F1E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 29C6986F18DEFDB0001F1F1E /* InfoPlist.strings */; };
 		29C6987318DEFDB0001F1F1E /* DotsVsDotsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 29C6987218DEFDB0001F1F1E /* DotsVsDotsTests.m */; };
-		29EBB51C18F4716100A4C8CC /* Textures.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EBB51B18F4716100A4C8CC /* Textures.m */; };
+		29E648C6191D019700B932A3 /* Dots.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 29E648C5191D019700B932A3 /* Dots.atlas */; };
+		29EBB51C18F4716100A4C8CC /* GameData.m in Sources */ = {isa = PBXBuildFile; fileRef = 29EBB51B18F4716100A4C8CC /* GameData.m */; };
 		29F3505E18FC582D00BFB013 /* Panels.m in Sources */ = {isa = PBXBuildFile; fileRef = 29F3505D18FC582D00BFB013 /* Panels.m */; };
 		29FA683B18F7187200CC5A04 /* DGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FA683A18F7187200CC5A04 /* DGame.m */; };
 		29FA683E18F7187300CC5A04 /* DPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FA683D18F7187300CC5A04 /* DPoint.m */; };
@@ -98,8 +99,9 @@
 		29C6986E18DEFDB0001F1F1E /* DotsStrategyGameTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DotsStrategyGameTests-Info.plist"; sourceTree = "<group>"; };
 		29C6987018DEFDB0001F1F1E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		29C6987218DEFDB0001F1F1E /* DotsVsDotsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DotsVsDotsTests.m; sourceTree = "<group>"; };
-		29EBB51A18F4716100A4C8CC /* Textures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Textures.h; sourceTree = "<group>"; };
-		29EBB51B18F4716100A4C8CC /* Textures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Textures.m; sourceTree = "<group>"; };
+		29E648C5191D019700B932A3 /* Dots.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Dots.atlas; sourceTree = "<group>"; };
+		29EBB51A18F4716100A4C8CC /* GameData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameData.h; sourceTree = "<group>"; };
+		29EBB51B18F4716100A4C8CC /* GameData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameData.m; sourceTree = "<group>"; };
 		29F3505C18FC582D00BFB013 /* Panels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Panels.h; sourceTree = "<group>"; };
 		29F3505D18FC582D00BFB013 /* Panels.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Panels.m; sourceTree = "<group>"; };
 		29FA683918F7187200CC5A04 /* DGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGame.h; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				29C6984F18DEFDB0001F1F1E /* AppDelegate.m */,
 				29C6985718DEFDB0001F1F1E /* ViewController.h */,
 				29C6985818DEFDB0001F1F1E /* ViewController.m */,
+				29E648C5191D019700B932A3 /* Dots.atlas */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -167,14 +170,13 @@
 		2916C5FF18E8ACE900D8B3C8 /* SpriteKit */ = {
 			isa = PBXGroup;
 			children = (
+				29E648C4191CF4EB00B932A3 /* Model */,
 				29C6985A18DEFDB0001F1F1E /* MyScene.h */,
 				29C6985B18DEFDB0001F1F1E /* MyScene.m */,
 				29B2D5CD18EA5843002DADEE /* SKDot.h */,
 				29B2D5CE18EA5843002DADEE /* SKDot.m */,
 				29F3505C18FC582D00BFB013 /* Panels.h */,
 				29F3505D18FC582D00BFB013 /* Panels.m */,
-				29EBB51A18F4716100A4C8CC /* Textures.h */,
-				29EBB51B18F4716100A4C8CC /* Textures.m */,
 				D7489BB718FD86220089663F /* NewGameButton.h */,
 				D7489BB818FD86220089663F /* NewGameButton.m */,
 			);
@@ -314,6 +316,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		29E648C4191CF4EB00B932A3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				29EBB51A18F4716100A4C8CC /* GameData.h */,
+				29EBB51B18F4716100A4C8CC /* GameData.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -392,6 +403,7 @@
 			files = (
 				29C6986018DEFDB0001F1F1E /* Images.xcassets in Resources */,
 				29C6985618DEFDB0001F1F1E /* Main_iPad.storyboard in Resources */,
+				29E648C6191D019700B932A3 /* Dots.atlas in Resources */,
 				29C6985318DEFDB0001F1F1E /* Main_iPhone.storyboard in Resources */,
 				29C6984A18DEFDB0001F1F1E /* InfoPlist.strings in Resources */,
 			);
@@ -430,7 +442,7 @@
 				2916C61318E8B16C00D8B3C8 /* NSManagedObject+Helpers.m in Sources */,
 				2916C61218E8B16C00D8B3C8 /* NSArray+Func.m in Sources */,
 				29C6985018DEFDB0001F1F1E /* AppDelegate.m in Sources */,
-				29EBB51C18F4716100A4C8CC /* Textures.m in Sources */,
+				29EBB51C18F4716100A4C8CC /* GameData.m in Sources */,
 				29F3505E18FC582D00BFB013 /* Panels.m in Sources */,
 				29FA684118F7187300CC5A04 /* DBase.m in Sources */,
 				29C6984C18DEFDB0001F1F1E /* main.m in Sources */,

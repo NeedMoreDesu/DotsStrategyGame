@@ -11,7 +11,7 @@
 #import "DDot+custom.h"
 #import "DGame+custom.h"
 #import "MyScene.h"
-#import "Textures.h"
+#import "GameData.h"
 
 @interface SKDot()
 
@@ -25,14 +25,14 @@
 {
     if ([self.game dotIsOccupied:dot]) {
         if (dot.belongsTo.shortValue == 0) {
-            NSArray *textures = [Textures sharedInstance].blueDots;
+            NSArray *textures = [GameData sharedInstance].blueDots;
             SKTexture *texture = textures[(dot.position.x.intValue+2*dot.position.y.intValue)
                                           %textures.count];
             self.dot.texture = texture;
             self.dot.size = self.dot.texture.size;
         }
         if (dot.belongsTo.shortValue == 1) {
-            NSArray *textures = [Textures sharedInstance].redDots;
+            NSArray *textures = [GameData sharedInstance].redDots;
             SKTexture *texture = textures[(dot.position.x.intValue+2*dot.position.y.intValue)
                                           %textures.count];
             self.dot.texture = texture;
@@ -58,7 +58,7 @@
     self.position = CGPointMake(x.longLongValue*DOT_SIZE, y.longLongValue*DOT_SIZE);
     DDot *dot = [self.game dotWithPoint:self.point];
 
-    NSArray *textures = [Textures sharedInstance].backgroundTextures;
+    NSArray *textures = [GameData sharedInstance].backgroundTextures;
     SKTexture *texture = textures[(self.point.x.intValue+2*self.point.y.intValue)
                                   % textures.count];
     self.texture = texture;

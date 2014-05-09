@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <SpriteKit/SpriteKit.h>
 
-@interface Textures : NSObject
+@interface GameData : NSObject
 
 + (instancetype)sharedInstance;
 
