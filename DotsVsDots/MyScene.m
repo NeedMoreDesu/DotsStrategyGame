@@ -430,12 +430,19 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
-    self.lastTouchPosition = [touch locationInNode:self];
-    self.itWasTapOnly = YES;
-    self.lastLenBetweenFingers = -1;
+    self.lastLenBetweenFingers = -5;
     [touches enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         [self.touches addObject:obj];
     }];
+    [self.touches enumerateObjectsUsingBlock:^(UITouch *obj, BOOL *stop) {
+        if ((obj.phase == UITouchPhaseEnded) ||
+            (obj.phase == UITouchPhaseCancelled))
+            [self.touches removeObject:obj];
+    }];
+    if (self.touches.count == 1) {
+        self.itWasTapOnly = YES;
+        self.lastTouchPosition = [touch locationInNode:self];
+    }
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -460,6 +467,7 @@
             }
         }
         lenBetweenFingers /= touches.count;
+        NSLog(@"%f ; %f", lenBetweenFingers, self.lastLenBetweenFingers);
         if(self.lastLenBetweenFingers > 0)
         {
             double scale = self.world.xScale * lenBetweenFingers / self.lastLenBetweenFingers;
@@ -467,25 +475,43 @@
             scale = MIN(scale, [self maxScale]);
             [self.world setScale:scale];
             [self scrollOrShift];
+            self.lastLenBetweenFingers = lenBetweenFingers;
         }
-        self.lastLenBetweenFingers = lenBetweenFingers;
+        else
+        {
+            if (self.lastLenBetweenFingers == -1)
+            {
+                self.lastLenBetweenFingers = lenBetweenFingers;
+            } else
+            {
+                self.lastLenBetweenFingers++;
+            }
+        }
     }
     else
     {
-        if(self.lastLenBetweenFingers < 0)
+        UITouch *touch = [touches anyObject];
+        CGPoint oldPosition = self.lastTouchPosition;
+        CGPoint newPosition = [touch locationInNode:self];
+        if(self.lastLenBetweenFingers == -5)
         {
-            UITouch *touch = [touches anyObject];
-            CGPoint oldPosition = self.lastTouchPosition;
-            CGPoint newPosition = [touch locationInNode:self];
             self.camera.position = CGPointMake(self.camera.position.x
                                                + (-newPosition.x + oldPosition.x)/self.world.xScale,
                                                self.camera.position.y
                                                + (-newPosition.y + oldPosition.y)/self.world.yScale);
             
             [self scrollOrShift];
-            self.lastTouchPosition = newPosition;
         }
-        self.lastLenBetweenFingers = -1;
+        self.lastTouchPosition = newPosition;
+        if (self.lastLenBetweenFingers > 0) {
+            self.lastLenBetweenFingers = -1;
+        }
+        else
+        {
+            if (self.lastLenBetweenFingers > -5) {
+                self.lastLenBetweenFingers--;
+            }
+        }
     }
     self.itWasTapOnly = NO;
 }
@@ -500,13 +526,10 @@
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [touches enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-        [self.touches removeObject:obj];
-    }];
-
-    if(self.itWasTapOnly)
+    if(self.itWasTapOnly && touches.count == 1)
     {
-        NSArray *nodes = [self nodesAtPoint:self.lastTouchPosition];
+        UITouch *touch = [touches anyObject];
+        NSArray *nodes = [self nodesAtPoint:[touch locationInNode:self]];
         [nodes enumerateObjectsUsingBlock:^(SKNode *node, NSUInteger idx, BOOL *stop) {
             if ([node isKindOfClass:[SKDot class]]) {
                 SKDot *dotNode = (SKDot*)node;
@@ -515,6 +538,10 @@
         }];
         self.itWasTapOnly = NO;
     }
+
+    [touches enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        [self.touches removeObject:obj];
+    }];
     [self redrawDots];
 }
 
