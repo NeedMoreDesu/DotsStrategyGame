@@ -17,6 +17,12 @@
 @property (nonatomic, retain) NSNumber * isPlaying;
 @property (nonatomic, retain) NSNumber * turn;
 @property (nonatomic, retain) NSNumber * whoseTurn;
+@property (nonatomic, retain) NSNumber * gameOverResult;
+@property (nonatomic, retain) NSNumber * votesForTie;
+@property (nonatomic, retain) NSNumber * gameOverWithDrawByArgeement;
+@property (nonatomic, retain) NSNumber * gameOverWithSurrender;
+@property (nonatomic, retain) NSNumber * gameOverWithCapture;
+@property (nonatomic, retain) NSNumber * lastVoteTurn;
 @property (nonatomic, retain) NSOrderedSet *bases;
 @property (nonatomic, retain) DGrid *grid;
 @property (nonatomic, retain) NSOrderedSet *dots;

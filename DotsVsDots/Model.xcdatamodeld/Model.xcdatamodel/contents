@@ -18,8 +18,14 @@
     </entity>
     <entity name="DGame" representedClassName="DGame" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="gameOverResult" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="gameOverWithCapture" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="gameOverWithDrawByArgeement" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="gameOverWithSurrender" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isPlaying" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="lastVoteTurn" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="turn" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="votesForTie" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="whoseTurn" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="bases" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DBase" inverseName="game" inverseEntity="DBase" syncable="YES"/>
         <relationship name="dots" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DDot" inverseName="game" inverseEntity="DDot" syncable="YES"/>
@@ -42,7 +48,7 @@
     <elements>
         <element name="DBase" positionX="-90" positionY="18" width="128" height="105"/>
         <element name="DDot" positionX="-173" positionY="-136" width="128" height="163"/>
-        <element name="DGame" positionX="36" positionY="144" width="128" height="150"/>
+        <element name="DGame" positionX="36" positionY="144" width="128" height="238"/>
         <element name="DGrid" positionX="70" positionY="-63" width="128" height="133"/>
         <element name="DPoint" positionX="-279" positionY="50" width="128" height="103"/>
     </elements>

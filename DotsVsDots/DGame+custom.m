@@ -139,7 +139,11 @@
     dot.game = self;
 
     [self tryToCaptureWith:dot];
-    
+
+    if (![self voted]) {
+        self.votesForTie = @0;
+    }
+
     [self nextTurn];
     
     NSRange range;
@@ -168,7 +172,103 @@
     return dot;
 }
 
-#pragma mark -- algorithms
+-(void)surrender
+{
+    // TODO: adjust for many players
+    NSNumber *winner = [NSNumber numberWithShort:
+                        (self.whoseTurn.shortValue+1) % [self numberOfPlayers]];
+    self.isPlaying = @NO;
+    self.gameOverResult = winner;
+    self.gameOverWithSurrender = @YES;
+}
+
+-(BOOL)voted
+{
+    return (self.lastVoteTurn.intValue == self.turn.intValue);
+}
+
+-(void)offerADraw
+{
+    if ([self voted]) {
+        return;
+    }
+    self.lastVoteTurn = self.turn;
+    self.votesForTie = [NSNumber numberWithShort:self.votesForTie.shortValue+1];
+    if (self.votesForTie.shortValue == self.numberOfPlayers) {
+        self.isPlaying = @NO;
+        self.gameOverWithDrawByArgeement = @YES;
+    }
+}
+
+-(DGame*)gameByCopyingTurns:(int)turn
+{
+    NSRange range;
+    range.location = 0;
+    range.length = turn;
+    NSArray *dots = [self.dots.array subarrayWithRange:range];
+    DGame *newGame = [DGame newObjectWithContext:self.managedObjectContext entity:nil];
+    [newGame setup];
+    [dots enumerateObjectsUsingBlock:^(DDot *dot, NSUInteger idx, BOOL *stop) {
+        [newGame makeTurn:dot.position];
+    }];
+    return newGame;
+}
+
+#pragma mark algorithms
+
+-(void)setup
+{
+    self.isPlaying = @YES;
+    self.turn = @0;
+    self.whoseTurn = @0;
+    self.date = [NSDate date];
+    self.grid = [DGrid newObjectWithContext:self.managedObjectContext entity:nil];
+    [self.grid setup];
+    
+    NSError *error = nil;
+    [CoreData save:&error];
+    if (error) {
+        NSLog(@"%@", error);
+    }
+}
+
+-(BOOL)stopWhenTurn:(int)turn orNumberOfCapturedDotsExceeds:(int)capturedDotsFromSinglePlayer
+{
+    if ([self.isPlaying isEqual:@NO]) {
+        return NO;
+    }
+    NSArray *capturedDots = [self countCapturedDots];
+    int idx = 0;
+    for (NSSet *dots in capturedDots) {
+        if(capturedDotsFromSinglePlayer <= dots.count)
+        {
+            self.isPlaying = @NO;
+            self.gameOverResult = [NSNumber numberWithShort:idx];
+            self.gameOverWithCapture = @YES;
+            return YES;
+        }
+        idx++;
+    }
+    
+    if (turn <= self.turn.intValue) {
+        self.isPlaying = @NO;
+        int maxCapturedDots = 0;
+        for (NSSet *dots in capturedDots) {
+            if(maxCapturedDots < dots.count)
+            {
+                maxCapturedDots = dots.count;
+                self.gameOverResult = [NSNumber numberWithShort:idx];
+            }
+            if (maxCapturedDots == dots.count) {
+                self.gameOverResult = nil;
+            }
+            idx++;
+        }
+        return YES;
+    }
+    
+    return NO;
+}
 
 -(void)tryToCaptureWith:(DDot*)startingDot
 {
@@ -498,59 +598,6 @@
     }];
     
     point = nil;
-}
-
--(void)setup
-{
-    self.isPlaying = @YES;
-    self.turn = @0;
-    self.whoseTurn = @0;
-    self.date = [NSDate date];
-    self.grid = [DGrid newObjectWithContext:self.managedObjectContext entity:nil];
-    [self.grid setup];
-    
-    NSError *error = nil;
-    [CoreData save:&error];
-    if (error) {
-        NSLog(@"%@", error);
-    }
-}
-
--(BOOL)stopWhenTurn:(int)turn orNumberOfCapturedDotsExceeds:(int)capturedDotsFromSinglePlayer
-{
-    if ([self.isPlaying isEqual:@NO]) {
-        return NO;
-    }
-    NSArray *capturedDots = [self countCapturedDots];
-    int idx = 0;
-    for (NSSet *dots in capturedDots) {
-        if(capturedDotsFromSinglePlayer <= dots.count)
-        {
-            self.isPlaying = @NO;
-            self.whoseTurn = [NSNumber numberWithShort:idx];
-            return YES;
-        }
-        idx++;
-    }
-    
-    if (turn <= self.turn.intValue) {
-        self.isPlaying = @NO;
-        int maxCapturedDots = 0;
-        for (NSSet *dots in capturedDots) {
-            if(maxCapturedDots < dots.count)
-            {
-                maxCapturedDots = dots.count;
-                self.whoseTurn = [NSNumber numberWithShort:idx];
-            }
-            if (maxCapturedDots == dots.count) {
-                self.whoseTurn = nil;
-            }
-            idx++;
-        }
-        return YES;
-    }
-    
-    return NO;
 }
 
 @end

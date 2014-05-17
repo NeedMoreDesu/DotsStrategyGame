@@ -27,6 +27,10 @@
 -(NSArray*)countCapturedDots;
 -(int)numberOfPlayers;
 
+-(void)surrender;
+-(void)offerADraw;
+-(DGame*)gameByCopyingTurns:(int)turn;
+
 -(BOOL)stopWhenTurn:(int)turn orNumberOfCapturedDotsExceeds:(int)capturedDotsFromSinglePlayer;
 
 @end

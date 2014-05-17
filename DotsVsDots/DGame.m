@@ -18,6 +18,12 @@
 @dynamic isPlaying;
 @dynamic turn;
 @dynamic whoseTurn;
+@dynamic gameOverResult;
+@dynamic votesForTie;
+@dynamic gameOverWithDrawByArgeement;
+@dynamic gameOverWithSurrender;
+@dynamic gameOverWithCapture;
+@dynamic lastVoteTurn;
 @dynamic bases;
 @dynamic grid;
 @dynamic dots;

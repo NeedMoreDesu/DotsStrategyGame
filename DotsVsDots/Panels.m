@@ -69,6 +69,8 @@
 
         self.choiseTick = [SKSpriteNode spriteNodeWithImageNamed:@"score_choise"];
         [self addChild:self.choiseTick];
+        
+        self.userInteractionEnabled = YES;
     }
     return self;
 }
