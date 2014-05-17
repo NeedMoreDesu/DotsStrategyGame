@@ -18,18 +18,6 @@
     [tempSet addObject:value];
 }
 
-- (void)addLastDotsObject:(DDot *)value
-{
-    NSMutableOrderedSet* tempSet = [self mutableOrderedSetValueForKey:@"lastDots"];
-    [tempSet addObject:value];
-}
-
-- (void)removeLastDotsObject:(DDot *)value
-{
-    NSMutableOrderedSet* tempSet = [self mutableOrderedSetValueForKey:@"lastDots"];
-    [tempSet removeObject:value];
-}
-
 -(int)numberOfPlayers
 {
     return 2;
@@ -92,6 +80,12 @@
     self.whoseTurn = [NSNumber numberWithShort:(self.whoseTurn.shortValue+1) % [self numberOfPlayers]];
 }
 
+-(NSArray*)dotsReversed
+{
+    NSArray *dots = self.dots.reverseObjectEnumerator.allObjects;
+    return dots;
+}
+
 -(NSArray*)capturingBases
 {
     NSArray *capturingBases = [self.bases.array filter:^BOOL(NSUInteger idx, DBase *base) {
@@ -142,18 +136,18 @@
     dot.belongsTo = self.whoseTurn;
     dot.turn = self.turn;
     dot.date = [NSDate date];
-    [self addLastDotsObject:dot];
-    
+    dot.game = self;
+
     [self tryToCaptureWith:dot];
     
     [self nextTurn];
     
-    [self.lastDots enumerateObjectsUsingBlock:^(DDot *dot, BOOL *stop) {
-        if(dot.turn.integerValue < self.turn.integerValue - ([self numberOfPlayers]-1))
-            [self removeLastDotsObject:dot];
-    }];
+    NSRange range;
+    range.location = 0;
+    range.length = [self numberOfPlayers]-1;
+    NSArray *lastDots = [[self dotsReversed] subarrayWithRange:range];
     
-    [self.lastDots.allObjects enumerateObjectsUsingBlock:^(DDot *dot, NSUInteger idx, BOOL *stop) {
+    [lastDots enumerateObjectsUsingBlock:^(DDot *dot, NSUInteger idx, BOOL *stop) {
         [dot.baseAsInner enumerateObjectsUsingBlock:^(DBase *base, NSUInteger idx, BOOL *stop) {
             DDot *firstDot = base.outerDots.firstObject;
             if (firstDot.belongsTo != self.whoseTurn) {
@@ -168,11 +162,13 @@
     NSError *error = nil;
     [CoreData save:&error];
     if (error) {
-        NSLog(@"%@", error);
+        NSLog(@"Error while saving to coredata: %@", error);
     }
     
     return dot;
 }
+
+#pragma mark -- algorithms
 
 -(void)tryToCaptureWith:(DDot*)startingDot
 {

@@ -2,7 +2,7 @@
 //  DGame.h
 //  DotsStrategyGame
 //
-//  Created by baka on 5/9/14.
+//  Created by cirno on 5/17/14.
 //  Copyright (c) 2014 baka. All rights reserved.
 //
 
@@ -19,7 +19,7 @@
 @property (nonatomic, retain) NSNumber * whoseTurn;
 @property (nonatomic, retain) NSOrderedSet *bases;
 @property (nonatomic, retain) DGrid *grid;
-@property (nonatomic, retain) NSSet *lastDots;
+@property (nonatomic, retain) NSOrderedSet *dots;
 @end
 
 @interface DGame (CoreDataGeneratedAccessors)
@@ -34,9 +34,14 @@
 - (void)removeBasesObject:(DBase *)value;
 - (void)addBases:(NSOrderedSet *)values;
 - (void)removeBases:(NSOrderedSet *)values;
-- (void)addLastDotsObject:(DDot *)value;
-- (void)removeLastDotsObject:(DDot *)value;
-- (void)addLastDots:(NSSet *)values;
-- (void)removeLastDots:(NSSet *)values;
-
+- (void)insertObject:(DDot *)value inDotsAtIndex:(NSUInteger)idx;
+- (void)removeObjectFromDotsAtIndex:(NSUInteger)idx;
+- (void)insertDots:(NSArray *)value atIndexes:(NSIndexSet *)indexes;
+- (void)removeDotsAtIndexes:(NSIndexSet *)indexes;
+- (void)replaceObjectInDotsAtIndex:(NSUInteger)idx withObject:(DDot *)value;
+- (void)replaceDotsAtIndexes:(NSIndexSet *)indexes withDots:(NSArray *)values;
+- (void)addDotsObject:(DDot *)value;
+- (void)removeDotsObject:(DDot *)value;
+- (void)addDots:(NSOrderedSet *)values;
+- (void)removeDots:(NSOrderedSet *)values;
 @end

@@ -2,7 +2,7 @@
 //  DDot.m
 //  DotsStrategyGame
 //
-//  Created by baka on 5/9/14.
+//  Created by cirno on 5/17/14.
 //  Copyright (c) 2014 baka. All rights reserved.
 //
 
@@ -21,7 +21,7 @@
 @dynamic baseAsInner;
 @dynamic baseAsOuter;
 @dynamic grid;
+@dynamic game;
 @dynamic position;
-@dynamic lastDotsInverse;
 
 @end

@@ -2,7 +2,7 @@
 //  DDot.h
 //  DotsStrategyGame
 //
-//  Created by baka on 5/9/14.
+//  Created by cirno on 5/17/14.
 //  Copyright (c) 2014 baka. All rights reserved.
 //
 
@@ -19,8 +19,8 @@
 @property (nonatomic, retain) NSOrderedSet *baseAsInner;
 @property (nonatomic, retain) NSOrderedSet *baseAsOuter;
 @property (nonatomic, retain) DGrid *grid;
+@property (nonatomic, retain) DGame *game;
 @property (nonatomic, retain) DPoint *position;
-@property (nonatomic, retain) DGame *lastDotsInverse;
 @end
 
 @interface DDot (CoreDataGeneratedAccessors)
