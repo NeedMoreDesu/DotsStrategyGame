@@ -70,9 +70,34 @@
     [self redrawDots];
 }
 
+-(void)highlightDots:(NSArray*)dotsToHighlight shadowDots:(NSArray*)dotsToShadow
+{
+    NSSet *highlightXYset = [NSSet setWithArray:[dotsToHighlight map:^id(DDot *dot) {
+        return dot.position.XY;
+    }]];
+    NSSet *shadowXYset = [NSSet setWithArray:[dotsToShadow map:^id(DDot *dot) {
+        return dot.position.XY;
+    }]];
+    [self.dotWorld.children enumerateObjectsUsingBlock:^(SKDot *dot, NSUInteger idx, BOOL *stop) {
+        NSArray *XY = dot.point.XY;
+        if ([highlightXYset member:XY])
+        {
+            [dot highlight];
+        }
+        if ([shadowXYset member:XY]) {
+            [dot shadow];
+        }
+    }];
+}
+
 -(void)scrollToX:(long long)x Y:(long long)y
 {
-    self.camera.position = CGPointMake(x*DOT_SIZE, y*DOT_SIZE);
+    int additionX = 0;
+    if (self.panels.historyActive) {
+        additionX = (self.panels.history.size.width / (DOT_SIZE * self.world.xScale)) / 2;
+    }
+    self.camera.position = CGPointMake((x+additionX)*DOT_SIZE, y*DOT_SIZE);
+    [self redrawDots];
 }
 -(void)scrollToXY:(NSArray*)XY
 {

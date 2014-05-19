@@ -9,16 +9,13 @@
 #import "Panels.h"
 #import "GameData.h"
 #import "MyScene.h"
+#import "HistoryLabel.h"
 
 @interface Panels()
 
 @property NSMutableArray *capturedDotsNumberLabels;
 @property SKSpriteNode *background;
 @property SKSpriteNode *choiseTick;
-
-@property SKSpriteNode *panels;
-@property SKSpriteNode *history;
-@property SKSpriteNode *options;
 
 @property SKSpriteNode *optionsButton;
 @property SKSpriteNode *player2placeholder;
@@ -39,8 +36,12 @@
 @property SKLabelNode *gameOverStateLabelTop;
 @property SKLabelNode *gameOverStateLabelBottom;
 
-@property BOOL historyActive;
-@property BOOL optionsActive;
+@property NSMutableArray *historyLabels;
+@property double historyOffset;
+@property CGPoint historyScrollingLocation;
+@property int slowingDown;
+
+@property SKNode *touchesBeganNode;
 
 @end
 
@@ -166,6 +167,23 @@
                                                          blue:0.
                                                         alpha:0.4];
     }
+    
+    if (self.game.dots.count < self.historyLabels.count) {
+        self.historyOffset = MAX((int)self.game.dots.count-(int)self.historyLabels.count, self.historyOffset);
+        self.historyOffset = MIN(0, self.historyOffset);
+    } else {
+        self.historyOffset = MAX(0, self.historyOffset);
+        self.historyOffset = MIN((int)self.game.dots.count-(int)self.historyLabels.count, self.historyOffset);
+    }
+    NSArray *dots = self.game.dotsReversed;
+    int offset = self.historyOffset;
+    [self.historyLabels enumerateObjectsUsingBlock:^(HistoryLabel *label, NSUInteger idx, BOOL *stop) {
+        if (offset+idx < dots.count) {
+            label.dot = dots[offset+idx];
+        } else {
+            label.dot = nil;
+        }
+    }];
 }
 
 -(void)updateUI
@@ -328,6 +346,29 @@
         [self.player1placeholder addChild:self.player1scores];
         [self.player2placeholder addChild:self.player2scores];
         
+        self.historyLabels = [NSMutableArray new];
+        double width  = self.history.size.width * (-0.3);
+        double height = self.hideHistoryButton.position.y-self.history.size.height*0.065;
+        CGPoint point = CGPointMake(width, height);
+        CGPoint convertedPoint = [self convertPoint:point fromNode:self.history];
+        
+        // 0 - self.history.size.height/2
+        while (convertedPoint.y > 0) {
+            HistoryLabel *node = [HistoryLabel labelNodeWithFontNamed:@"AmericanTypewriter-Condensed"];
+            node.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
+            node.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
+            node.position = CGPointMake(width, height);
+            node.fontSize = 40;
+            
+            [self.historyLabels addObject:node];
+            [self.history addChild:node];
+            
+            height -= self.history.size.height*0.059;
+            point = CGPointMake(width, height);
+            convertedPoint = [self convertPoint:point fromNode:self.history];
+        }
+        self.historyOffset = 0;
+        
         [self updateScores];
     }
     return self;
@@ -411,14 +452,19 @@
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (self.optionsActive) {
-        return;
-    }
     UITouch *touch = [touches anyObject];
     
+    SKNode *node = [self nodeAtPoint:[touch locationInNode:self]];
     NSArray *nodes = [self nodesAtPoint:[touch locationInNode:self]];
     if ([self passableNodes:nodes]) {
+        if (self.optionsActive) {
+            return;
+        }
         [self.parent touchesBegan:touches withEvent:event];
+    } else
+    {
+        self.touchesBeganNode = node;
+        self.slowingDown = 5;
     }
 }
 
@@ -432,6 +478,26 @@
     NSArray *nodes = [self nodesAtPoint:[touch locationInNode:self]];
     if ([self passableNodes:nodes]) {
         [self.parent touchesMoved:touches withEvent:event];
+    }
+    
+    __block BOOL haveHistory = NO;
+    [nodes enumerateObjectsUsingBlock:^(SKNode *node, NSUInteger idx, BOOL *stop) {
+        if (node == self.history) {
+            haveHistory = YES;
+        }
+    }];
+    if (haveHistory) {
+        CGPoint touchLocation = [touch locationInNode:self];
+        if (self.slowingDown > 0)
+        {
+            self.slowingDown--;
+        } else {
+            double dist = touchLocation.y - self.historyScrollingLocation.y;
+            self.historyOffset += dist*([GameData isiPad]?0.018:0.03);
+            
+            [self updateScores];
+        }
+        self.historyScrollingLocation = touchLocation;
     }
 }
 
@@ -461,6 +527,21 @@
         [self.parent touchesEnded:touches withEvent:event];
     } else
     {
+        MyScene *scene = (MyScene*)self.scene;
+        if (node != self.touchesBeganNode)
+        {
+            return;
+        }
+        if ([node isKindOfClass:[HistoryLabel class]]) {
+            HistoryLabel *label = (HistoryLabel*)node;
+            DDot *ourDot = label.dot;
+            [scene scrollToDDot:ourDot];
+            
+            NSArray *dotsToShadow = [self.game.dotsReversed filter:^BOOL(NSUInteger idx, DDot *dot) {
+                return dot.turn > ourDot.turn;
+            }];
+            [scene highlightDots:@[ourDot] shadowDots:dotsToShadow];
+        }
         if (node == self.optionsButton) {
             if (self.optionsActive) {
                 [self hideOptions];
@@ -468,7 +549,6 @@
                 [self showOptions];
             }
         }
-        MyScene *scene = (MyScene*)self.scene;
         if (node == self.createGameButton) {
             [scene createNewGame];
             [self updateScores];

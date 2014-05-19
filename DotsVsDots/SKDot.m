@@ -21,6 +21,32 @@
 
 @implementation SKDot
 
+-(void)highlight
+{
+    [self.dot removeAllActions];
+    double width = self.dot.size.width;
+    double height = self.dot.size.height;
+    [self.dot runAction:
+     [SKAction sequence:
+      @[
+        [SKAction resizeToWidth:width+20 height:height+20 duration:0.2],
+        [SKAction resizeToWidth:width height:height duration:0.6]
+        ]]];
+}
+
+-(void)shadow
+{
+    [self.dot removeAllActions];
+    SKAction *fadeOut = [SKAction fadeOutWithDuration:0.5];
+    SKAction *reverse = [SKAction fadeInWithDuration:1.0];
+    [self.dot runAction:
+     [SKAction sequence:
+      @[fadeOut,
+        reverse
+        ]]];
+
+}
+
 -(void)changeAccordingToDDot:(DDot*)dot
 {
     if ([self.game dotIsOccupied:dot]) {

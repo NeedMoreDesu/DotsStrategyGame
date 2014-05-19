@@ -18,4 +18,11 @@
 -(void)enableBlur;
 -(void)disableBlur;
 
+-(void)scrollToX:(long long)x Y:(long long)y;
+-(void)scrollToXY:(NSArray*)XY;
+-(void)scrollToDPoint:(DPoint*)point;
+-(void)scrollToDDot:(DDot*)dot;
+
+-(void)highlightDots:(NSArray*)highlightXYs shadowDots:(NSArray*)shadowXYs;
+
 @end

@@ -44,6 +44,7 @@
 		29FA684718F7187300CC5A04 /* DGrid.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FA684618F7187300CC5A04 /* DGrid.m */; };
 		29FA685918F7261700CC5A04 /* DBase+custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FA685818F7261700CC5A04 /* DBase+custom.m */; };
 		D7489BB918FD86220089663F /* NewGameButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D7489BB818FD86220089663F /* NewGameButton.m */; };
+		D7EEF026192A2FE20089E76E /* HistoryLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = D7EEF025192A2FE20089E76E /* HistoryLabel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +119,8 @@
 		29FA685818F7261700CC5A04 /* DBase+custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DBase+custom.m"; sourceTree = "<group>"; };
 		D7489BB718FD86220089663F /* NewGameButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGameButton.h; sourceTree = "<group>"; };
 		D7489BB818FD86220089663F /* NewGameButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGameButton.m; sourceTree = "<group>"; };
+		D7EEF024192A2FE20089E76E /* HistoryLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryLabel.h; sourceTree = "<group>"; };
+		D7EEF025192A2FE20089E76E /* HistoryLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryLabel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +182,8 @@
 				29F3505D18FC582D00BFB013 /* Panels.m */,
 				D7489BB718FD86220089663F /* NewGameButton.h */,
 				D7489BB818FD86220089663F /* NewGameButton.m */,
+				D7EEF024192A2FE20089E76E /* HistoryLabel.h */,
+				D7EEF025192A2FE20089E76E /* HistoryLabel.m */,
 			);
 			name = SpriteKit;
 			sourceTree = "<group>";
@@ -435,6 +440,7 @@
 				D7489BB918FD86220089663F /* NewGameButton.m in Sources */,
 				29FA685918F7261700CC5A04 /* DBase+custom.m in Sources */,
 				29B4841918EA7990009AA1A2 /* CoreData.m in Sources */,
+				D7EEF026192A2FE20089E76E /* HistoryLabel.m in Sources */,
 				29BAFFAD18E8A3F900CACC7C /* DGame+custom.m in Sources */,
 				2982505D18DF5BE200C3F034 /* Model.xcdatamodeld in Sources */,
 				29FA683B18F7187200CC5A04 /* DGame.m in Sources */,

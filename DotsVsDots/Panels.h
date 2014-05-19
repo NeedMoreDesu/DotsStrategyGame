@@ -14,4 +14,11 @@
 -(void)updateScores;
 -(instancetype)init;
 
+@property BOOL historyActive;
+@property BOOL optionsActive;
+
+@property SKSpriteNode *panels;
+@property SKSpriteNode *history;
+@property SKSpriteNode *options;
+
 @end

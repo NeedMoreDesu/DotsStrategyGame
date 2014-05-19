@@ -18,6 +18,9 @@
 -(void)setPointX:(NSNumber*)x Y:(NSNumber*)y;
 -(void)makeTurn;
 
+-(void)highlight;
+-(void)shadow;
+
 @property DGame *game;
 @property MyScene *theScene;
 @property (nonatomic, strong) DPoint *point;
