@@ -174,12 +174,21 @@
 
 -(void)surrender
 {
+    if ([self.isPlaying isEqualToNumber:@NO]) {
+        return;
+    }
     // TODO: adjust for many players
     NSNumber *winner = [NSNumber numberWithShort:
                         (self.whoseTurn.shortValue+1) % [self numberOfPlayers]];
     self.isPlaying = @NO;
     self.gameOverResult = winner;
     self.gameOverWithSurrender = @YES;
+    
+    NSError *error = nil;
+    [CoreData save:&error];
+    if (error) {
+        NSLog(@"Error while saving to coredata: %@", error);
+    }
 }
 
 -(BOOL)voted
@@ -189,6 +198,9 @@
 
 -(void)offerADraw
 {
+    if ([self.isPlaying isEqualToNumber:@NO]) {
+        return;
+    }
     if ([self voted]) {
         return;
     }
@@ -197,6 +209,12 @@
     if (self.votesForTie.shortValue == self.numberOfPlayers) {
         self.isPlaying = @NO;
         self.gameOverWithDrawByArgeement = @YES;
+    }
+    
+    NSError *error = nil;
+    [CoreData save:&error];
+    if (error) {
+        NSLog(@"Error while saving to coredata: %@", error);
     }
 }
 
@@ -224,6 +242,8 @@
     self.date = [NSDate date];
     self.grid = [DGrid newObjectWithContext:self.managedObjectContext entity:nil];
     [self.grid setup];
+    self.lastVoteTurn = @-10;
+    
     
     NSError *error = nil;
     [CoreData save:&error];

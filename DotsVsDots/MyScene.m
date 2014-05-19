@@ -12,6 +12,7 @@
 #import "DBase+custom.h"
 #import "Panels.h"
 #import "NewGameButton.h"
+#import "GameData.h"
 
 #define DOTS_OFFSET 10
 #define MAX_DOTS_IN_A_ROW 30
@@ -33,6 +34,8 @@
 @property NSUInteger lastWidth, lastHeight;
 @property Panels *panels;
 
+@property SKEffectNode *blurNode;
+
 @end
 
 @implementation MyScene
@@ -48,13 +51,16 @@
     if (self.game == nil) {
         [self createNewGame];
     }
+    [self scrollToDDot:self.game.dotsReversed.firstObject];
 }
 
 -(void)createNewGame
 {
+    if ([self.game.isPlaying isEqualToNumber:@YES]) {
+        return;
+    }
     self.game = [DGame newObjectWithContext:[CoreData sharedInstance].mainMOC entity:nil];
     [self.game setup];
-    self.panels.game = self.game;
     [self.dotWorld.children enumerateObjectsUsingBlock:^(SKDot *dot, NSUInteger idx, BOOL *stop) {
         dot.game = self.game;
     }];
@@ -62,6 +68,25 @@
         [obj removeFromParent];
     }];
     [self redrawDots];
+}
+
+-(void)scrollToX:(long long)x Y:(long long)y
+{
+    self.camera.position = CGPointMake(x*DOT_SIZE, y*DOT_SIZE);
+}
+-(void)scrollToXY:(NSArray*)XY
+{
+    long long x = ((NSNumber*)XY[0]).longLongValue;
+    long long y = ((NSNumber*)XY[1]).longLongValue;
+    [self scrollToX:x Y:y];
+}
+-(void)scrollToDPoint:(DPoint*)point
+{
+    [self scrollToXY:point.XY];
+}
+-(void)scrollToDDot:(DDot*)dot
+{
+    [self scrollToDPoint:dot.position];
 }
 
 -(double)minScale
@@ -115,25 +140,7 @@
         [self.world addChild:node];
     }];
     
-    if ([self.game stopWhenTurn:100 orNumberOfCapturedDotsExceeds:3])
-    {
-        UIAlertView *alert = [[UIAlertView alloc]
-                              initWithTitle:@"Ta-daa!"
-                              message: [NSString stringWithFormat:@"Player %@ wins!", self.game.whoseTurn]
-                              delegate:nil
-                              cancelButtonTitle:@"Yay!"
-                              otherButtonTitles:nil];
-        if (!self.game.whoseTurn) {
-            alert = [[UIAlertView alloc]
-                     initWithTitle:@"Duh!"
-                     message:@"We have a draw here!"
-                     delegate:nil
-                     cancelButtonTitle:@"Okay. =("
-                     otherButtonTitles:nil];
-            
-        }
-        [alert show];
-    }
+    [self.game stopWhenTurn:100 orNumberOfCapturedDotsExceeds:3];
     
     [self.panels updateScores];
 }
@@ -367,20 +374,41 @@
     [self dotsShiftToX:centralNodeX y:centralNodeY];
 }
 
+-(void)enableBlur
+{
+    [self.blurNode setShouldEnableEffects:YES];
+}
+-(void)disableBlur
+{
+    [self.blurNode setShouldEnableEffects:NO];
+}
+
 -(id)initWithSize:(CGSize)size {
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
+        [GameData sharedInstance].frameSize = self.frame.size;
         
         self.touches = [NSMutableSet new];
         self.bases = [NSMutableDictionary new];
+
+        self.blurNode = [SKEffectNode node];
+        self.blurNode.shouldEnableEffects = YES;
+        self.blurNode.shouldRasterize = YES;
+        CIFilter *blur = [CIFilter filterWithName:@"CIGaussianBlur" keysAndValues:@"inputRadius", @3.0f, nil];
+        self.blurNode.filter = blur;
+        [self addChild:self.blurNode];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self disableBlur];
+        });
         
         self.anchorPoint = CGPointMake(0.5, 0.5);
         self.world = [SKNode node];
-        [self addChild:self.world];
+        [self.blurNode addChild:self.world];
         
         self.camera = [SKNode node];
         self.camera.name = @"camera";
         [self.world addChild:self.camera];
+        
         self.dotWorld = [SKNode node];
         self.dotWorld.name = @"dotWorld";
         [self.world addChild:self.dotWorld];
@@ -391,17 +419,12 @@
         
         [self.world setScale:[self minScale]*0.8+[self maxScale]*0.2];
 
-        self.panels = [[Panels alloc] initWithDGame:self.game];
+        self.panels = [[Panels alloc] init];
         self.panels.zPosition = 1000;
-        self.panels.position = CGPointMake(0, self.frame.size.height/2);
+        self.panels.position = CGPointMake(-self.frame.size.width/2,
+                                           -self.frame.size.height/2);
         [self addChild:self.panels];
         [self.panels updateScores];
-        
-        NewGameButton *newGameButton = [[NewGameButton alloc] init];
-        newGameButton.position = CGPointMake(-self.frame.size.width/2+newGameButton.size.width/2,
-                                             +self.frame.size.height/2-newGameButton.size.height/2);
-        newGameButton.zPosition = 1000;
-        [self addChild:newGameButton];
         
         [self redrawDots];
     }

@@ -15,5 +15,7 @@
 
 -(void)redrawDots;
 -(void)createNewGame;
+-(void)enableBlur;
+-(void)disableBlur;
 
 @end

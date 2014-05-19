@@ -12,8 +12,6 @@
 @interface Panels : SKNode
 
 -(void)updateScores;
--(instancetype)initWithDGame:(DGame*)game;
-
-@property DGame *game;
+-(instancetype)init;
 
 @end

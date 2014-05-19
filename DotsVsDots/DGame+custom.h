@@ -27,7 +27,9 @@
 -(NSArray*)countCapturedDots;
 -(int)numberOfPlayers;
 
+-(NSArray*)dotsReversed;
 -(void)surrender;
+-(BOOL)voted;
 -(void)offerADraw;
 -(DGame*)gameByCopyingTurns:(int)turn;
 

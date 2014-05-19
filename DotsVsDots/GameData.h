@@ -12,9 +12,22 @@
 @interface GameData : NSObject
 
 + (instancetype)sharedInstance;
++ (BOOL)isiPad;
 
 @property NSArray *backgroundTextures;
 @property NSArray *redDots;
 @property NSArray *blueDots;
+
+@property SKTexture *panels;
+@property SKTexture *optionsMenu;
+@property SKTexture *history;
+
+@property SKTexture *crossed;
+
+@property CGSize frameSize;
+
+@property double scoreFontSize;
+@property double gameOverTopLabelSize;
+@property double gameOverBottomLabelSize;
 
 @end

@@ -38,8 +38,25 @@
         shared.backgroundTextures = backgroundTextures;
         shared.redDots = redDots;
         shared.blueDots = blueDots;
+        
+        shared.panels = [SKTexture textureWithImageNamed:@"panels"];
+        shared.optionsMenu = [SKTexture textureWithImageNamed:@"options_menu"];
+        shared.history = [SKTexture textureWithImageNamed:@"history"];
+        shared.crossed = [SKTexture textureWithImageNamed:@"crossed"];
+        shared.scoreFontSize = [GameData isiPad]?100:50;
+        shared.gameOverTopLabelSize = [GameData isiPad]?100:50;
+        shared.gameOverBottomLabelSize = [GameData isiPad]?80:40;
     });
     return shared;
+}
+
++(BOOL)isiPad
+{
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        return YES; /* Device is iPad */
+    }
+    return NO;
 }
 
 @end
