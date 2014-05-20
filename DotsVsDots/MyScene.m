@@ -67,7 +67,7 @@
     [self.bases enumerateKeysAndObjectsUsingBlock:^(id key, SKNode *obj, BOOL *stop) {
         [obj removeFromParent];
     }];
-    [self redrawDots];
+    [self scrollToX:0 Y:0];
 }
 
 -(void)highlightDots:(NSArray*)dotsToHighlight shadowDots:(NSArray*)dotsToShadow
