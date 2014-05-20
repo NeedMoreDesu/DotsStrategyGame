@@ -522,6 +522,7 @@
     NSArray *nodes = [self nodesAtPoint:[touch locationInNode:self]];
     if ([self passableNodes:nodes]) {
         if (self.optionsActive) {
+            [self hideOptions];
             return;
         }
         [self.parent touchesEnded:touches withEvent:event];
@@ -531,13 +532,6 @@
         if (node != self.touchesBeganNode)
         {
             return;
-        }
-        if (node == self.optionsButton) {
-            if (self.optionsActive) {
-                [self hideOptions];
-            } else {
-                [self showOptions];
-            }
         }
         if (node == self.createGameButton) {
             [scene createNewGame];
@@ -562,7 +556,11 @@
         }
         // history hides/shows aren't valid when blurred
         if (self.optionsActive) {
+            [self hideOptions];
             return;
+        }
+        if (node == self.optionsButton) {
+            [self showOptions];
         }
         if (node == self.hideHistoryButton) {
             if (self.historyActive) {
