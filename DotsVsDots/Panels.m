@@ -358,7 +358,7 @@
             node.verticalAlignmentMode = SKLabelVerticalAlignmentModeCenter;
             node.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
             node.position = CGPointMake(width, height);
-            node.fontSize = 40;
+            node.fontSize = [GameData sharedInstance].historyFontSize;
             
             [self.historyLabels addObject:node];
             [self.history addChild:node];
@@ -518,7 +518,7 @@
 {
     UITouch *touch = [touches anyObject];
     
-    SKNode *node = [self nodeAtPoint:[touch locationInNode:self]];
+    __block SKNode *node = [self nodeAtPoint:[touch locationInNode:self]];
     NSArray *nodes = [self nodesAtPoint:[touch locationInNode:self]];
     if ([self passableNodes:nodes]) {
         if (self.optionsActive) {
@@ -531,16 +531,6 @@
         if (node != self.touchesBeganNode)
         {
             return;
-        }
-        if ([node isKindOfClass:[HistoryLabel class]]) {
-            HistoryLabel *label = (HistoryLabel*)node;
-            DDot *ourDot = label.dot;
-            [scene scrollToDDot:ourDot];
-            
-            NSArray *dotsToShadow = [self.game.dotsReversed filter:^BOOL(NSUInteger idx, DDot *dot) {
-                return dot.turn > ourDot.turn;
-            }];
-            [scene highlightDots:@[ourDot] shadowDots:dotsToShadow];
         }
         if (node == self.optionsButton) {
             if (self.optionsActive) {
@@ -583,6 +573,24 @@
             if (!self.historyActive) {
                 [self showHistory];
             }
+        }
+        __block BOOL historyLabel = NO;
+        [nodes enumerateObjectsUsingBlock:^(SKNode *node1, NSUInteger idx, BOOL *stop) {
+            if([node1 isKindOfClass:[HistoryLabel class]])
+            {
+                node = node1;
+                historyLabel = YES;
+            }
+        }];
+        if (historyLabel) {
+            HistoryLabel *label = (HistoryLabel*)node;
+            DDot *ourDot = label.dot;
+            [scene scrollToDDot:ourDot];
+            
+            NSArray *dotsToShadow = [self.game.dotsReversed filter:^BOOL(NSUInteger idx, DDot *dot) {
+                return dot.turn.intValue > ourDot.turn.intValue;
+            }];
+            [scene highlightDots:@[ourDot] shadowDots:dotsToShadow];
         }
     }
     

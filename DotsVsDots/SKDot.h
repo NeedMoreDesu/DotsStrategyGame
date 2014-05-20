@@ -20,6 +20,10 @@
 
 -(void)highlight;
 -(void)shadow;
+-(void)restore;
++(void)highlight:(SKNode*)node;
++(void)shadow:(SKNode*)node;
++(void)restore:(SKNode*)node;
 
 @property DGame *game;
 @property MyScene *theScene;

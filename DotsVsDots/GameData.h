@@ -27,6 +27,7 @@
 @property CGSize frameSize;
 
 @property double scoreFontSize;
+@property double historyFontSize;
 @property double gameOverTopLabelSize;
 @property double gameOverBottomLabelSize;
 

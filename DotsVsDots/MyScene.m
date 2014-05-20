@@ -80,12 +80,27 @@
     }]];
     [self.dotWorld.children enumerateObjectsUsingBlock:^(SKDot *dot, NSUInteger idx, BOOL *stop) {
         NSArray *XY = dot.point.XY;
+        [dot restore];
         if ([highlightXYset member:XY])
         {
             [dot highlight];
         }
         if ([shadowXYset member:XY]) {
             [dot shadow];
+        }
+    }];
+    [highlightXYset enumerateObjectsUsingBlock:^(NSArray *XY, BOOL *stop) {
+        SKShapeNode *base = self.bases[XY];
+        if (base)
+        {
+            [SKDot highlight:base];
+        }
+    }];
+    [shadowXYset enumerateObjectsUsingBlock:^(NSArray *XY, BOOL *stop) {
+        SKShapeNode *base = self.bases[XY];
+        if (base)
+        {
+            [SKDot shadow:base];
         }
     }];
 }
@@ -133,21 +148,37 @@
     double dotSize    = DOT_SIZE;
 
     [self.game.capturingBases enumerateObjectsUsingBlock:^(DBase *base, NSUInteger idx, BOOL *stop) {
-        DDot *trappingDot = base.outerDots.lastObject;
+        DDot *trappingDot = base.outerDots.firstObject;
         if (self.bases[trappingDot.position.XY]) {
             return;
         }
+        double trappingX = trappingDot.position.x.longLongValue*dotSize;
+        double trappingY = trappingDot.position.y.longLongValue*dotSize;
+        double centralX = 0;
+        double centralY = 0;
+        for (int i = 0; i < base.outerDots.count; i++) {
+            DDot *dot = base.outerDots[i];
+            centralX += dot.position.x.longLongValue*dotSize;
+            centralY += dot.position.y.longLongValue*dotSize;
+        }
+        centralX /= base.outerDots.count;
+        centralY /= base.outerDots.count;
+        
         SKShapeNode *node = [SKShapeNode new];
         CGMutablePathRef path = CGPathCreateMutable();
-        CGPathMoveToPoint(path, 0,
-                          trappingDot.position.x.longLongValue*dotSize,
-                          trappingDot.position.y.longLongValue*dotSize);
+        CGPathMoveToPoint(path, NULL,
+                          trappingX - centralX,
+                          trappingY - centralY);
         for (int i = 0; i < base.outerDots.count; i++) {
             DDot *dot = base.outerDots[i];
             CGPathAddLineToPoint(path, nil,
-                                 dot.position.x.longLongValue*dotSize,
-                                 dot.position.y.longLongValue*dotSize);
+                                 dot.position.x.longLongValue*dotSize - centralX,
+                                 dot.position.y.longLongValue*dotSize - centralY);
         }
+        CGPathAddLineToPoint(path, nil,
+                             trappingX - centralX,
+                             trappingY - centralY);
+        node.position = CGPointMake(centralX, centralY);
         node.path = path;
         node.fillColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3];
         node.strokeColor = [UIColor blackColor];

@@ -21,30 +21,59 @@
 
 @implementation SKDot
 
--(void)highlight
++(void)restore:(SKNode*)node
 {
-    [self.dot removeAllActions];
-    double width = self.dot.size.width;
-    double height = self.dot.size.height;
-    [self.dot runAction:
-     [SKAction sequence:
-      @[
-        [SKAction resizeToWidth:width+20 height:height+20 duration:0.2],
-        [SKAction resizeToWidth:width height:height duration:0.6]
-        ]]];
+    [node removeActionForKey:@"highligh"];
+    [node removeActionForKey:@"shadow"];
+    node.xScale = 1.0;
+    node.yScale = 1.0;
+    node.alpha = 1.0;
 }
 
++(void)highlight:(SKNode*)node
+{
+    [SKDot restore:node];
+    SKAction *shrink = [SKAction scaleTo:0.9 duration:0.1];
+    SKAction *highlight = [SKAction scaleTo:1.1 duration:0.2];
+    SKAction *reverse = [SKAction scaleTo:1.0 duration:0.6];
+    SKAction *sequence = [SKAction sequence:@[shrink, highlight, reverse]];
+    
+    [node runAction:sequence withKey:@"highligh"];
+}
+
++(void)highlightBig:(SKNode*)node
+{
+    [SKDot restore:node];
+    SKAction *shrink = [SKAction scaleTo:0.7 duration:0.1];
+    SKAction *highlight = [SKAction scaleTo:1.7 duration:0.2];
+    SKAction *reverse = [SKAction scaleTo:1.0 duration:0.6];
+    SKAction *sequence = [SKAction sequence:@[shrink, highlight, reverse]];
+    
+    [node runAction:sequence withKey:@"highligh"];
+}
+
++(void)shadow:(SKNode*)node
+{
+    [SKDot restore:node];
+    SKAction *fadeOut = [SKAction fadeAlphaTo:0.2 duration:0.2];
+    SKAction *wait = [SKAction waitForDuration:2];
+    SKAction *reverse = [SKAction fadeInWithDuration:0.5];
+    SKAction *sequence = [SKAction sequence:@[fadeOut, wait, reverse]];
+    
+    [node runAction:sequence withKey:@"shadow"];
+}
+
+-(void)restore
+{
+    [SKDot restore:self.dot];
+}
+-(void)highlight
+{
+    [SKDot highlightBig:self.dot];
+}
 -(void)shadow
 {
-    [self.dot removeAllActions];
-    SKAction *fadeOut = [SKAction fadeOutWithDuration:0.5];
-    SKAction *reverse = [SKAction fadeInWithDuration:1.0];
-    [self.dot runAction:
-     [SKAction sequence:
-      @[fadeOut,
-        reverse
-        ]]];
-
+    [SKDot shadow:self.dot];
 }
 
 -(void)changeAccordingToDDot:(DDot*)dot

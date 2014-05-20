@@ -44,6 +44,7 @@
         shared.history = [SKTexture textureWithImageNamed:@"history"];
         shared.crossed = [SKTexture textureWithImageNamed:@"crossed"];
         shared.scoreFontSize = [GameData isiPad]?100:50;
+        shared.historyFontSize = [GameData isiPad]?40:20;
         shared.gameOverTopLabelSize = [GameData isiPad]?100:50;
         shared.gameOverBottomLabelSize = [GameData isiPad]?80:40;
     });
