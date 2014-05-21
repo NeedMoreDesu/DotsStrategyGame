@@ -522,7 +522,8 @@
     NSArray *nodes = [self nodesAtPoint:[touch locationInNode:self]];
     if ([self passableNodes:nodes]) {
         if (self.optionsActive) {
-            [self hideOptions];
+            if (node != self.options)
+                [self hideOptions];
             return;
         }
         [self.parent touchesEnded:touches withEvent:event];
@@ -556,7 +557,8 @@
         }
         // history hides/shows aren't valid when blurred
         if (self.optionsActive) {
-            [self hideOptions];
+            if (node != self.options)
+                [self hideOptions];
             return;
         }
         if (node == self.optionsButton) {
