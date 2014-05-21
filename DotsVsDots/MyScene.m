@@ -15,8 +15,8 @@
 #import "GameData.h"
 
 #define DOTS_OFFSET 10
-#define MAX_DOTS_IN_A_ROW 30
-#define MAX_DOTS_IN_A_COLUMN 40
+#define MAX_DOTS_IN_A_ROW 15
+#define MAX_DOTS_IN_A_COLUMN 25
 #define MIN_DOTS_IN_A_ROW 5
 #define MIN_DOTS_IN_A_COLUMN 8
 
@@ -524,7 +524,7 @@
             [self.touches removeObject:obj];
     }];
     if (self.touches.count > 1) {
-        double lenBetweenFingers = 0;
+        double maxLenBetweenFingers = 0;
         NSArray *touchesArray = [self.touches allObjects];
         for (int i = 0; i < touchesArray.count; i++) {
             for (int j = 0; j < touchesArray.count; j++) {
@@ -533,25 +533,25 @@
                 UITouch *t2 = touchesArray[j];
                 CGPoint t1position = [t1 locationInNode:self];
                 CGPoint t2position = [t2 locationInNode:self];
-                lenBetweenFingers += sqrt( pow(t1position.x-t2position.x, 2)
-                                          +pow(t1position.y-t2position.y, 2));
+                double dist = sqrt( pow(t1position.x-t2position.x, 2)
+                                   +pow(t1position.y-t2position.y, 2));
+                maxLenBetweenFingers = MAX(dist, maxLenBetweenFingers);
             }
         }
-        lenBetweenFingers /= touches.count;
         if(self.lastLenBetweenFingers > 0)
         {
-            double scale = self.world.xScale * lenBetweenFingers / self.lastLenBetweenFingers;
+            double scale = self.world.xScale * maxLenBetweenFingers / self.lastLenBetweenFingers;
             scale = MAX(scale, [self minScale]);
             scale = MIN(scale, [self maxScale]);
             [self.world setScale:scale];
             [self scrollOrShift];
-            self.lastLenBetweenFingers = lenBetweenFingers;
+            self.lastLenBetweenFingers = maxLenBetweenFingers;
         }
         else
         {
             if (self.lastLenBetweenFingers == -1)
             {
-                self.lastLenBetweenFingers = lenBetweenFingers;
+                self.lastLenBetweenFingers = maxLenBetweenFingers;
             } else
             {
                 self.lastLenBetweenFingers++;

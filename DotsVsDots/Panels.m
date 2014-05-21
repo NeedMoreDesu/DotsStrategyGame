@@ -225,14 +225,14 @@
         
         self.panels = [SKSpriteNode spriteNodeWithTexture:
                        [GameData sharedInstance].panels];
-        self.panels.position = CGPointMake(frameWidth - self.panels.size.width/2,
-                                           frameHeight - self.panels.size.height/2);
+        self.panels.position = CGPointMake(frameWidth - self.panels.size.width/2+1,
+                                           frameHeight - self.panels.size.height/2+1);
         [self.blurNode addChild:self.panels];
         
         self.history = [SKSpriteNode spriteNodeWithTexture:
                         [GameData sharedInstance].self.history];
-        self.history.position = CGPointMake(frameWidth - self.history.size.width/2,
-                                            frameHeight - self.panels.size.height*0.5 - self.history.size.height/2);
+        self.history.position = CGPointMake(frameWidth - self.history.size.width/2+1,
+                                            frameHeight - self.panels.size.height*0.5 - self.history.size.height/2+1);
         [self.blurNode addChild:self.history];
         
         self.gameOverStateLabelTop = [SKLabelNode labelNodeWithFontNamed:@"MarkerFelt-Wide"];
