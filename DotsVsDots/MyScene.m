@@ -11,7 +11,6 @@
 #import "SKDot.h"
 #import "DBase+custom.h"
 #import "Panels.h"
-#import "NewGameButton.h"
 #import "GameData.h"
 
 #define DOTS_OFFSET 10
