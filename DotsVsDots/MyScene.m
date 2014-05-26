@@ -222,6 +222,13 @@
     int width = frameWidth/dotSize+DOTS_OFFSET;
     int height = frameHeigh/dotSize+DOTS_OFFSET;
     
+    [self.dotWorld.children enumerateObjectsUsingBlock:^(SKDot *dot, NSUInteger idx, BOOL *stop) {
+        [dot restore];
+    }];
+    [self.bases enumerateKeysAndObjectsUsingBlock:^(id key, SKShapeNode *base, BOOL *stop) {
+        [SKDot restore:base];
+    }];
+    
     NSArray *arr = self.dotWorld.children;
     for (int i = arr.count; i < width*height; i++)
     { // add dots if we lack them
