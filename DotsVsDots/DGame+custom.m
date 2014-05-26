@@ -593,6 +593,7 @@
             [point setXY:XY];
             DDot *dot = [self getOrCreateDotWithPoint:point];
             if (dot.belongsTo != nil &&
+                dot.belongsTo != self.whoseTurn &&
                 ![self dotIsCaptured:dot]) {
                 base.isCapturing = @YES;
             }
