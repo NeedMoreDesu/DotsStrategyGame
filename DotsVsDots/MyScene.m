@@ -83,23 +83,19 @@
         if ([highlightXYset member:XY])
         {
             [dot highlight];
+            DDot *ddot = [self.game dotWithPoint:dot.point];
+            [ddot.baseAsOuter enumerateObjectsUsingBlock:^(DBase *dbase, NSUInteger idx, BOOL *stop) {
+                SKShapeNode *base = self.bases[dbase.objectID];
+                [SKDot highlight:base];
+            }];
         }
         if ([shadowXYset member:XY]) {
             [dot shadow];
-        }
-    }];
-    [highlightXYset enumerateObjectsUsingBlock:^(NSArray *XY, BOOL *stop) {
-        SKShapeNode *base = self.bases[XY];
-        if (base)
-        {
-            [SKDot highlight:base];
-        }
-    }];
-    [shadowXYset enumerateObjectsUsingBlock:^(NSArray *XY, BOOL *stop) {
-        SKShapeNode *base = self.bases[XY];
-        if (base)
-        {
-            [SKDot shadow:base];
+            DDot *ddot = [self.game dotWithPoint:dot.point];
+            [ddot.baseAsOuter enumerateObjectsUsingBlock:^(DBase *dbase, NSUInteger idx, BOOL *stop) {
+                SKShapeNode *base = self.bases[dbase.objectID];
+                [SKDot shadow:base];
+            }];
         }
     }];
 }
@@ -148,7 +144,7 @@
 
     [self.game.capturingBases enumerateObjectsUsingBlock:^(DBase *base, NSUInteger idx, BOOL *stop) {
         DDot *trappingDot = base.outerDots.firstObject;
-        if (self.bases[trappingDot.position.XY]) {
+        if (self.bases[base.objectID]) {
             return;
         }
         double trappingX = trappingDot.position.x.longLongValue*dotSize;
@@ -191,7 +187,7 @@
         }
         node.zPosition = 20;
         
-        self.bases[trappingDot.position.XY] = node;
+        self.bases[base.objectID] = node;
         [self.world addChild:node];
     }];
     

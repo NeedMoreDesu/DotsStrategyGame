@@ -332,10 +332,6 @@
             [pathArray addObject:dot.position.XY];
             return 1;
         }
-        if([lastState isEqual:@3])
-        { // there is only one way out from target point
-            return 0;
-        }
         if ([state isEqual:@4])
         { // just hit central spot
             return 0;
